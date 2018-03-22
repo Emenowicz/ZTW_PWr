@@ -1,14 +1,23 @@
 <template>
-<div>
-  <h2>MAIN_PAGE</h2>
-</div>
+  <v-layout row wrap>
+    <v-flex md4>
+      <recent_tournaments_winners/>
+    </v-flex>
+    <v-flex md8>
+      <last_minute_tournaments/>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-  export default {
-    name: 'MainPage',
-    data() {
-      return {}
-    }
+import LastMinuteTournaments from '../../components/LastMinuteTournaments.vue'
+import RecentTournamentsWinners from '../../components/RecentTournamentsWinners.vue'
+
+export default {
+  name: 'MainPage',
+  components: {
+    'last_minute_tournaments': LastMinuteTournaments,
+    'recent_tournaments_winners': RecentTournamentsWinners
   }
+}
 </script>
