@@ -8,4 +8,5 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public interface UserDao extends JpaRepository<User,Long> {
+    User getUserByLogin(String login);
 }
