@@ -3,9 +3,8 @@ package edu.pwr.ztw.entity;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +29,8 @@ public class Tournament implements Serializable {
     private Set<Team> teams;
     @OneToMany
     private Set<Match> matches;
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(insertable = false,updatable = false)
     private Date createdDate;
 
     public long getId() {
@@ -112,4 +112,10 @@ public class Tournament implements Serializable {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
+    @PrePersist
+    private void onCreate(){
+        this.setCreatedDate(new Timestamp((new Date()).getTime()));
+    }
+
 }

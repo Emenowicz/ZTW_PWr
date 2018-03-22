@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -24,7 +25,8 @@ public class Round implements Serializable{
     private TeamColors winnerColor;
     @ManyToOne
     private Match match;
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(insertable = false,updatable = false)
     private Date createdDate;
 
     public long getId() {
@@ -81,5 +83,10 @@ public class Round implements Serializable{
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @PrePersist
+    private void onCreate(){
+        this.setCreatedDate(new Timestamp((new Date()).getTime()));
     }
 }

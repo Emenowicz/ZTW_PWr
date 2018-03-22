@@ -4,8 +4,8 @@ import edu.pwr.ztw.entity.Enums.MatchRank;
 import edu.pwr.ztw.entity.Enums.PlaysToWin;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -26,7 +26,8 @@ public class Match implements Serializable {
     private Set<Round> rounds;
     @ManyToOne
     private Tournament tournament;
-    @Temporal(TemporalType.TIME)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(insertable = false,updatable = false)
     private Date createdDate;
 
     public long getId() {
@@ -91,5 +92,10 @@ public class Match implements Serializable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    @PrePersist
+    private void onCreate(){
+        this.setCreatedDate(new Timestamp((new Date()).getTime()));
     }
 }
