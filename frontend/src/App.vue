@@ -1,20 +1,25 @@
 <template>
   <v-app>
-    <Navbar></Navbar>
-    <br/>
-    <router-view></router-view>
+    <v-container grid-list-md text-xs-center>
+      <v-layout row wrap>
+        <v-flex xs12>
+          <navbar/>
+        </v-flex>
+      </v-layout>
+      <router-view/>
+    </v-container>
   </v-app>
 
 </template>
 
 <script>
-  import Navbar from "./components/main_components/Navbar.vue"
+import Navbar from './components/main_components/Navbar.vue'
 
-  export default {
-    components: {
-      'Navbar': Navbar
-    }
+export default {
+  components: {
+    'navbar': Navbar
   }
+}
 </script>
 
 <style>

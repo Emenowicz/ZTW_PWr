@@ -4,14 +4,13 @@ import MainPage from '@/components/main_components/MainPage'
 import Statistics from '@/components/main_components/Statistics'
 import TournamentSearch from '@/components/main_components/TournamentSearch'
 
-
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'main_components/MainPage',
+      name: 'MainPage',
       component: MainPage
     },
     {
