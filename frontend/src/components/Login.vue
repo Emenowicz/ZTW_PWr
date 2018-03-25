@@ -1,0 +1,55 @@
+<template>
+    <v-dialog flat v-model="visible" persistent max-width="500px">
+      <v-card>
+        <v-card-title>
+            <v-container grid-list-md>
+                <v-layout wrap>
+                    <v-flex xs12 md12 lg12>
+                        <span class="headline">Log in to Soccer.io</span>
+                    </v-flex>
+                 </v-layout>
+          </v-container>
+        </v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+              <v-layout wrap>
+                    <v-flex mb-2 xs12 md12 lg12>
+                        <facebook-login/>
+                    </v-flex>
+                </v-layout>
+            <v-layout wrap>
+              <v-flex xs12 sm12 md12>
+                <v-text-field prepend-icon="email" type="email" label="Email: "/>
+              </v-flex>
+              <v-flex xs12 sm12 md12>
+                <v-text-field prepend-icon="lock" type="password" label="Password: "/>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="blue darken-1" flat >Sing up</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" flat @click="closeDialog()">Close</v-btn>
+          <v-btn color="blue darken-1" flat >Log in</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+</template>
+
+<script>
+import FacebookLogin from './FacebookLogin.vue'
+  export default {
+   props: {
+    visible: Boolean
+   },
+   methods: {
+       closeDialog() {
+           this.$emit('close', false)
+       }
+   },
+   components: {
+       'facebook-login': FacebookLogin
+   }
+  }
+</script>

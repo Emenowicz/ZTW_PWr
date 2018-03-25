@@ -32,16 +32,6 @@
 
 export default {
   name: 'LastMinuteTournament',
-  data () {
-    return {
-      tournamentName: 'Wroclaw XX Table Soccer Cup',
-      remainingTime: 6456546,
-      type1: 'Local',
-      type2: '2 vs. 2',
-      locationName: 'Wroclaw',
-      freeSlots: 4
-    }
-  },
   props: {
     tournament: Object
   }
