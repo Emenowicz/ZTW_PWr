@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import LastMinuteTournaments from '../../components/LastMinuteTournaments.vue'
-import RecentTournamentsWinners from '../../components/RecentTournamentsWinners.vue'
+import LastMinuteTournaments from './last_minute_tournaments/LastMinuteTournaments.vue'
+import RecentTournamentsWinners from './recent_tournaments/RecentTournamentsWinners.vue'
 
 export default {
   name: 'MainPage',

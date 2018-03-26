@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import MainPage from '@/components/main_components/MainPage'
-import Statistics from '@/components/main_components/Statistics'
-import TournamentSearch from '@/components/main_components/TournamentSearch'
+import MainPage from '@/components/main_page/MainPage'
+import Statistics from '@/components/statistics/Statistics'
+import TournamentSearch from '@/components/tournament_search/TournamentSearch'
 
 Vue.use(Router)
 

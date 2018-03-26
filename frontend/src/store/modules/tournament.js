@@ -23,6 +23,14 @@ const state = {
       type2: '1 vs. 1',
       locationName: 'Kraków',
       freeSlots: 4
+    },
+    {
+      name: 'Random Tournament',
+      remainingTime: 6456546,
+      type1: 'Local',
+      type2: '1 vs. 1',
+      locationName: 'Kraków',
+      freeSlots: 4
     }
   ]
 }
