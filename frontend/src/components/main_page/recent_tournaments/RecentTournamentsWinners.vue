@@ -6,7 +6,7 @@
 
     <v-container grid-list-md>
       <v-layout row wrap v-for="recent in recentTournaments" :key="recent.name">
-        <v-flex md12>
+        <v-flex xs12 md12 lg12>
           <recent-tournament-winners :tournament="recent"/>
         </v-flex>
         <v-divider/>

@@ -5,7 +5,7 @@
     </v-card-title>
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap v-for="tournament in tournaments" :key="tournament.name">
-        <v-flex md12>
+        <v-flex xs12 md12 lg12>
           <last-minute-tournament :tournament="tournament"/>
         </v-flex>
         <v-divider/>
