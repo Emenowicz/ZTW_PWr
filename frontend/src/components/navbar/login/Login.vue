@@ -14,7 +14,7 @@
           <v-container grid-list-md>
               <v-layout wrap>
                     <v-flex mb-2 xs12 md12 lg12>
-                        <facebook-login/>
+                        <google-login/>
                     </v-flex>
                 </v-layout>
             <v-layout wrap>
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import FacebookLogin from './FacebookLogin.vue'
+import GoogleLogin from './GoogleLogin.vue'
+
   export default {
    props: {
     visible: Boolean
@@ -49,7 +50,7 @@ import FacebookLogin from './FacebookLogin.vue'
        }
    },
    components: {
-       'facebook-login': FacebookLogin
+     'google-login': GoogleLogin
    }
   }
 </script>

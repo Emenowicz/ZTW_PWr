@@ -1,6 +1,9 @@
 import axios from 'axios';
-import API_BASE_URL from '../config'
+import Config from '../config'
 
-export const HTTP = axios.create({
-  baseURL: [API_BASE_URL],
+export const API =  axios.create({
+  baseURL: Config.API_BASE_URL,
+  headers: {
+    'Access-Control-Allow-Origin': 'http://localhost:8080'
+  }
 })
