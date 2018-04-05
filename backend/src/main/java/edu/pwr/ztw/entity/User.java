@@ -4,10 +4,10 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,14 +24,16 @@ public class User implements Serializable {
     @Email
     @Column(unique = true)
     private String email;
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+    private List<Role> roles;
     private boolean admin = false;
     @Lob
     private byte[] avatar;
-    @NotBlank
+
     private String firstname;
-    @NotBlank
+
     private String lastname;
-    @NotNull
+
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
     @OneToMany
@@ -41,6 +43,16 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(insertable = false,updatable = false)
     private Date createdDate;
+
+    public User(String login, String password, String email, List<Role> roles) {
+        this.login=login;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
+
+    public User() {
+    }
 
     public long getId() {
         return id;
@@ -136,6 +148,14 @@ public class User implements Serializable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @PrePersist
