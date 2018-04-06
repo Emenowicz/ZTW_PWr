@@ -6,6 +6,7 @@ import mutations from './mutations'
 import state from './state'
 
 import tournament from './modules/tournament'
+import auth from './modules/auth'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   getters,
   actions,
   modules: {
-    tournament
+    tournament,
+    auth
   }
 })
