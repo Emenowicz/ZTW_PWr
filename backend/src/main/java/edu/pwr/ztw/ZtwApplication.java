@@ -1,30 +1,63 @@
 package edu.pwr.ztw;
 
-import edu.pwr.ztw.dao.UserDao;
-import edu.pwr.ztw.entity.Role;
-import edu.pwr.ztw.entity.User;
-import edu.pwr.ztw.pojos.CustomUserDetails;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-
-import java.util.Arrays;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @SpringBootApplication
-public class ZtwApplication {
+@EnableResourceServer
+public class ZtwApplication extends ResourceServerConfigurerAdapter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ZtwApplication.class, args);
 	}
 
-	@Autowired
-	public void authenticationManager(AuthenticationManagerBuilder builder, UserDao userDao) throws Exception {
-		if(userDao.count() == 0){
-			userDao.save(new User("user","password","user@email.com", Arrays.asList(new Role("USER"),new Role("ACTUATOR"))));
-		}
-		builder.userDetailsService(s -> new CustomUserDetails(userDao.getUserByLogin(s)));
+	private static final String[] AUTH_WHITELIST = {
+			// -- swagger ui
+			"/swagger-resources/**",
+			"/swagger-ui.html",
+			"/v2/api-docs",
+			"/webjars/**"
+	};
 
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http
+				.csrf()
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+				.and()
+				.cors()
+				.and()
+				.authorizeRequests()
+				.antMatchers("/home", "/register", "/login**", "/getUsers").permitAll()
+				.antMatchers(AUTH_WHITELIST).permitAll()
+				.anyRequest().authenticated().and().formLogin().disable();
 	}
+
+
+
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("http://localhost:8080");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", config);
+		return source;
+	}
+
 }
