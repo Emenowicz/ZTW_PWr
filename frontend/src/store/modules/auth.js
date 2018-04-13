@@ -1,11 +1,3 @@
-import {
-  GOOGLE_AUTH_REQUEST,
-  AUTH_REQUEST,
-  AUTH_ERROR,
-  AUTH_SUCCESS,
-  AUTH_LOGOUT,
-} from '../actions/auth'
-
 import Vue from 'vue'
 import Auth from '@/api/auth'
 import { API } from '@/api/api_config'
@@ -22,34 +14,31 @@ const getters = {
 };
 
 const actions = {
-  [GOOGLE_AUTH_REQUEST]: ({commit, dispatch}) => {
+  'GOOGLE_AUTH_REQUEST': ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
-      commit(AUTH_REQUEST);
-      Vue.googleAuth().signIn((authorizationCode) => {
-        Auth.getGoogleAccessToken(authorizationCode,
-          (response) => {
-            const token = response.data;
-            localStorage.setItem('user-token', token);
-            API.defaults.headers.common['Authorization'] = token;
-            commit(AUTH_SUCCESS, token);
-            resolve(response)
-          },
-          (error) => {
-            commit(AUTH_ERROR, err);
-            localStorage.removeItem('user-token');
-            reject(error)
-          });
+      commit('AUTH_REQUEST');
+      Vue.googleAuth().directAccess();
+      Vue.googleAuth().signIn((response) => {
+        const token = response.Zi.access_token;
+        const token_type = response.Zi.token_type;
+        console.log(response);
+        commit('SET_USER_INFO', response.w3);
+        localStorage.setItem('user-token', token);
+        API.defaults.headers.common['Authorization'] = token_type + " " + token;
+        commit('AUTH_SUCCESS', token);
+        resolve(response);
       }, (error) => {
-        commit(AUTH_ERROR, error);
+        commit('AUTH_ERROR', error);
         localStorage.removeItem('user-token');
         reject(error)
       })
     })
   },
 
-  [AUTH_LOGOUT]: ({commit, dispatch}) => {
+  'AUTH_LOGOUT': ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
-      commit(AUTH_LOGOUT)
+      commit('AUTH_LOGOUT');
+      commit('CLEAR_USER_INFO');
       localStorage.removeItem('user-token');
       delete API.defaults.headers.common['Authorization']
       resolve()
@@ -58,19 +47,19 @@ const actions = {
 };
 
 const mutations = {
-  [AUTH_REQUEST]: (state) => {
+  'AUTH_REQUEST': (state) => {
     state.status = 'loading'
   },
-  [AUTH_SUCCESS]: (state, token) => {
+  'AUTH_SUCCESS': (state, token) => {
     state.status = 'success';
     state.token = token;
     state.hasLoadedOnce = true
   },
-  [AUTH_ERROR]: (state) => {
+  'AUTH_ERROR': (state) => {
     state.status = 'error';
     state.hasLoadedOnce = true
   },
-  [AUTH_LOGOUT]: (state) => {
+  'AUTH_LOGOUT': (state) => {
     state.token = ''
   }
 };

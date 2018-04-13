@@ -2,11 +2,16 @@
 
   <v-toolbar dark>
     <router-link tag="v-toolbar-title" to="/">
+      <v-avatar size="36px" v-if="!(user_info.picture_url==='')">
+        <img :src="user_info.picture_url" :alt="user_info.firstname + ' ' + user_info.lastname"/>
+      </v-avatar>
       <v-btn flat class="headline">Soccer.io</v-btn>
     </router-link>
     <v-spacer/>
     <v-toolbar-items>
-      <v-btn flat v-if="!route.authentication || isAuthenticated" v-for="route in routes" :key="route.id" :to="`${route.path}`">{{route.name}}</v-btn>
+      <v-btn flat v-if="!route.authentication || isAuthenticated" v-for="route in routes" :key="route.id"
+             :to="`${route.path}`">{{route.name}}
+      </v-btn>
       <v-btn v-if="!isAuthenticated" flat @click="loginDialog=true">Log in</v-btn>
       <v-btn v-if="isAuthenticated" flat @click="logout">Logout</v-btn>
       <login :visible="loginDialog && !isAuthenticated" @close="hideLogin"/>
@@ -16,7 +21,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex'
+  import {mapActions, mapGetters, mapState} from 'vuex'
   import {AUTH_LOGOUT} from '@/store/actions/auth'
   import Login from './login/Login.vue'
 
@@ -65,6 +70,9 @@
       ])
     },
     computed: {
+      ...mapState([
+        'user_info',
+      ]),
       ...mapGetters([
         'isAuthenticated'
       ])
