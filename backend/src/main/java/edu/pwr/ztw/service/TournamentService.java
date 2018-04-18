@@ -33,4 +33,8 @@ public class TournamentService {
     public void updateTournament(Tournament tournament) {
         tournamentDao.save(tournament);
     }
+
+    public void removeTournament(long id) {
+        tournamentDao.delete(id);
+    }
 }

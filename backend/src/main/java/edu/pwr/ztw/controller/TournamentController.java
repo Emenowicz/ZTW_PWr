@@ -4,10 +4,8 @@ import edu.pwr.ztw.entity.Match;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.service.TournamentService;
 import edu.pwr.ztw.service.UserService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,30 +18,47 @@ public class TournamentController {
     @Resource
     private UserService userService;
 
-    @PostMapping("/create_tournament")
-    public Tournament createTournament(OAuth2Authentication principal, Tournament tournament){
-        tournament.setOwner(userService.getCurrentUser(principal));
+    @RequestMapping(value = "/user/{id}/tournament",method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Tournament createTournament(@PathVariable("id") String id, Tournament tournament){
+        tournament.setOwner(userService.getUserById(id));
         tournamentService.createTournament(tournament);
         return tournament;
     }
 
-    @GetMapping("/all_tournaments")
-    public List<Tournament> Tournaments(){
+    @RequestMapping(value = "/tournament/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Tournament getTournament(@PathVariable("id") long id){
+        return tournamentService.getTournamentById(id);
+    }
+
+    @RequestMapping(value = "/tournament/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void removeTournament(@PathVariable("id") long id){
+        tournamentService.removeTournament(id);
+    }
+
+    @RequestMapping(value = "/tournaments", method = RequestMethod.GET)
+    public List<Tournament> getAllTournaments(){
         return tournamentService.getAllTournaments();
     }
 
-    @GetMapping("/all_user_tournaments")
-    public List<Tournament> Tournaments(OAuth2Authentication principal){
-        return tournamentService.getAllTournamentsForCurrentUser(userService.getCurrentUser(principal));
+    @RequestMapping(value = "/user/{id}/ownedtournaments", method = RequestMethod.GET)
+    public List<Tournament> Tournaments(@PathVariable("id") String id){
+        return tournamentService.getAllTournamentsForCurrentUser(userService.getUserById(id));
     }
 
-    @PostMapping("/add_match")
-    public Set<Match> addMatch(long tournamentId, Match match){
-        Tournament tournament = tournamentService.getTournamentById(tournamentId);
+    @RequestMapping(value = "/tournament/{id}/match", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public Match addMatch(@PathVariable long id, Match match){
+        Tournament tournament = tournamentService.getTournamentById(id);
         tournament.getMatches().add(match);
         tournamentService.updateTournament(tournament);
-        return tournament.getMatches();
+        return match;
     }
 
-
+    @RequestMapping(value = "/tournament/{id}/matches", method = RequestMethod.GET)
+    public Set<Match> getMatches(@PathVariable("id") long id){
+        return tournamentService.getTournamentById(id).getMatches();
+    }
 }
