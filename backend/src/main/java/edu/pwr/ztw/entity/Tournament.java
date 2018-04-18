@@ -13,13 +13,10 @@ public class Tournament implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @NotBlank
     private String name;
     @Temporal(TemporalType.DATE)
-    @NotBlank
     private Date startTime;
     @Temporal(TemporalType.DATE)
-    @NotBlank
     private Date endTime;
     private int minTeams;
     private int maxTeams;

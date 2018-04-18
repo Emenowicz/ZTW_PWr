@@ -1,89 +1,37 @@
 package edu.pwr.ztw.entity;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Entity
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @NotBlank
-    @Column(unique = true)
-    private String login;
-    @NotBlank
-    private String password;
-    @NotBlank
-    @Email
-    @Column(unique = true)
-    private String email;
-    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private List<Role> roles;
+    private String id;
+    private String name;
     private boolean admin = false;
     @Lob
     private byte[] avatar;
 
-    private String firstname;
-
-    private String lastname;
-
-    @Temporal(TemporalType.DATE)
-    private Date dateOfBirth;
     @OneToMany
     private Set<Tournament> ownedTournaments;
     @OneToMany
     private Set<Team> teams;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(insertable = false,updatable = false)
-    private Date createdDate;
 
-    public User(String login, String password, String email, List<Role> roles) {
-        this.login=login;
-        this.password = password;
-        this.email = email;
-        this.roles = roles;
+    public String getName() {
+        return name;
     }
 
-    public User() {
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public boolean isAdmin() {
@@ -102,30 +50,6 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstName) {
-        this.firstname = firstName;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastName) {
-        this.lastname = lastName;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public Set<Tournament> getOwnedTournaments() {
         return ownedTournaments;
     }
@@ -142,24 +66,4 @@ public class User implements Serializable {
         this.teams = teams;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @PrePersist
-    private void onCreate(){
-        this.setCreatedDate(new Timestamp((new Date()).getTime()));
-    }
 }
