@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
+
 @Transactional
 @Repository
-public interface UserDao extends JpaRepository<User,Long> {
-    User getUserByLogin(String login);
+public interface UserDao extends JpaRepository<User,String> {
+    Set<User> getUsersByName(String name);
 }
