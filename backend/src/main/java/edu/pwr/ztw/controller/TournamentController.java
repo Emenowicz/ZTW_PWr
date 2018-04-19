@@ -19,10 +19,10 @@ public class TournamentController {
     @Resource
     private UserService userService;
 
-    @RequestMapping(value = "/user/{id}/tournament",method = RequestMethod.POST)
+    @RequestMapping(value = "/user/{userId}/tournament",method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Tournament createTournament(@PathVariable("id") String id, @Valid Tournament tournament){
-        tournament.addOwner(userService.getUserById(id));
+    public Tournament createTournament(@PathVariable("userId") String userId, @Valid Tournament tournament){
+        tournament.addOwner(userService.getUserById(userId));
         tournamentService.createTournament(tournament);
         return tournament;
     }
@@ -54,7 +54,7 @@ public class TournamentController {
     public Match addMatch(@PathVariable long id, Match match){
         Tournament tournament = tournamentService.getTournamentById(id);
         tournament.getMatches().add(match);
-        tournamentService.updateTournament(tournament);
+        tournamentService.saveTournament(tournament);
         return match;
     }
 
