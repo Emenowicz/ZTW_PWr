@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import javax.xml.stream.events.Attribute;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +25,13 @@ public class TournamentController {
     public Tournament createTournament(@PathVariable("userId") String userId, @Valid Tournament tournament){
         tournament.addOwner(userService.getUserById(userId));
         tournamentService.createTournament(tournament);
+        return tournament;
+    }
+
+    @RequestMapping(value = "tournament/{id}", method = RequestMethod.PUT)
+    public Tournament updateTournament(@PathVariable("id") long id, Tournament tournament){
+        tournament.setId(id);
+        tournamentService.saveTournament(tournament);
         return tournament;
     }
 
