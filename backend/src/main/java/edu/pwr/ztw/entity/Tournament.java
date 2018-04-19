@@ -190,4 +190,8 @@ public class Tournament implements Serializable {
         this.location = location;
     }
 
+    public void addOwner(User user){
+        this.setOwner(user);
+        user.getOwnedTournaments().add(this);
+    }
 }
