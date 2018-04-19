@@ -51,7 +51,7 @@ const mutations = {
     state.status = 'loading'
   },
   'AUTH_SUCCESS': (state, token) => {
-    state.status = 'success';
+    state.status = 'logged';
     state.token = token;
     state.hasLoadedOnce = true
   },

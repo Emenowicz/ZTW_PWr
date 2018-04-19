@@ -1,3 +1,5 @@
+import {API} from '@/api/api_config'
+
 const state = {
   lastMinuteTournaments: [
     {
@@ -42,12 +44,23 @@ const getters = {
 
 
 const actions = {
+  'CREATE_TOURNAMENT': ({commit, dispatch}, tournament) => {
+    return new Promise((resolve, reject) => {
+      API.post("/tournament", {tournament})
+        .then(function (response) {
+          console.log(response);
+          resolve(response);
+        }).catch(function (error) {
+        console.log(error);
+        reject(error);
+      })
+
+    })
+  }
 }
 
 
-const mutations = {
-
-}
+const mutations = {}
 
 export default {
   state,
