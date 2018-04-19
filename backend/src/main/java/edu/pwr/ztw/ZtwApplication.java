@@ -34,9 +34,7 @@ public class ZtwApplication extends ResourceServerConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http
-				.csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and()
+				.csrf().disable()
 				.cors()
 				.and()
 				.authorizeRequests()

@@ -30,7 +30,7 @@ public class TournamentService {
         return tournamentDao.findOne(id);
     }
 
-    public void updateTournament(Tournament tournament) {
+    public void saveTournament(Tournament tournament) {
         tournamentDao.save(tournament);
     }
 
