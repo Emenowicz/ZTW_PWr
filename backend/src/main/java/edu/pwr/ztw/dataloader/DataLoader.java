@@ -39,7 +39,6 @@ public class DataLoader implements ApplicationRunner {
                 2, 6);
         user.addOwnedTournament(tournament);
         userDao.save(user);
-//        tournamentDao.save(tournament);
 
         Date startDate2 = sf.parse("8-04-2018");
         Date endDate2 = sf.parse("30-04-2018");
@@ -47,9 +46,6 @@ public class DataLoader implements ApplicationRunner {
         Tournament tournament2 = new Tournament("Testowy turniej2", startDate2, endDate2,
                 "Przykładowy opis",PlayMode.TWOVSTWO, TournamentType.VIRTUAL,
                 4, 16);
-//        user.getOwnedTournaments().add(tournament2);
-//        userDao.save(user2);
-//        tournamentDao.save(tournament2);
         user2.addOwnedTournament(tournament2);
         userDao.save(user2);
 
