@@ -11,8 +11,8 @@
           </v-card-title>
           <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
-              <v-flex offset-xs1 xs10 sm10 md10 lg10>
-
+              <v-flex v-for="tournament in usersTournaments" :key="tournament.id" offset-xs1 xs10 sm10 md10 lg10>
+                <my-tournament :tournament="tournament"/>
               </v-flex>
             </v-layout>
           </v-container>
@@ -25,6 +25,7 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
+  import MyTournamentsElement from './MyTournamentsElement'
 
   export default {
     name: 'Dashboard',
@@ -33,23 +34,27 @@
         usersTournaments: []
       }
     },
-    computed:{
-    ...mapGetters([
-      'userId'
-    ])
+    computed: {
+      ...mapGetters([
+        'userId'
+      ])
     },
     methods: {
       ...mapActions([
         'GET_USERS_TOURNAMENTS'
       ])
     },
-    created() {
+    mounted() {
       this.GET_USERS_TOURNAMENTS(this.userId)
-        .then(function (response) {
-          console.log(response);
+        .then((response) => {
+          console.log(response.data);
+          this.usersTournaments = response.data;
         }, function (error) {
           console.log(error);
         })
+    },
+    components: {
+      'my-tournament': MyTournamentsElement
     }
   }
 </script>

@@ -21,7 +21,7 @@ public class TournamentController {
 
     @RequestMapping(value = "/user/{userId}/tournament",method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Tournament createTournament(@PathVariable("userId") String userId, @Valid Tournament tournament){
+    public Tournament createTournament(@PathVariable("userId") String userId, @RequestBody @Valid Tournament tournament){
         tournament.addOwner(userService.getUserById(userId));
         tournamentService.createTournament(tournament);
         return tournament;

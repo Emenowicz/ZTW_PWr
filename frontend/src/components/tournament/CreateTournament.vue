@@ -112,7 +112,7 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
   import DatePicker from '@/components/tools/DatePicker'
 
   export default {
@@ -153,7 +153,8 @@
       },
       isStartEndDateValid: function () {
         return this.startDate === '' || this.endDate === '' || new Date(this.startDate) - new Date(this.endDate) < 0 || "Wrong date."
-      }
+      },
+      ...mapGetters(['userId'])
     },
     methods: {
       onStartDateSelected(date) {
@@ -172,7 +173,7 @@
             maxTeams: this.maxTeams
           };
 
-          this.CREATE_TOURNAMENT(tournament).then((response) => {
+          this.CREATE_TOURNAMENT(this.userId, tournament).then((response) => {
             console.log(response);
           }, (error) => {
             console.log(error);
