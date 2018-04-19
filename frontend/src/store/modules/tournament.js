@@ -54,7 +54,18 @@ const actions = {
         console.log(error);
         reject(error);
       })
-
+    })
+  },
+  'GET_USERS_TOURNAMENTS': ({commit}, userId) => {
+    return new Promise((resolve, reject) => {
+      API.get("/user/" + userId + "/tournaments")
+        .then(function (response) {
+          console.log(response);
+          resolve(response);
+        }).catch(function (error) {
+        console.log(error);
+        reject(error);
+      })
     })
   }
 }

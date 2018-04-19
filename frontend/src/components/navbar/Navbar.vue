@@ -22,7 +22,6 @@
 
 <script>
   import {mapActions, mapGetters, mapState} from 'vuex'
-  import {AUTH_LOGOUT} from '@/store/actions/auth'
   import Login from './login/Login.vue'
 
   export default {
@@ -66,7 +65,7 @@
 
       },
       ...mapActions([
-        AUTH_LOGOUT
+        'AUTH_LOGOUT'
       ])
     },
     computed: {
