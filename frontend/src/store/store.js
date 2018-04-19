@@ -8,6 +8,8 @@ import state from './state'
 import tournament from './modules/tournament'
 import auth from './modules/auth'
 
+import createPersistedState from 'vuex-persistedstate'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -18,5 +20,6 @@ export default new Vuex.Store({
   modules: {
     tournament,
     auth
-  }
+  },
+  plugins:[createPersistedState()]
 })
