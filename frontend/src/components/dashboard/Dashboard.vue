@@ -43,8 +43,8 @@
         'GET_USERS_TOURNAMENTS'
       ])
     },
-    mounted() {
-      this.GET_USERS_TOURNAMENTS(userId)
+    created() {
+      this.GET_USERS_TOURNAMENTS(this.userId)
         .then(function (response) {
           console.log(response);
         }, function (error) {
