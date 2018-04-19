@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -20,8 +21,8 @@ public class TournamentController {
 
     @RequestMapping(value = "/user/{id}/tournament",method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Tournament createTournament(@PathVariable("id") String id, Tournament tournament){
-        tournament.setOwner(userService.getUserById(id));
+    public Tournament createTournament(@PathVariable("id") String id, @Valid Tournament tournament){
+        tournament.addOwner(userService.getUserById(id));
         tournamentService.createTournament(tournament);
         return tournament;
     }
