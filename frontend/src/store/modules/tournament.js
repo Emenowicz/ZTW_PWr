@@ -44,7 +44,7 @@ const getters = {
 
 
 const actions = {
-  'CREATE_TOURNAMENT': ({commit, dispatch}, tournament) => {
+  'CREATE_TOURNAMENT': ({commit}, tournament) => {
     return new Promise((resolve, reject) => {
       API.post("/tournament", {tournament})
         .then(function (response) {
