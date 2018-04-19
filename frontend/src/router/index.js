@@ -3,7 +3,8 @@ import Router from 'vue-router'
 import MainPage from '@/components/main_page/MainPage'
 import Statistics from '@/components/statistics/Statistics'
 import Dashboard from '@/components/dashboard/Dashboard'
-import TournamentSearch from '@/components/tournament_search/TournamentSearch'
+import TournamentSearch from '@/components/tournament/TournamentSearch'
+import CreateTournament from '@/components/tournament/CreateTournament'
 import store from '@/store/store'
 
 Vue.use(Router)
@@ -45,6 +46,12 @@ export default new Router({
       path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
+      beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/tournaments/new',
+      name: 'Create new tournament',
+      component: CreateTournament,
       beforeEnter: ifAuthenticated
     }
   ]
