@@ -45,7 +45,7 @@ public class TournamentController {
 
     @RequestMapping(value = "/user/{id}/ownedtournaments", method = RequestMethod.GET)
     public List<Tournament> Tournaments(@PathVariable("id") String id){
-        return tournamentService.getAllTournamentsForCurrentUser(userService.getUserById(id));
+        return tournamentService.getAllTournamentsForUser(userService.getUserById(id));
     }
 
     @RequestMapping(value = "/tournament/{id}/match", method = RequestMethod.POST)

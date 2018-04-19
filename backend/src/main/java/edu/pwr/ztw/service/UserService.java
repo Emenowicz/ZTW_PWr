@@ -16,31 +16,24 @@ public class UserService {
 
     @Autowired
     UserDao userDao;
-    private ModelMapper modelMapper = new ModelMapper();
 
-    public void registerUser(UserRegistrationForm form){
-        userDao.save(modelMapper.map(form,User.class));
-    }
-
-    public List getAllUsers(){
+    public List<User> getAllUsers(){
        return userDao.findAll();
     }
 
     public User getCurrentUser(OAuth2Authentication principal){
-        return userDao.getOne(((Map)principal.getUserAuthentication().getDetails()).get("sub").toString());
+        return userDao.findOne(((Map)principal.getUserAuthentication().getDetails()).get("sub").toString());
     }
 
     public void createUser(OAuth2Authentication principal){
         String id = ((Map)principal.getUserAuthentication().getDetails()).get("sub").toString();
         if(!userDao.exists(id)) {
-            User user = new User();
-            user.setName(principal.getName());
-            user.setId(id);
+            User user = new User(id,principal.getName());
             userDao.save(user);
         }
     }
 
     public User getUserById(String id) {
-        return userDao.getOne(id);
+        return userDao.findOne(id);
     }
 }

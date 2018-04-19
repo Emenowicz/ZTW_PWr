@@ -1,6 +1,11 @@
 package edu.pwr.ztw.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import edu.pwr.ztw.entity.Enums.PlayMode;
+import edu.pwr.ztw.entity.Enums.TournamentType;
+import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,20 +20,71 @@ public class Tournament implements Serializable {
     private long id;
     private String name;
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date startTime;
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date endTime;
+    private String description;
+    @Enumerated
+    private PlayMode playMode;
+    @Enumerated
+    private TournamentType tournamentType;
+    private String location;
     private int minTeams;
     private int maxTeams;
     @ManyToOne
+    @JsonIgnoreProperties("ownedTournaments")
     private User owner;
     @ManyToMany
     private Set<Team> teams;
     @OneToMany
     private Set<Match> matches;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(insertable = false,updatable = false)
-    private Date createdDate;
+
+    public Tournament(){
+
+    }
+
+    public Tournament(String name, Date startTime, Date endTime, int minTeams, int maxTeams) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.minTeams = minTeams;
+        this.maxTeams = maxTeams;
+    }
+
+    public Tournament(String name, Date startTime, Date endTime, String description, PlayMode playMode, int minTeams, int maxTeams) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.playMode = playMode;
+        this.minTeams = minTeams;
+        this.maxTeams = maxTeams;
+    }
+
+    public Tournament(String name, Date startTime, Date endTime, String description, PlayMode playMode, TournamentType tournamentType, String location, int minTeams, int maxTeams) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.playMode = playMode;
+        this.tournamentType = tournamentType;
+        this.location = location;
+        this.minTeams = minTeams;
+        this.maxTeams = maxTeams;
+    }
+
+    public Tournament(String name, Date startTime, Date endTime, String description, PlayMode playMode, TournamentType tournamentType, int minTeams, int maxTeams) {
+        this.name = name;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.description = description;
+        this.playMode = playMode;
+        this.tournamentType = tournamentType;
+        this.minTeams = minTeams;
+        this.maxTeams = maxTeams;
+    }
 
     public long getId() {
         return id;
@@ -102,17 +158,36 @@ public class Tournament implements Serializable {
         this.matches = matches;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @PrePersist
-    private void onCreate(){
-        this.setCreatedDate(new Timestamp((new Date()).getTime()));
+    public PlayMode getPlayMode() {
+        return playMode;
+    }
+
+    public void setPlayMode(PlayMode playMode) {
+        this.playMode = playMode;
+    }
+
+    public TournamentType getTournamentType() {
+        return tournamentType;
+    }
+
+    public void setTournamentType(TournamentType tournamentType) {
+        this.tournamentType = tournamentType;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
 }
