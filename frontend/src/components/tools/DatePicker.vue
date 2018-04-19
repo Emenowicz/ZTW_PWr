@@ -15,6 +15,7 @@
       :label="label"
       v-model="date"
       prepend-icon="event"
+      :rules="[isValid]"
       readonly
       required
     ></v-text-field>
@@ -30,7 +31,7 @@
 <script>
   export default {
     name: 'DatePicker',
-    props: ['label', 'startDate'],
+    props: ['label', 'startDate', 'endDate', 'valid'],
     data: function() {
       return {
         menu: false,
@@ -43,7 +44,19 @@
         this.$emit('selectedDate', date)
       },
       isDateAllowed: function (val) {
-        return new Date(val) - new Date(this.startDate) >=0;
+        var allowed = false;
+        if (this.startDate !== '') {
+          allowed = new Date(val) - new Date(this.startDate) >= 0
+        }
+        if (allowed && this.endDate !== '') {
+          allowed = new Date(val) - new Date(this.endDate) <= 0
+        }
+        return allowed;
+      }
+    },
+    computed: {
+      isValid: function () {
+        return this.valid || "Wrong date."
       }
     }
   }
