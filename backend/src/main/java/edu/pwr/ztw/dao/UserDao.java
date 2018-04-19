@@ -10,5 +10,5 @@ import java.util.Set;
 @Transactional
 @Repository
 public interface UserDao extends JpaRepository<User,String> {
-    Set<User> getUsersByName(String name);
+    Set<User> findUsersByName(String name);
 }

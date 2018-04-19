@@ -11,5 +11,5 @@ import java.util.List;
 @Transactional
 @Repository
 public interface TournamentDao extends JpaRepository<Tournament,Long> {
-    List<Tournament> getTournamentsByOwner(User user);
+    List<Tournament> findTournamentsByOwner(User user);
 }

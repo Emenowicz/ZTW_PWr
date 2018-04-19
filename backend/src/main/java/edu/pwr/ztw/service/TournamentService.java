@@ -22,12 +22,12 @@ public class TournamentService {
         return tournamentDao.findAll();
     }
 
-    public List<Tournament> getAllTournamentsForCurrentUser(User user){
-        return tournamentDao.getTournamentsByOwner(user);
+    public List<Tournament> getAllTournamentsForUser(User user){
+        return tournamentDao.findTournamentsByOwner(user);
     }
 
     public Tournament getTournamentById(long id) {
-        return tournamentDao.getOne(id);
+        return tournamentDao.findOne(id);
     }
 
     public void updateTournament(Tournament tournament) {

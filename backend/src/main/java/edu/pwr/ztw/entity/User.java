@@ -1,7 +1,11 @@
 package edu.pwr.ztw.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,10 +17,20 @@ public class User implements Serializable {
     @Lob
     private byte[] avatar;
 
-    @OneToMany
-    private Set<Tournament> ownedTournaments;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("owner")
+    private Set<Tournament> ownedTournaments = new HashSet<>();
     @OneToMany
     private Set<Team> teams;
+
+    public User(){
+
+    }
+
+    public User(String id, String name) {
+        this.id=id;
+        this.name = name;
+    }
 
     public String getName() {
         return name;
@@ -64,6 +78,11 @@ public class User implements Serializable {
 
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
+    }
+
+    public void addOwnedTournament(Tournament tournament){
+        ownedTournaments.add(tournament);
+        tournament.setOwner(this);
     }
 
 }
