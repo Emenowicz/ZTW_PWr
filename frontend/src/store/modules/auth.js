@@ -40,6 +40,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       commit('AUTH_LOGOUT');
       commit('CLEAR_USER_INFO');
+      commit('CLEAR_USERS_TOURNAMENTS');
       localStorage.removeItem('user-token');
       delete API.defaults.headers.common['Authorization']
       resolve()
@@ -62,6 +63,7 @@ const mutations = {
   },
   'AUTH_LOGOUT': (state) => {
     state.token = ''
+    state.status = ''
   }
 };
 

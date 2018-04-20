@@ -24,34 +24,15 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
+  import {mapGetters} from 'vuex';
   import MyTournamentsElement from './MyTournamentsElement'
 
   export default {
     name: 'Dashboard',
-    data() {
-      return {
-        usersTournaments: []
-      }
-    },
     computed: {
       ...mapGetters([
-        'userId'
+        'usersTournaments'
       ])
-    },
-    methods: {
-      ...mapActions([
-        'GET_USERS_TOURNAMENTS'
-      ])
-    },
-    mounted() {
-      this.GET_USERS_TOURNAMENTS(this.userId)
-        .then((response) => {
-          console.log(response.data);
-          this.usersTournaments = response.data;
-        }, function (error) {
-          console.log(error);
-        })
     },
     components: {
       'my-tournament': MyTournamentsElement

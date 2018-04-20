@@ -6,7 +6,7 @@
       </v-flex>
       <v-spacer/>
       <v-flex xs4 sm4 md4 lg4>
-        <v-btn outline color="indigo">Edit</v-btn>
+        <v-btn outline color="indigo" >Edit</v-btn>
       </v-flex>
     </v-container>
   </v-card>
