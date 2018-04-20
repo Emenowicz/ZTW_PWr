@@ -9,20 +9,20 @@
     full-width
     :nudge-right="40"
     min-width="290px"
-    :return-value.sync="date">
+    :return-value.sync="mutableDate">
     <v-text-field
       slot="activator"
       :label="label"
-      v-model="date"
+      v-model="getDate"
       prepend-icon="event"
       :rules="[isValid]"
       readonly
       required
     ></v-text-field>
-    <v-date-picker :allowed-dates="isDateAllowed" v-model="date" no-title scrollable>
+    <v-date-picker :allowed-dates="isDateAllowed" v-model="mutableDate" no-title scrollable>
       <v-spacer></v-spacer>
       <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
-      <v-btn flat color="primary" @click="saveDate(date)">OK</v-btn>
+      <v-btn flat color="primary" @click="saveDate(mutableDate)">OK</v-btn>
     </v-date-picker>
   </v-menu>
 </template>
@@ -31,11 +31,11 @@
 <script>
   export default {
     name: 'DatePicker',
-    props: ['label', 'startDate', 'endDate', 'valid'],
+    props: ['label', 'startDate', 'endDate', 'valid', 'date'],
     data: function() {
       return {
         menu: false,
-        date: ''
+        mutableDate: this.date
       }
     },
     methods: {
@@ -44,7 +44,7 @@
         this.$emit('selectedDate', date)
       },
       isDateAllowed: function (val) {
-        var allowed = false;
+        var allowed = true;
         if (this.startDate !== '') {
           allowed = new Date(val) - new Date(this.startDate) >= 0
         }
@@ -57,6 +57,9 @@
     computed: {
       isValid: function () {
         return this.valid || "Wrong date."
+      },
+      getDate: function () {
+        return this.date;
       }
     }
   }

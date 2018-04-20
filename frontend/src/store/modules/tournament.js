@@ -55,6 +55,18 @@ const actions = {
         reject(error);
       })
     })
+  },
+  'EDIT_TOURNAMENT': function ({commit}, userId, tournament) {
+    return new Promise((resolve, reject) => {
+      API.put("/user/" + userId + "/tournament", {tournament})
+        .then(function (response) {
+          console.log(response);
+          resolve(response);
+        }).catch(function (error) {
+        console.log(error);
+        reject(error);
+      })
+    })
   }
 }
 

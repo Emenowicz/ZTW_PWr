@@ -6,7 +6,7 @@
       </v-flex>
       <v-spacer/>
       <v-flex xs4 sm4 md4 lg4>
-        <v-btn outline color="indigo" >Edit</v-btn>
+        <v-btn outline color="indigo" @click="onEditClick">Edit</v-btn>
       </v-flex>
     </v-container>
   </v-card>
@@ -14,10 +14,21 @@
 
 <script>
 
+  import {mapMutations} from 'vuex';
+
   export default {
     name: 'MyTournamentsElement',
     props: {
       tournament: Object
+    },
+    methods: {
+      onEditClick: function () {
+        this.SET_EDITED_TOURNAMENT(this.tournament);
+        this.$router.push('/tournaments/edit')
+      },
+      ...mapMutations([
+        'SET_EDITED_TOURNAMENT'
+      ])
     }
   }
 </script>

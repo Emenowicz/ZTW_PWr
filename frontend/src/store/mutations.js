@@ -10,7 +10,13 @@ const mutations = {
   },
   'CLEAR_USER_INFO': (state) => {
     Object.keys(state.user_info).forEach(k => state.user_info[k] = '');
-  }
+  },
+  'SET_EDITED_TOURNAMENT': (state, tournament) => {
+    state.editedTournament = tournament;
+  },
+  'CLEAR_EDITED_TOURNAMENT': (state) => {
+    state.editedTournament = '';
+  },
 };
 
 export default mutations

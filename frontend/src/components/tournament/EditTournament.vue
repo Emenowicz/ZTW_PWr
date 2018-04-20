@@ -23,7 +23,7 @@
                       v-model="description"/>
                     <v-layout row wrap>
                       <v-flex xs12 sm12 md5 lg5>
-                        <date-picker :valid="isStartEndDateValid" :startDate=Date.now()
+                        <date-picker :valid="isStartEndDateValid" :startDate="''"
                                      :endDate="(endDate === '') ? '' : endDate"
                                      :label="'Start date'" @selectedDate="onStartDateSelected"
                                      :date="this.startDate"/>
@@ -31,9 +31,8 @@
                       <v-spacer/>
                       <v-flex xs12 sm12 md5 lg5>
                         <date-picker :valid="isStartEndDateValid"
-                                     :startDate="(startDate === '') ? Date.now() : startDate"
-                                     :endDate="''" :label="'End date'" @selectedDate="onEndDateSelected"
-                                     :date="this.endDate"/>
+                                     :startDate="(startDate === '') ? '' : startDate"
+                                     :endDate="''" :label="'End date'" @selectedDate="onEndDateSelected" :date="this.endDate"/>
                       </v-flex>
                     </v-layout>
                   </v-form>
@@ -106,7 +105,7 @@
     </v-layout>
     <v-btn
       fixed bottom
-      @click="onCreateNewTournament"
+      @click="onEditTournament"
       :disabled="!isValid">
       submit
     </v-btn>
@@ -156,7 +155,10 @@
       isStartEndDateValid: function () {
         return this.startDate === '' || this.endDate === '' || new Date(this.startDate) - new Date(this.endDate) < 0 || "Wrong date."
       },
-      ...mapGetters(['userId'])
+      ...mapGetters([
+        'userId',
+        'editedTournament'
+      ])
     },
     methods: {
       onStartDateSelected(date) {
@@ -165,7 +167,7 @@
       onEndDateSelected(date) {
         this.endDate = date;
       },
-      onCreateNewTournament() {
+      onEditTournament() {
         if (this.$refs.formBasicInfo.validate() && this.$refs.formGameInfo.validate() && this.isValid) {
           const tournament = {
             name: this.tournamentName,
@@ -174,8 +176,8 @@
             minTeams: this.minTeams,
             maxTeams: this.maxTeams
           };
-
-          this.CREATE_TOURNAMENT(this.userId, tournament).then((response) => {
+          console.log(tournament);
+          this.EDIT_TOURNAMENT(this.userId, tournament).then((response) => {
             console.log(response);
           }, (error) => {
             console.log(error);
@@ -183,11 +185,22 @@
         }
       },
       ...mapActions([
-        'CREATE_TOURNAMENT'
+        'EDIT_TOURNAMENT'
       ])
     },
     components: {
       'date-picker': DatePicker
+    },
+    mounted() {
+      this.tournamentName = this.editedTournament.name;
+      this.description = this.editedTournament.description;
+      this.startDate = this.editedTournament.startTime;
+      this.endDate = this.editedTournament.endTime;
+      this.minTeams = this.editedTournament.minTeams;
+      this.maxTeams = this.editedTournament.maxTeams;
+      this.tournamentMode = (this.editedTournament.playMode === 'ONEVSONE') ? '1 vs. 1' : '2 vs. 2';
+      this.tournamentType = (this.editedTournament.tournamentType === 'LOCAL') ? 'Local' : 'Virtual';
+      this.tournamentLocation = this.editedTournament.location;
     }
   }
 </script>

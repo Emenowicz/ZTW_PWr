@@ -31,7 +31,7 @@ const mutations = {
   SET_USERS_TOURNAMENTS(state, usersTournaments) {
     state.usersTournaments = usersTournaments;
   },
-  CLEAR_USERS_TOURNAMENTS(state, usersTournaments) {
+  CLEAR_USERS_TOURNAMENTS(state) {
     state.usersTournaments = [];
   }
 }

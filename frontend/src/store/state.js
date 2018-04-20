@@ -5,7 +5,8 @@ const state = {
     lastname: "",
     email: "",
     picture_url: ""
-  }
+  },
+  editedTournament: ''
 
 };
 
