@@ -4,7 +4,6 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import tournament from './modules/tournament'
 import auth from './modules/auth'
-import user from './modules/user'
 
 import createPersistedState from 'vuex-persistedstate'
 
@@ -14,8 +13,7 @@ export default new Vuex.Store({
   modules: {
     user,
     tournament,
-    auth,
-    user
+    auth
   },
   plugins:[createPersistedState()]
 })

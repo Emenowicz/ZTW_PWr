@@ -167,7 +167,7 @@
       },
       onCreateNewTournament() {
         if (this.$refs.formBasicInfo.validate() && this.$refs.formGameInfo.validate() && this.isValid) {
-          const tournament = {
+          var tournament = {
             name: this.tournamentName,
             startTime: this.startDate,
             endTime: this.endDate,
@@ -175,7 +175,7 @@
             maxTeams: this.maxTeams
           };
 
-          this.CREATE_TOURNAMENT(this.userId, tournament).then((response) => {
+          this.CREATE_TOURNAMENT({userId: this.userId, tournament: tournament}).then((response) => {
             console.log(response);
           }, (error) => {
             console.log(error);

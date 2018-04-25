@@ -5,21 +5,27 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
   export default {
     methods: {
       signIn() {
         this.LOG_IN_GOOGLE().then((response) => {
-          console.log(response);
+          this.LOAD_USERS_TOURNAMENTS(this.userId);
           this.$router.push('/')
         }, (error) => {
             console.log(error);
         })
       },
       ...mapActions([
-        'LOG_IN_GOOGLE'
+        'LOG_IN_GOOGLE',
+        'LOAD_USERS_TOURNAMENTS'
       ])
+    },
+    computed: {
+      ...mapGetters([
+           'userId'
+       ])
     }
   }
 </script>

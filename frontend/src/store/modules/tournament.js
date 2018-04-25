@@ -44,9 +44,11 @@ const getters = {
 
 
 const actions = {
-  'CREATE_TOURNAMENT': function ({commit}, userId, tournament) {
+  'CREATE_TOURNAMENT': function ({commit}, {userId, tournament}) {
+  console.log(tournament);
+   console.log({tournament});
     return new Promise((resolve, reject) => {
-      API.post("/user/" + userId + "/tournament", {tournament})
+      API.post("/user/" + userId + "/tournament", tournament)
         .then(function (response) {
           console.log(response);
           resolve(response);
@@ -58,7 +60,7 @@ const actions = {
   },
   'EDIT_TOURNAMENT': function ({commit}, userId, tournament) {
     return new Promise((resolve, reject) => {
-      API.put("/user/" + userId + "/tournament", {tournament})
+      API.put("/user/" + userId + "/tournament", tournament)
         .then(function (response) {
           console.log(response);
           resolve(response);
