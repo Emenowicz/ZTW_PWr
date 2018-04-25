@@ -16,7 +16,7 @@ Vue.googleAuth().load();
 Vue.use(Vuetify);
 Vue.config.productionTip = false;
 
-const token = localStorage.getItem('user-token')
+const token = store.token
 if (token) {
   API.defaults.headers.common['Authorization'] = token
 }

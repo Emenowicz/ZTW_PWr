@@ -2,8 +2,8 @@
 
   <v-toolbar dark>
     <router-link tag="v-toolbar-title" to="/">
-      <v-avatar size="36px" v-if="!(user_info.picture_url==='')">
-        <img :src="user_info.picture_url" :alt="user_info.firstname + ' ' + user_info.lastname"/>
+      <v-avatar size="36px" v-if="!(userInfo.picture_url==='')">
+        <img :src="userInfo.picture_url" :alt="userInfo.firstname + ' ' + userInfo.lastname"/>
       </v-avatar>
       <v-btn flat class="headline">Soccer.io</v-btn>
     </router-link>
@@ -59,21 +59,19 @@
         this.loginDialog = false;
       },
       logout() {
-        this.AUTH_LOGOUT().then(() => {
+        this.LOG_OUT_GOOGLE().then(() => {
           this.$router.push('/')
         });
 
       },
       ...mapActions([
-        'AUTH_LOGOUT'
+        'LOG_OUT_GOOGLE'
       ])
     },
     computed: {
-      ...mapState([
-        'user_info',
-      ]),
       ...mapGetters([
-        'isAuthenticated'
+        'isAuthenticated',
+        'userInfo'
       ])
     }
   }

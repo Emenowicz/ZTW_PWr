@@ -15,17 +15,17 @@
 <script>
   import Navbar from './components/navbar/Navbar.vue'
   import {API} from './api/api_config'
-  import {AUTH_LOGOUT} from './store/actions/auth'
 
   export default {
     components: {
       'navbar': Navbar
     },
     created: function () {
+
       API.interceptors.response.use(undefined, function (err) {
         return new Promise(function (resolve, reject) {
           if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-            this.$store.dispatch(AUTH_LOGOUT)
+            this.$store.dispatch('AUTH_LOGOUT')
           }
           throw err;
         });

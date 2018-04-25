@@ -12,26 +12,16 @@
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
-              <v-layout wrap>
+              <v-layout>
                     <v-flex mb-2 xs12 md12 lg12>
                         <google-login/>
                     </v-flex>
-                </v-layout>
-            <v-layout wrap>
-              <v-flex xs12 sm12 md12>
-                <v-text-field prepend-icon="email" type="email" label="Email: "/>
-              </v-flex>
-              <v-flex xs12 sm12 md12>
-                <v-text-field prepend-icon="lock" type="password" label="Password: "/>
-              </v-flex>
-            </v-layout>
+              </v-layout>
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="blue darken-1" flat >Sing up</v-btn>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click="closeDialog()">Close</v-btn>
-          <v-btn color="blue darken-1" flat >Log in</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
