@@ -10,7 +10,7 @@ import GoogleAuth from 'vue-google-oauth'
 import {API} from './api/api_config'
 import Config from './config'
 
-Vue.use(GoogleAuth, { client_id: Config.GOOGLE_CLIENT_ID });
+Vue.use(GoogleAuth, {client_id: Config.GOOGLE_CLIENT_ID});
 Vue.googleAuth().load();
 
 Vue.use(Vuetify);
@@ -27,6 +27,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>'
 });

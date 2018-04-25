@@ -3,9 +3,9 @@
     <v-layout row wrap>
       <v-flex md12>
 
-          <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab fixed bottom right dark color="indigo">
-            <v-icon dark>add</v-icon>
-          </v-btn>
+        <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab fixed bottom right dark color="indigo">
+          <v-icon dark>add</v-icon>
+        </v-btn>
 
       </v-flex>
     </v-layout>

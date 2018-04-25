@@ -3,19 +3,19 @@
 
     <div class="heading pt-3"><b>{{tournament.name}}</b></div>
     <v-card-text>
-        <div v-for="(player, i) in tournament.winners" :key="player.name">
-          {{i+1 + '. ' + player.name }}
-        </div>
+      <div v-for="(player, i) in tournament.winners" :key="player.name">
+        {{i+1 + '. ' + player.name }}
+      </div>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 
-export default {
-  name: 'RecentTournamentsWinners',
-  props: {
-    tournament: Object
+  export default {
+    name: 'RecentTournamentsWinners',
+    props: {
+      tournament: Object
+    }
   }
-}
 </script>

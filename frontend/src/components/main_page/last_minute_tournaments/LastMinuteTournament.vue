@@ -1,6 +1,6 @@
 <template>
   <v-expansion-panel>
-    <v-expansion-panel-content >
+    <v-expansion-panel-content>
       <div slot="header">{{tournament.name}}</div>
 
       <v-card>
@@ -30,10 +30,10 @@
 
 <script>
 
-export default {
-  name: 'LastMinuteTournament',
-  props: {
-    tournament: Object
+  export default {
+    name: 'LastMinuteTournament',
+    props: {
+      tournament: Object
+    }
   }
-}
 </script>

@@ -29,7 +29,7 @@
     components: {
       'login': Login
     },
-    data () {
+    data() {
       return {
         loginDialog: false,
         routes: [

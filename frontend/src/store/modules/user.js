@@ -1,15 +1,15 @@
 import {API} from '@/api/api_config'
 
 const state = {
-    user_info: {
-          id: "",
-          firstname: "",
-          lastname: "",
-          email: "",
-          picture_url: ""
-        },
-    editedTournament: '',
-    usersTournaments: []
+  user_info: {
+    id: "",
+    firstname: "",
+    lastname: "",
+    email: "",
+    picture_url: ""
+  },
+  editedTournament: '',
+  usersTournaments: []
 };
 
 const actions = {
@@ -41,13 +41,13 @@ const mutations = {
   },
   'SET_USERS_TOURNAMENTS': (state, usersTournaments) => {
     state.usersTournaments = usersTournaments;
-    },
-    'SET_EDITED_TOURNAMENT': (state, tournament) => {
-        state.editedTournament = tournament;
-      },
-      'CLEAR_EDITED_TOURNAMENT': (state) => {
-        state.editedTournament = '';
-      }
+  },
+  'SET_EDITED_TOURNAMENT': (state, tournament) => {
+    state.editedTournament = tournament;
+  },
+  'CLEAR_EDITED_TOURNAMENT': (state) => {
+    state.editedTournament = '';
+  }
 };
 
 const getters = {
@@ -58,8 +58,8 @@ const getters = {
 }
 
 export default {
-    state,
-    getters,
-    actions,
-    mutations
+  state,
+  getters,
+  actions,
+  mutations
 }

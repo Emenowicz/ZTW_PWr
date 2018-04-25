@@ -15,5 +15,5 @@ export default new Vuex.Store({
     tournament,
     auth
   },
-  plugins:[createPersistedState()]
+  plugins: [createPersistedState()]
 })

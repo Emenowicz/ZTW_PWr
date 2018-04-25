@@ -32,7 +32,8 @@
                       <v-flex xs12 sm12 md5 lg5>
                         <date-picker :valid="isStartEndDateValid"
                                      :startDate="(startDate === '') ? '' : startDate"
-                                     :endDate="''" :label="'End date'" @selectedDate="onEndDateSelected" :date="this.endDate"/>
+                                     :endDate="''" :label="'End date'" @selectedDate="onEndDateSelected"
+                                     :date="this.endDate"/>
                       </v-flex>
                     </v-layout>
                   </v-form>

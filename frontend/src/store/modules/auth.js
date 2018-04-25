@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Auth from '@/api/auth'
-import { API } from '@/api/api_config'
+import {API} from '@/api/api_config'
 
 const state = {
   token: ''
@@ -20,7 +20,9 @@ const actions = {
         commit('SET_USER_INFO', response.w3);
         commit('SET_TOKEN', token);
         API.defaults.headers.common['Authorization'] = token_type + " " + token;
-        Auth.registerInBackend(()=>{},()=>{}); //has to be deleted!!
+        Auth.registerInBackend(() => {
+        }, () => {
+        }); //has to be deleted!!
         resolve(response);
       }, (error) => {
         dispatch('LOG_OUT_GOOGLE');

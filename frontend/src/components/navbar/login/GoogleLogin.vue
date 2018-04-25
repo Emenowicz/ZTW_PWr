@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex'
+  import {mapActions, mapGetters} from 'vuex'
 
   export default {
     methods: {
@@ -14,7 +14,7 @@
           this.LOAD_USERS_TOURNAMENTS(this.userId);
           this.$router.push('/')
         }, (error) => {
-            console.log(error);
+          console.log(error);
         })
       },
       ...mapActions([
@@ -24,8 +24,8 @@
     },
     computed: {
       ...mapGetters([
-           'userId'
-       ])
+        'userId'
+      ])
     }
   }
 </script>

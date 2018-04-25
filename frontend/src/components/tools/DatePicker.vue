@@ -32,7 +32,7 @@
   export default {
     name: 'DatePicker',
     props: ['label', 'startDate', 'endDate', 'valid', 'date'],
-    data: function() {
+    data: function () {
       return {
         menu: false,
         mutableDate: this.date

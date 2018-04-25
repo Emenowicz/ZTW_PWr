@@ -16,16 +16,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import LastMinuteTournament from './LastMinuteTournament'
+  import {mapGetters} from 'vuex'
+  import LastMinuteTournament from './LastMinuteTournament'
 
-export default {
-  name: 'LastMinuteTournaments',
-  computed: mapGetters({
-    tournaments: 'lastMinuteTournaments'
-  }),
-  components: {
-    'last-minute-tournament': LastMinuteTournament
+  export default {
+    name: 'LastMinuteTournaments',
+    computed: mapGetters({
+      tournaments: 'lastMinuteTournaments'
+    }),
+    components: {
+      'last-minute-tournament': LastMinuteTournament
+    }
   }
-}
 </script>
