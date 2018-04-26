@@ -25,7 +25,7 @@ public class UserService {
         return userDao.findOne(((Map)principal.getUserAuthentication().getDetails()).get("sub").toString());
     }
 
-    public void createUser(OAuth2Authentication principal){
+    public void createUserIfNotExists(OAuth2Authentication principal){
         String id = ((Map)principal.getUserAuthentication().getDetails()).get("sub").toString();
         if(!userDao.exists(id)) {
             User user = new User(id,principal.getName());
