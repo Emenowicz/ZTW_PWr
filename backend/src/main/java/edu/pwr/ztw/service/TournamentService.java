@@ -13,7 +13,8 @@ public class TournamentService {
     @Resource
     TournamentDao tournamentDao;
 
-    public void createTournament(Tournament tournament) {
+    public void createTournament(Tournament tournament, User currentUser) {
+        tournament.addOwner(currentUser);
         tournamentDao.save(tournament);
     }
 
@@ -22,6 +23,10 @@ public class TournamentService {
     }
 
     public List<Tournament> getAllTournamentsForUser(User user) {
+        return tournamentDao.findTournamentsByOwner(user);
+    }
+
+    public List<Tournament> getAllJoinedTournamentsForUser(User user) {
         return tournamentDao.findTournamentsByOwner(user);
     }
 
@@ -39,5 +44,10 @@ public class TournamentService {
 
     public void removeTournament(long id) {
         tournamentDao.delete(id);
+    }
+
+    public void addUserToTournament(Tournament tournament, User currentUser) {
+        tournament.addPlayer(currentUser);
+        tournamentDao.save(tournament);
     }
 }
