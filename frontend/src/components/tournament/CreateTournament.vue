@@ -68,13 +68,6 @@
                     :rules="[rules.required]"
                     required
                   ></v-text-field>
-                  <v-select
-                    label="Mode"
-                    v-model="tournamentMode"
-                    :items="tournamentModes"
-                    :rules="[rules.required]"
-                    required
-                  ></v-select>
                   <v-layout row wrap>
                     <v-flex xs12 sm12 md5 lg5>
                       <v-text-field
@@ -126,11 +119,6 @@
         tournamentName: '',
         description: '',
         tournamentLocation: '',
-        tournamentMode: '',
-        tournamentModes: [
-          '1 vs. 1',
-          '2 vs. 2'
-        ],
         tournamentType: '',
         tournamentTypes: [
           'Local',
@@ -175,7 +163,8 @@
             maxTeams: this.maxTeams
           };
 
-          this.CREATE_TOURNAMENT({userId: this.userId, tournament: tournament}).then((response) => {
+          this.CREATE_TOURNAMENT(tournament)
+          .then((response) => {
             console.log(response);
           }, (error) => {
             console.log(error);

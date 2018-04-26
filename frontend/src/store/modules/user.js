@@ -1,4 +1,4 @@
-import {API} from '@/api/api_config'
+import User from '@/api/modules/user'
 
 const state = {
   user_info: {
@@ -13,17 +13,16 @@ const state = {
 };
 
 const actions = {
-  'LOAD_USERS_TOURNAMENTS': ({commit}, userId) => {
-    return new Promise((resolve, reject) => {
-      API.get("/user/" + userId + "/ownedtournaments")
-        .then(function (response) {
-          console.log(response);
-          commit('SET_USERS_TOURNAMENTS', response.data);
-          resolve(response);
-        }).catch(function (error) {
-        console.log(error);
-        reject(error);
-      })
+  'GET_USERS_TOURNAMENTS': ({commit}, userId) => {
+    return User.getTournaments()
+  },
+
+  'LOAD_USERS_TOURNAMENTS': ({commit, dispatch}, userId) => {
+    dispatch('GET_USERS_TOURNAMENTS')
+    .then((response) => {
+      commit('SET_USERS_TOURNAMENTS', response.data);
+    }).catch((error) => {
+      console.log(error)
     })
   }
 }

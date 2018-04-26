@@ -1,4 +1,4 @@
-import {API} from '@/api/api_config'
+import Tournament from '@/api/modules/tournament'
 
 const state = {
   lastMinuteTournaments: [
@@ -42,32 +42,16 @@ const getters = {
 }
 
 const actions = {
-  'CREATE_TOURNAMENT': function ({commit}, {userId, tournament}) {
-    return new Promise((resolve, reject) => {
-      API.post("/user/" + userId + "/tournament", tournament)
-        .then(function (response) {
-          console.log(response);
-          resolve(response);
-        }).catch(function (error) {
-        console.log(error);
-        reject(error);
-      })
-    })
+  'CREATE_TOURNAMENT': function ({commit}, tournament) {
+    return Tournament.create(tournament)
   },
-  'EDIT_TOURNAMENT': function ({commit}, userId, tournament) {
-    return new Promise((resolve, reject) => {
-      API.put("/user/" + userId + "/tournament", tournament)
-        .then(function (response) {
-          console.log(response);
-          resolve(response);
-        }).catch(function (error) {
-        console.log(error);
-        reject(error);
-      })
-    })
+  'UPDATE_TOURNAMENT': function ({commit}, tournament) {
+    return Tournament.update(tournament)
+  },
+  'GET_ALL_TOURNAMENTS': function ({commit}, tournament) {
+      return Tournament.getAll()
   }
 }
-
 
 const mutations = {}
 

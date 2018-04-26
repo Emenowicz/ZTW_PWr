@@ -33,7 +33,7 @@ public class DataLoader implements ApplicationRunner {
         SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
         Date startDate = sf.parse("19-04-2018");
         Date endDate = sf.parse("20-04-2018");
-        User user = new User("111786368517599442252", "Konrad Drozd");
+        User user = new User("116248526006631545152", "Konrad Drozd");
         Tournament tournament = new Tournament("Testowy turniej", startDate, endDate,
                 "Przykładowy opis", PlayMode.ONEVSONE,TournamentType.LOCAL,"Gdzieś tam",
                 2, 6);

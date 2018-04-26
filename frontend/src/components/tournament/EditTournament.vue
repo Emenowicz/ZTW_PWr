@@ -177,8 +177,8 @@
             minTeams: this.minTeams,
             maxTeams: this.maxTeams
           };
-          console.log(tournament);
-          this.EDIT_TOURNAMENT(this.userId, tournament).then((response) => {
+          this.UPDATE_TOURNAMENT(tournament)
+          .then((response) => {
             console.log(response);
           }, (error) => {
             console.log(error);
@@ -186,7 +186,7 @@
         }
       },
       ...mapActions([
-        'EDIT_TOURNAMENT'
+        'UPDATE_TOURNAMENT'
       ])
     },
     components: {
