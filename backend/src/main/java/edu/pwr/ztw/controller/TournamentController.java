@@ -98,4 +98,9 @@ public class TournamentController {
     public Set<Match> getMatches(@PathVariable("id") long id) {
         return tournamentService.getTournamentById(id).getMatches();
     }
+
+    @RequestMapping(value = "/tournament", method = RequestMethod.GET)
+    public List<Tournament> findMatch(@RequestParam("name")String name){
+        return tournamentService.findTournamentsByName(name);
+    }
 }

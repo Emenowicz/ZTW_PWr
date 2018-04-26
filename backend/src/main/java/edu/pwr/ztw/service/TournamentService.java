@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class TournamentService {
     @Resource
     TournamentDao tournamentDao;
 
-    public void createTournament(Tournament tournament){
+    public void createTournament(Tournament tournament) {
         tournamentDao.save(tournament);
     }
 
@@ -22,12 +21,16 @@ public class TournamentService {
         return tournamentDao.findAll();
     }
 
-    public List<Tournament> getAllTournamentsForUser(User user){
+    public List<Tournament> getAllTournamentsForUser(User user) {
         return tournamentDao.findTournamentsByOwner(user);
     }
 
     public Tournament getTournamentById(long id) {
         return tournamentDao.findOne(id);
+    }
+
+    public List<Tournament> findTournamentsByName(String name) {
+        return tournamentDao.findByNameContainingIgnoreCase(name);
     }
 
     public void saveTournament(Tournament tournament) {
