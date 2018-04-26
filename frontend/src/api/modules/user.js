@@ -1,8 +1,8 @@
 import {API, Path} from '@/api/api_config'
 
-function getTournaments() {
+function getTournaments(userId) {
   return new Promise((resolve, reject) => {
-    API.get(Path.USER_TOURNAMENTS)
+    API.get(Path.USER_TOURNAMENTS.format(userId))
        .then(function (response) {
            resolve(response);
         })

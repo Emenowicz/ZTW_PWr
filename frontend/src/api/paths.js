@@ -1,4 +1,3 @@
-export const TOURNAMENT = '/tournament'
-export const USER = '/user'
-export const ME = '/me'
-export const USER_TOURNAMENTS = '/user/tournament'
+export const TOURNAMENT = '/tournaments'
+export const USER = '/users'
+export const USER_TOURNAMENTS = '/users/{0}/ownedtournaments' // {0} - userId

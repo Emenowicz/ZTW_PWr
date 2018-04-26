@@ -170,13 +170,17 @@
       },
       onEditTournament() {
         if (this.$refs.formBasicInfo.validate() && this.$refs.formGameInfo.validate() && this.isValid) {
-          const tournament = {
-            name: this.tournamentName,
-            startTime: this.startDate,
-            endTime: this.endDate,
-            minTeams: this.minTeams,
-            maxTeams: this.maxTeams
-          };
+          var tournament = {
+                      name: this.tournamentName,
+                      startTime: this.startDate,
+                      endTime: this.endDate,
+                      description: this.description,
+                      playMode: 'ONEVSONE',
+                      tournamentType: (this.tournamentType === 'Local') ? 'LOCAL' : 'VIRTUAL',
+                      location: this.tournamentLocation,
+                      minTeams: this.minTeams,
+                      maxTeams: this.maxTeams
+                    };
           this.UPDATE_TOURNAMENT(tournament)
           .then((response) => {
             console.log(response);

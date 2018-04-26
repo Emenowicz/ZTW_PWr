@@ -159,6 +159,10 @@
             name: this.tournamentName,
             startTime: this.startDate,
             endTime: this.endDate,
+            description: this.description,
+            playMode: 'ONEVSONE',
+            tournamentType: (this.tournamentType === 'Local') ? 'LOCAL' : 'VIRTUAL',
+            location: this.tournamentLocation,
             minTeams: this.minTeams,
             maxTeams: this.maxTeams
           };

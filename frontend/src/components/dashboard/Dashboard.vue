@@ -24,7 +24,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import {mapGetters, mapActions} from 'vuex';
   import MyTournamentsElement from './MyTournamentsElement'
 
   export default {
@@ -36,6 +36,14 @@
     },
     components: {
       'my-tournament': MyTournamentsElement
+    },
+    methods: {
+    ...mapActions([
+      'LOAD_USERS_TOURNAMENTS'
+    ])
+    },
+    mounted() {
+      this.LOAD_USERS_TOURNAMENTS();
     }
   }
 </script>

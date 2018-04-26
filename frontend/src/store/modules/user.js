@@ -13,8 +13,9 @@ const state = {
 };
 
 const actions = {
-  'GET_USERS_TOURNAMENTS': ({commit}, userId) => {
-    return User.getTournaments()
+  'GET_USERS_TOURNAMENTS': ({state}, userId) => {
+  console.log(state.user_info.id)
+    return User.getTournaments(state.user_info.id)
   },
 
   'LOAD_USERS_TOURNAMENTS': ({commit, dispatch}, userId) => {
