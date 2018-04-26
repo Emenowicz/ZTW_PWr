@@ -3,14 +3,13 @@ package edu.pwr.ztw.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.pwr.ztw.entity.Enums.PlayMode;
 import edu.pwr.ztw.entity.Enums.TournamentType;
-import org.codehaus.jackson.annotate.JsonBackReference;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,6 +17,7 @@ public class Tournament implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank
     private String name;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -34,14 +34,17 @@ public class Tournament implements Serializable {
     private int minTeams;
     private int maxTeams;
     @ManyToOne
-    @JsonIgnoreProperties("ownedTournaments")
+    @JsonIgnoreProperties({"ownedTournaments", "joinedTournaments", "teams", "admin"})
     private User owner;
     @ManyToMany
     private Set<Team> teams;
     @OneToMany
     private Set<Match> matches;
+    @ManyToMany
+    @JsonIgnoreProperties("joinedTournaments")
+    private Set<User> players = new HashSet<>();
 
-    public Tournament(){
+    public Tournament() {
 
     }
 
@@ -190,8 +193,21 @@ public class Tournament implements Serializable {
         this.location = location;
     }
 
-    public void addOwner(User user){
+    public void addOwner(User user) {
         this.setOwner(user);
         user.getOwnedTournaments().add(this);
+    }
+
+    public Set<User> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(Set<User> players) {
+        this.players = players;
+    }
+
+    public void addPlayer(User player) {
+        players.add(player);
+        player.getJoinedTournaments().add(this);
     }
 }

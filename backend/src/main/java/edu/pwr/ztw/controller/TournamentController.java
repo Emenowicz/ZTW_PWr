@@ -1,5 +1,6 @@
 package edu.pwr.ztw.controller;
 
+import com.google.api.client.http.HttpStatusCodes;
 import edu.pwr.ztw.entity.Match;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
@@ -16,26 +17,31 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@RequestMapping(value = "/tournaments")
 public class TournamentController {
     @Resource
     private TournamentService tournamentService;
     @Resource
     private UserService userService;
 
-    @RequestMapping(value = "tournament", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity createTournament(OAuth2Authentication principal, @RequestBody @Valid Tournament tournament) {
+        if(tournament==null){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+
         try {
             User currentUser = userService.getCurrentUser(principal);
-            tournament.addOwner(currentUser);
-            tournamentService.createTournament(tournament);
+
+            tournamentService.createTournament(tournament,currentUser);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity(tournament, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "tournament/{id}", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity updateTournament(@PathVariable("id") long id, @RequestBody @Valid Tournament tournament, OAuth2Authentication principal) {
         if (userService.getCurrentUser(principal) != tournament.getOwner())
@@ -49,7 +55,7 @@ public class TournamentController {
         return ResponseEntity.ok(tournament);
     }
 
-    @RequestMapping(value = "/tournament/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity getTournament(@PathVariable("id") long id) {
         Tournament tournament = tournamentService.getTournamentById(id);
         if (tournament == null) {
@@ -58,7 +64,7 @@ public class TournamentController {
         return new ResponseEntity(tournament, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/tournament/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity removeTournament(@PathVariable("id") long id, OAuth2Authentication principal) {
         if (userService.getCurrentUser(principal) != tournamentService.getTournamentById(id).getOwner())
             return new ResponseEntity(HttpStatus.FORBIDDEN);
@@ -70,17 +76,14 @@ public class TournamentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/tournaments", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public List<Tournament> getAllTournaments() {
         return tournamentService.getAllTournaments();
     }
 
-    @RequestMapping(value = "/user/{id}/ownedtournaments", method = RequestMethod.GET)
-    public List<Tournament> Tournaments(@PathVariable("id") String id) {
-        return tournamentService.getAllTournamentsForUser(userService.getUserById(id));
-    }
 
-    @RequestMapping(value = "/tournament/{id}/match", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/{id}/match", method = RequestMethod.POST)
     public ResponseEntity addMatch(@PathVariable long id, @RequestBody @Valid Match match, OAuth2Authentication principal) {
         Tournament tournament = tournamentService.getTournamentById(id);
         if (userService.getCurrentUser(principal) != tournament.getOwner())
@@ -94,13 +97,25 @@ public class TournamentController {
         return new ResponseEntity(match, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/tournament/{id}/matches", method = RequestMethod.GET)
+    @RequestMapping(value = "/{id}/matches", method = RequestMethod.GET)
     public Set<Match> getMatches(@PathVariable("id") long id) {
         return tournamentService.getTournamentById(id).getMatches();
     }
 
-    @RequestMapping(value = "/tournament", method = RequestMethod.GET)
-    public List<Tournament> findMatch(@RequestParam("name")String name){
+    @RequestMapping(value = "/find", method = RequestMethod.GET)
+    public List<Tournament> findMatch(@RequestParam("name") String name){
         return tournamentService.findTournamentsByName(name);
+    }
+
+    @RequestMapping(value ="/{tId}/join", method = RequestMethod.POST)
+    public ResponseEntity joinToTournament(@PathVariable("tId") long tId, OAuth2Authentication principal){
+        User currentUser = userService.getCurrentUser(principal);
+        Tournament tournament = tournamentService.getTournamentById(tId);
+        try{
+            tournamentService.addUserToTournament(tournament,currentUser);
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
