@@ -5,11 +5,11 @@ import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.service.TournamentService;
 import edu.pwr.ztw.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import javax.xml.stream.events.Attribute;
 import java.util.List;
 import java.util.Set;
 
@@ -22,29 +22,45 @@ public class TournamentController {
 
     @RequestMapping(value = "/user/{userId}/tournament",method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Tournament createTournament(@PathVariable("userId") String userId, @Valid Tournament tournament){
-        tournament.addOwner(userService.getUserById(userId));
-        tournamentService.createTournament(tournament);
-        return tournament;
+    public ResponseEntity createTournament(@PathVariable("userId") String userId, @Valid Tournament tournament){
+        try{
+            tournament.addOwner(userService.getUserById(userId));
+            tournamentService.createTournament(tournament);
+        } catch (Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity(tournament,HttpStatus.OK);
     }
 
-    @RequestMapping(value = "tournament/{id}", method = RequestMethod.PUT)
-    public Tournament updateTournament(@PathVariable("id") long id, Tournament tournament){
-        tournament.setId(id);
-        tournamentService.saveTournament(tournament);
-        return tournament;
+    @RequestMapping(value = "tournament/{id}", method = RequestMethod.PATCH)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> updateTournament(@PathVariable("id") long id, Tournament tournament){
+        try{
+            tournament.setId(id);
+            tournamentService.saveTournament(tournament);
+        }catch(Exception e){
+            return new ResponseEntity(e.getMessage(),HttpStatus.NOT_MODIFIED);
+        }
+        return ResponseEntity.ok(tournament);
     }
 
     @RequestMapping(value = "/tournament/{id}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public Tournament getTournament(@PathVariable("id") long id){
-        return tournamentService.getTournamentById(id);
+    public ResponseEntity getTournament(@PathVariable("id") long id){
+        Tournament tournament = tournamentService.getTournamentById(id);
+        if(tournament==null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(tournament,HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tournament/{id}", method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void removeTournament(@PathVariable("id") long id){
-        tournamentService.removeTournament(id);
+    public ResponseEntity removeTournament(@PathVariable("id") long id){
+        try {
+            tournamentService.removeTournament(id);
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tournaments", method = RequestMethod.GET)
@@ -58,12 +74,15 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tournament/{id}/match", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public Match addMatch(@PathVariable long id, Match match){
-        Tournament tournament = tournamentService.getTournamentById(id);
-        tournament.getMatches().add(match);
-        tournamentService.saveTournament(tournament);
-        return match;
+    public ResponseEntity addMatch(@PathVariable long id, Match match){
+        try {
+            Tournament tournament = tournamentService.getTournamentById(id);
+            tournament.getMatches().add(match);
+            tournamentService.saveTournament(tournament);
+        } catch (Exception e){
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity(match, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/tournament/{id}/matches", method = RequestMethod.GET)
