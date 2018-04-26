@@ -26,6 +26,7 @@ const actions = {
         localStorage.setItem('user-token', token);
         API.defaults.headers.common['Authorization'] = token_type + " " + token;
         commit('AUTH_SUCCESS', token);
+        Auth.registerInBackend(()=>{},()=>{});
         resolve(response);
       }, (error) => {
         commit('AUTH_ERROR', error);
@@ -51,7 +52,7 @@ const mutations = {
     state.status = 'loading'
   },
   'AUTH_SUCCESS': (state, token) => {
-    state.status = 'success';
+    state.status = 'logged';
     state.token = token;
     state.hasLoadedOnce = true
   },

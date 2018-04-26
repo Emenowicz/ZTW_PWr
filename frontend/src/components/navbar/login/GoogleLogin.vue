@@ -6,7 +6,6 @@
 
 <script>
   import { mapActions } from 'vuex'
-  import {GOOGLE_AUTH_REQUEST} from '@/store/actions/auth'
 
   export default {
     methods: {
@@ -18,9 +17,8 @@
             console.log(error);
         })
       },
-
       ...mapActions([
-        GOOGLE_AUTH_REQUEST
+        'GOOGLE_AUTH_REQUEST'
       ])
     }
   }

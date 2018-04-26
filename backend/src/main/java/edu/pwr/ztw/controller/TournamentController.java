@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public class TournamentController {
 
     @RequestMapping(value = "tournament", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity createTournament(OAuth2Authentication principal, @Valid Tournament tournament) {
+    public ResponseEntity createTournament(OAuth2Authentication principal, @RequestBody @Valid Tournament tournament) {
         try {
             User currentUser = userService.getCurrentUser(principal);
             tournament.addOwner(currentUser);
@@ -38,8 +37,8 @@ public class TournamentController {
 
     @RequestMapping(value = "tournament/{id}", method = RequestMethod.PATCH)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity updateTournament(@PathVariable("id") long id, Tournament tournament, OAuth2Authentication principal) {
-        if(userService.getCurrentUser(principal) != tournament.getOwner())
+    public ResponseEntity updateTournament(@PathVariable("id") long id, @RequestBody @Valid Tournament tournament, OAuth2Authentication principal) {
+        if (userService.getCurrentUser(principal) != tournament.getOwner())
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         try {
             tournament.setId(id);
@@ -61,7 +60,7 @@ public class TournamentController {
 
     @RequestMapping(value = "/tournament/{id}", method = RequestMethod.DELETE)
     public ResponseEntity removeTournament(@PathVariable("id") long id, OAuth2Authentication principal) {
-        if(userService.getCurrentUser(principal) != tournamentService.getTournamentById(id).getOwner())
+        if (userService.getCurrentUser(principal) != tournamentService.getTournamentById(id).getOwner())
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         try {
             tournamentService.removeTournament(id);
@@ -82,9 +81,9 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/tournament/{id}/match", method = RequestMethod.POST)
-    public ResponseEntity addMatch(@PathVariable long id, Match match, OAuth2Authentication principal) {
+    public ResponseEntity addMatch(@PathVariable long id, @RequestBody @Valid Match match, OAuth2Authentication principal) {
         Tournament tournament = tournamentService.getTournamentById(id);
-        if(userService.getCurrentUser(principal) != tournament.getOwner())
+        if (userService.getCurrentUser(principal) != tournament.getOwner())
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         try {
             tournament.getMatches().add(match);
