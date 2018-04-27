@@ -40,7 +40,8 @@ const state = {
 
 const getters = {
   lastMinuteTournaments: state => state.lastMinuteTournaments,
-  allTournaments: state => state.allTournaments
+  allTournaments: state => state.allTournaments,
+  getTournament: (state) => (id) => state.allTournaments.find(tournament => tournament.id === id)
 }
 
 const actions = {

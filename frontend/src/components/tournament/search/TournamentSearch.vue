@@ -8,7 +8,7 @@
           type="text"/>
       </v-flex>
       <v-flex v-for="tournament in filteredTournaments" :key="tournament.id" xs12 sm12 offset-md2 md8 offset-lg2 lg8>
-        <tournament :tournament="tournament"/>
+        <tournament :tournamentId="tournament.id"/>
       </v-flex>
       <v-flex md12>
         <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab fixed bottom right dark color="indigo">

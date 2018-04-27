@@ -12,5 +12,17 @@ function getTournaments(userId) {
   })
 }
 
+function joinTournament(tournamentId) {
+  return new Promise((resolve, reject) => {
+    API.post(Path.JOIN_TOURNAMENT.format(tournamentId))
+      .then(function (response) {
+        resolve(response);
+      })
+      .catch(function (error) {
+        reject(error);
+      })
+  })
+}
 
-export default {getTournaments}
+
+export default {getTournaments, joinTournament}

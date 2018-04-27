@@ -14,7 +14,6 @@ const state = {
 
 const actions = {
   'GET_USERS_TOURNAMENTS': ({state}, userId) => {
-  console.log(state.user_info.id)
     return User.getTournaments(state.user_info.id)
   },
 
@@ -25,7 +24,12 @@ const actions = {
     }).catch((error) => {
       console.log(error)
     })
+  },
+
+  'JOIN_TOURNAMENT': ({commit}, tournamentId) => {
+    return User.joinTournament(tournamentId);
   }
+
 }
 
 const mutations = {
