@@ -26,9 +26,13 @@
             <v-flex sm12 md4 lg4>
               {{'End date: ' + tournament.endTime}}
             </v-flex>
+            <v-flex v-if="showRemainingTime" sm12 md4 lg4>
+              {{'Remaining time: ' + remainingTime}}
+            </v-flex>
           </v-layout>
           <v-layout row wrap>
-            <v-flex sm12 offset-md8 md4>
+            <v-spacer/>
+            <v-flex right>
               <v-btn v-if="!alreadyRegistered" block outline color="indigo" @click="onSignUpClicked()">Sign up</v-btn>
               <div v-else><v-icon large color="green darken-2">done</v-icon> Already registered</div>
             </v-flex>
@@ -51,9 +55,13 @@
   import {mapGetters, mapActions} from 'vuex'
 
   export default {
-    name: 'LastMinuteTournament',
+    name: 'TournamentExpansionPanel',
     props: {
-      tournamentId: Object
+      tournamentId: Number,
+      showRemainingTime: {
+        default: false,
+        type: Boolean
+      }
     },
     data() {
       return {
@@ -64,6 +72,9 @@
     computed: {
       tournament() {
         return this.getTournament(this.tournamentId)
+      },
+      remainingTime() {
+        return ((new Date(this.tournament.startTime) - Date.now()) / (1000 * 60 * 60));
       },
       freeSlots() {
         return this.tournament.maxTeams - this.tournament.teams.length

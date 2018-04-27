@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-layout row wrap>
-      <v-flex xs12 sm12 md8 lg8>
+      <v-flex xs12 sm12 md6 lg6>
 
       </v-flex>
-      <v-flex xs12 sm12 md4 lg4>
+      <v-flex xs12 sm12 md6 lg6>
         <v-card dark color="blue-grey darken-2" class="white--text">
           <v-card-title primary-title>
             <div class="title">MY TOURNAMENTS</div>
