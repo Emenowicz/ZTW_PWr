@@ -169,14 +169,18 @@
 
           this.CREATE_TOURNAMENT(tournament)
           .then((response) => {
-            console.log(response);
+            this.LOAD_ALL_TOURNAMENTS()
+            this.LOAD_USERS_TOURNAMENTS()
+            this.$router.push('/tournaments')
           }, (error) => {
             console.log(error);
           })
         }
       },
       ...mapActions([
-        'CREATE_TOURNAMENT'
+        'CREATE_TOURNAMENT',
+        'LOAD_ALL_TOURNAMENTS',
+        'LOAD_USERS_TOURNAMENTS'
       ])
     },
     components: {
