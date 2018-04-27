@@ -3,6 +3,7 @@ package edu.pwr.ztw.service;
 import edu.pwr.ztw.dao.TournamentDao;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
+import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,8 +43,12 @@ public class TournamentService {
         tournamentDao.save(tournament);
     }
 
-    public void removeTournament(long id) {
-        tournamentDao.delete(id);
+    public void removeTournament(long id) throws NotFoundException {
+        if(tournamentDao.findOne(id) != null){
+            tournamentDao.delete(id);
+        }else{
+            throw new NotFoundException("Tournament not found");
+        }
     }
 
     public void addUserToTournament(Tournament tournament, User currentUser) {
