@@ -1,6 +1,7 @@
 import Tournament from '@/api/modules/tournament'
 
 const state = {
+  allTournaments: [],
   lastMinuteTournaments: [
     {
       name: 'Wroclaw XX Table Soccer Cups',
@@ -38,7 +39,8 @@ const state = {
 }
 
 const getters = {
-  lastMinuteTournaments: state => state.lastMinuteTournaments
+  lastMinuteTournaments: state => state.lastMinuteTournaments,
+  allTournaments: state => state.allTournaments
 }
 
 const actions = {
@@ -48,12 +50,28 @@ const actions = {
   'UPDATE_TOURNAMENT': function ({commit}, tournament) {
     return Tournament.update(tournament)
   },
-  'GET_ALL_TOURNAMENTS': function ({commit}, tournament) {
-      return Tournament.getAll()
+  'GET_ALL_TOURNAMENTS': function ({commit}) {
+    return new Promise((resolve, reject) => {
+      Tournament.getAll().then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error);
+      })
+    })
+  },
+  'LOAD_ALL_TOURNAMENTS': function ({commit, dispatch}) {
+      dispatch('GET_ALL_TOURNAMENTS')
+        .then((tournaments) => {
+          commit('SET_ALL_TOURNAMENTS', tournaments);
+        })
   }
 }
 
-const mutations = {}
+const mutations = {
+  'SET_ALL_TOURNAMENTS': (state, tournaments) => {
+    state.allTournaments = tournaments;
+  }
+}
 
 export default {
   state,
