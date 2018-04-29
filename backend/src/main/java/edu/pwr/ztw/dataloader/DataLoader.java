@@ -33,7 +33,7 @@ public class DataLoader implements ApplicationRunner {
         SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
         Date startDate = sf.parse("19-04-2018");
         Date endDate = sf.parse("20-04-2018");
-        User user = new User("1", "Tester Testowy");
+        User user = new User("Tester Testowy");
         Tournament tournament = new Tournament("Testowy turniej", startDate, endDate,
                 "Przykładowy opis", PlayMode.ONEVSONE,TournamentType.LOCAL,"Gdzieś tam",
                 2, 6);
@@ -42,12 +42,21 @@ public class DataLoader implements ApplicationRunner {
 
         Date startDate2 = sf.parse("8-04-2018");
         Date endDate2 = sf.parse("30-04-2018");
-        User user2 = new User("2", "Tester Testowy2");
+        User user2 = new User("Tester Testowy2");
         Tournament tournament2 = new Tournament("Testowy turniej2", startDate2, endDate2,
                 "Przykładowy opis",PlayMode.TWOVSTWO, TournamentType.VIRTUAL,
                 4, 16);
         user2.addOwnedTournament(tournament2);
         userDao.save(user2);
+
+        Date startDate3 = sf.parse("10-04-2018");
+        Date endDate3 = sf.parse("27-04-2018");
+        User user3 = new User( "Tester Testowy3");
+        Tournament tournament3 = new Tournament("Testestest3", startDate3, endDate3,
+                "",PlayMode.TWOVSTWO, TournamentType.VIRTUAL,
+                4, 16);
+        user3.addOwnedTournament(tournament3);
+        userDao.save(user3);
 
     }
 }

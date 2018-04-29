@@ -3,6 +3,8 @@ package edu.pwr.ztw.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.pwr.ztw.entity.Enums.PlayMode;
 import edu.pwr.ztw.entity.Enums.TournamentType;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,11 +14,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+@Indexed
 @Entity
 public class Tournament implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Field
     @NotBlank
     private String name;
     @Temporal(TemporalType.DATE)
@@ -25,13 +29,16 @@ public class Tournament implements Serializable {
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date endTime;
+    @Field
     private String description;
     @Enumerated
     private PlayMode playMode;
     @Enumerated
     private TournamentType tournamentType;
     private String location;
+    @Field
     private int minTeams;
+    @Field
     private int maxTeams;
     @ManyToOne
     @JsonIgnoreProperties({"ownedTournaments", "joinedTournaments", "teams", "admin"})

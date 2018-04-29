@@ -3,6 +3,7 @@ package edu.pwr.ztw.controller;
 import edu.pwr.ztw.entity.Match;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
+import edu.pwr.ztw.service.TournamentSearchService;
 import edu.pwr.ztw.service.TournamentService;
 import edu.pwr.ztw.service.UserService;
 import javassist.NotFoundException;
@@ -23,6 +24,8 @@ public class TournamentController {
     private TournamentService tournamentService;
     @Resource
     private UserService userService;
+    @Resource
+    private TournamentSearchService tournamentSearchService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
@@ -102,8 +105,8 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public List<Tournament> findMatch(@RequestParam("name") String name) {
-        return tournamentService.findTournamentsByName(name);
+    public List<Tournament> findMatch(@RequestParam("q") String q) {
+        return tournamentSearchService.fuzzySearch(q);
     }
 
     @RequestMapping(value = "/{tId}/join", method = RequestMethod.POST)

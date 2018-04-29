@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -21,19 +22,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @SpringBootApplication
 @EnableResourceServer
+@EnableTransactionManagement
 public class ZtwApplication extends ResourceServerConfigurerAdapter {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ZtwApplication.class, args);
 	}
 
-	private static final String[] AUTH_WHITELIST = {
-			// -- swagger ui
-			"/swagger-resources/**",
-			"/swagger-ui.html",
-			"/v2/api-docs",
-			"/webjars/**"
-	};
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
@@ -43,7 +38,6 @@ public class ZtwApplication extends ResourceServerConfigurerAdapter {
 				.and()
 				.authorizeRequests()
 				.antMatchers("/home", "/register", "/login**", "/getUsers").permitAll()
-				.antMatchers(AUTH_WHITELIST).permitAll()
 				.anyRequest().authenticated().and().formLogin().disable();
 	}
 
