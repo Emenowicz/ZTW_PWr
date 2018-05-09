@@ -30,7 +30,109 @@ const actions = {
         .then((tournaments) => {
           commit('SET_ALL_TOURNAMENTS', tournaments);
         })
-  }
+  },
+  'QUERY_TOURNAMENTS_PAGE': function ({commit}, {query, startDate, endDate, page, size}) {
+      return new Promise((resolve, reject) => {
+        Tournament.queryPage(query, startDate, endDate, page, size).then((response) => {
+          //resolve(response.data)
+          let page = {
+            'content': [
+                        {
+                          "id": 1,
+                          "name": "Testowy turniej2",
+                          "startTime": "2018-04-08",
+                          "endTime": "2018-04-30",
+                          "description": "Przykładowy opis",
+                          "playMode": "TWOVSTWO",
+                          "tournamentType": "VIRTUAL",
+                          "location": null,
+                          "minTeams": 4,
+                          "maxTeams": 16,
+                          "owner": {
+                              "id": "116248526006631545152",
+                              "name": "Konrad Drozd",
+                              "avatar": null
+                          },
+                          "teams": [],
+                          "matches": [],
+                          "players": []
+                      },
+                      {
+                          "id": 2,
+                          "name": "Testowy turniej",
+                          "startTime": "2018-04-19",
+                          "endTime": "2018-04-20",
+                          "description": "Przykładowy opis",
+                          "playMode": "ONEVSONE",
+                          "tournamentType": "LOCAL",
+                          "location": "Gdzieś tam",
+                          "minTeams": 2,
+                          "maxTeams": 6,
+                          "owner": {
+                              "id": "116248526006631545152",
+                              "name": "Konrad Drozd",
+                              "avatar": null
+                          },
+                          "teams": [],
+                          "matches": [],
+                          "players": []
+                      },{
+                          "id": 3,
+                          "name": "Testowy turniej3",
+                          "startTime": "2018-04-08",
+                          "endTime": "2018-04-30",
+                          "description": "Przykładowy opis",
+                          "playMode": "TWOVSTWO",
+                          "tournamentType": "VIRTUAL",
+                          "location": null,
+                          "minTeams": 4,
+                          "maxTeams": 16,
+                          "owner": {
+                              "id": "116248526006631545152",
+                              "name": "Konrad Drozd",
+                              "avatar": null
+                          },
+                          "teams": [],
+                          "matches": [],
+                          "players": []
+                      },
+                      {
+                          "id": 4,
+                          "name": "Testowy turniej4",
+                          "startTime": "2018-04-19",
+                          "endTime": "2018-04-20",
+                          "description": "Przykładowy opis",
+                          "playMode": "ONEVSONE",
+                          "tournamentType": "LOCAL",
+                          "location": "Gdzieś tam",
+                          "minTeams": 2,
+                          "maxTeams": 6,
+                          "owner": {
+                              "id": "116248526006631545152",
+                              "name": "Konrad Drozd",
+                              "avatar": null
+                          },
+                          "teams": [],
+                          "matches": [],
+                          "players": []
+                      }
+            ],
+            'totalElements': 4,
+            'totalPages': 1,
+            'last': true,
+            'first': true,
+            'size': 4,
+            'number': 1,
+            'numberOfElements': 4,
+            'sort': null
+          }
+
+          resolve(page);
+        }).catch((error) => {
+          reject(error);
+        })
+      })
+    }
 }
 
 const mutations = {

@@ -57,7 +57,7 @@
   export default {
     name: 'TournamentExpansionPanel',
     props: {
-      tournamentId: Number,
+      tournament: Object,
       showRemainingTime: {
         default: false,
         type: Boolean
@@ -70,9 +70,6 @@
       }
     },
     computed: {
-      tournament() {
-        return this.getTournament(this.tournamentId)
-      },
       remainingTime() {
         return ((new Date(this.tournament.startTime) - Date.now()) / (1000 * 60 * 60));
       },
@@ -83,8 +80,7 @@
         return this.tournament.players.map((p) => p.id).includes(this.userId);
       },
       ...mapGetters([
-        'userId',
-        'getTournament'
+        'userId'
       ])
     },
     methods: {
@@ -93,7 +89,6 @@
           this.JOIN_TOURNAMENT(this.tournament.id)
             .then((response) => {
               this.showSnackMessage('You\'ve successfuly joined tournament')
-              this.LOAD_ALL_TOURNAMENTS();
           }).catch((error) => {
             this.showSnackMessage('Something went wrong :(')
           })
@@ -106,8 +101,7 @@
         this.snackbar = true;
       },
       ...mapActions([
-        'JOIN_TOURNAMENT',
-        'LOAD_ALL_TOURNAMENTS'
+        'JOIN_TOURNAMENT'
       ])
     }
   }
