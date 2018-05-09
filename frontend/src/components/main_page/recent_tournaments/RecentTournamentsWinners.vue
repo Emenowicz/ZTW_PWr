@@ -17,43 +17,43 @@
 
 <script>
 
-import RecentTournamentWinners from './RecentTournamentWinners'
+  import RecentTournamentWinners from './RecentTournamentWinners'
 
-export default {
-  name: 'RecentTournamentsWinners',
-  data () {
-    return {
-      recentTournaments: [
-        {
-          name: 'Wroclaw XX Table Soccer Cups',
-          winners: [
-            {name: 'Jarek12'},
-            {name: 'Grigori96'},
-            {name: 'DobrzeGram_PL'}
-          ]
-        },
-        {
-          name: 'Virtual Table Soccer Cups',
-          winners: [
-            {name: 'Dropek'},
-            {name: 'Vuevue'},
-            {name: 'PL_KAKA'}
-          ]
-        },
-        {
-          name: 'Random Cups',
-          winners: [
-            {name: 'Ketchup'},
-            {name: 'XiaomiLepsze'},
-            {name: 'DawacDolany'}
-          ]
-        }
-      ]
+  export default {
+    name: 'RecentTournamentsWinners',
+    data() {
+      return {
+        recentTournaments: [
+          {
+            name: 'Wroclaw XX Table Soccer Cups',
+            winners: [
+              {name: 'Jarek12'},
+              {name: 'Grigori96'},
+              {name: 'DobrzeGram_PL'}
+            ]
+          },
+          {
+            name: 'Virtual Table Soccer Cups',
+            winners: [
+              {name: 'Dropek'},
+              {name: 'Vuevue'},
+              {name: 'PL_KAKA'}
+            ]
+          },
+          {
+            name: 'Random Cups',
+            winners: [
+              {name: 'Ketchup'},
+              {name: 'XiaomiLepsze'},
+              {name: 'DawacDolany'}
+            ]
+          }
+        ]
+      }
+    },
+    components: {
+      RecentTournamentWinners,
+      'recent-tournament-winners': RecentTournamentWinners
     }
-  },
-  components: {
-    RecentTournamentWinners,
-    'recent-tournament-winners': RecentTournamentWinners
   }
-}
 </script>

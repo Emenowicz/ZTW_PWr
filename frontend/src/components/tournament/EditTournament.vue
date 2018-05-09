@@ -23,7 +23,7 @@
                       v-model="description"/>
                     <v-layout row wrap>
                       <v-flex xs12 sm12 md5 lg5>
-                        <date-picker :valid="isStartEndDateValid" :startDate=Date.now()
+                        <date-picker :valid="isStartEndDateValid" :startDate="''"
                                      :endDate="(endDate === '') ? '' : endDate"
                                      :label="'Start date'" @selectedDate="onStartDateSelected"
                                      :date="this.startDate"/>
@@ -31,7 +31,7 @@
                       <v-spacer/>
                       <v-flex xs12 sm12 md5 lg5>
                         <date-picker :valid="isStartEndDateValid"
-                                     :startDate="(startDate === '') ? Date.now() : startDate"
+                                     :startDate="(startDate === '') ? '' : startDate"
                                      :endDate="''" :label="'End date'" @selectedDate="onEndDateSelected"
                                      :date="this.endDate"/>
                       </v-flex>
@@ -68,6 +68,13 @@
                     :rules="[rules.required]"
                     required
                   ></v-text-field>
+                  <v-select
+                    label="Mode"
+                    v-model="tournamentMode"
+                    :items="tournamentModes"
+                    :rules="[rules.required]"
+                    required
+                  ></v-select>
                   <v-layout row wrap>
                     <v-flex xs12 sm12 md5 lg5>
                       <v-text-field
@@ -99,7 +106,7 @@
     </v-layout>
     <v-btn
       fixed bottom
-      @click="onCreateNewTournament"
+      @click="onEditTournament"
       :disabled="!isValid">
       submit
     </v-btn>
@@ -119,6 +126,11 @@
         tournamentName: '',
         description: '',
         tournamentLocation: '',
+        tournamentMode: '',
+        tournamentModes: [
+          '1 vs. 1',
+          '2 vs. 2'
+        ],
         tournamentType: '',
         tournamentTypes: [
           'Local',
@@ -144,7 +156,10 @@
       isStartEndDateValid: function () {
         return this.startDate === '' || this.endDate === '' || new Date(this.startDate) - new Date(this.endDate) < 0 || "Wrong date."
       },
-      ...mapGetters(['userId'])
+      ...mapGetters([
+        'userId',
+        'editedTournament'
+      ])
     },
     methods: {
       onStartDateSelected(date) {
@@ -153,38 +168,44 @@
       onEndDateSelected(date) {
         this.endDate = date;
       },
-      onCreateNewTournament() {
+      onEditTournament() {
         if (this.$refs.formBasicInfo.validate() && this.$refs.formGameInfo.validate() && this.isValid) {
           var tournament = {
-            name: this.tournamentName,
-            startTime: this.startDate,
-            endTime: this.endDate,
-            description: this.description,
-            playMode: 'ONEVSONE',
-            tournamentType: (this.tournamentType === 'Local') ? 'LOCAL' : 'VIRTUAL',
-            location: this.tournamentLocation,
-            minTeams: this.minTeams,
-            maxTeams: this.maxTeams
-          };
-
-          this.CREATE_TOURNAMENT(tournament)
+                      name: this.tournamentName,
+                      startTime: this.startDate,
+                      endTime: this.endDate,
+                      description: this.description,
+                      playMode: 'ONEVSONE',
+                      tournamentType: (this.tournamentType === 'Local') ? 'LOCAL' : 'VIRTUAL',
+                      location: this.tournamentLocation,
+                      minTeams: this.minTeams,
+                      maxTeams: this.maxTeams
+                    };
+          this.UPDATE_TOURNAMENT(tournament)
           .then((response) => {
-            this.LOAD_ALL_TOURNAMENTS()
-            this.LOAD_USERS_TOURNAMENTS()
-            this.$router.push('/tournaments')
+            console.log(response);
           }, (error) => {
             console.log(error);
           })
         }
       },
       ...mapActions([
-        'CREATE_TOURNAMENT',
-        'LOAD_ALL_TOURNAMENTS',
-        'LOAD_USERS_TOURNAMENTS'
+        'UPDATE_TOURNAMENT'
       ])
     },
     components: {
       'date-picker': DatePicker
+    },
+    mounted() {
+      this.tournamentName = this.editedTournament.name;
+      this.description = this.editedTournament.description;
+      this.startDate = this.editedTournament.startTime;
+      this.endDate = this.editedTournament.endTime;
+      this.minTeams = this.editedTournament.minTeams;
+      this.maxTeams = this.editedTournament.maxTeams;
+      this.tournamentMode = (this.editedTournament.playMode === 'ONEVSONE') ? '1 vs. 1' : '2 vs. 2';
+      this.tournamentType = (this.editedTournament.tournamentType === 'LOCAL') ? 'Local' : 'Virtual';
+      this.tournamentLocation = this.editedTournament.location;
     }
   }
 </script>

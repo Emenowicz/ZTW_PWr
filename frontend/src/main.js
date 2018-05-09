@@ -10,23 +10,31 @@ import GoogleAuth from 'vue-google-oauth'
 import {API} from './api/api_config'
 import Config from './config'
 
-Vue.use(GoogleAuth, { client_id: Config.GOOGLE_CLIENT_ID });
+Vue.use(GoogleAuth, {client_id: Config.GOOGLE_CLIENT_ID});
 Vue.googleAuth().load();
 
 Vue.use(Vuetify);
 Vue.config.productionTip = false;
 
-const token = localStorage.getItem('user-token')
+const token = store.token
 if (token) {
   API.defaults.headers.common['Authorization'] = token
 }
 
 Vue.prototype.$http = API;
 
+String.prototype.format = function () {
+    var a = this;
+    for (var k in arguments) {
+      a = a.replace(new RegExp("\\{" + k + "\\}", 'g'), arguments[k]);
+    }
+  return a
+}
+
 new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {App},
   template: '<App/>'
 });

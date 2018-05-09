@@ -1,77 +1,43 @@
-import {API} from '@/api/api_config'
+import Tournament from '@/api/modules/tournament'
 
 const state = {
-  lastMinuteTournaments: [
-    {
-      name: 'Wroclaw XX Table Soccer Cups',
-      remainingTime: 6456546,
-      type1: 'Local',
-      type2: '2 vs. 2',
-      locationName: 'Wroclaw',
-      freeSlots: 4
-    },
-    {
-      name: 'Poland IV Table Soccer Cups',
-      remainingTime: 6456546,
-      type1: 'Virtual',
-      type2: '1 vs. 1',
-      locationName: '',
-      freeSlots: 16
-    },
-    {
-      name: 'Kraków V Table Soccer Cups',
-      remainingTime: 6456546,
-      type1: 'Local',
-      type2: '1 vs. 1',
-      locationName: 'Kraków',
-      freeSlots: 4
-    },
-    {
-      name: 'Random Tournament',
-      remainingTime: 6456546,
-      type1: 'Local',
-      type2: '1 vs. 1',
-      locationName: 'Kraków',
-      freeSlots: 4
-    }
-  ]
+  allTournaments: [],
 }
-
 
 const getters = {
-  lastMinuteTournaments: state => state.lastMinuteTournaments
+  allTournaments: state => state.allTournaments,
+  getTournament: (state) => (id) => state.allTournaments.find(tournament => tournament.id === id)
 }
 
-
 const actions = {
-  'CREATE_TOURNAMENT': function({commit}, userId, tournament) {
+  'CREATE_TOURNAMENT': function ({commit}, tournament) {
+    return Tournament.create(tournament)
+  },
+  'UPDATE_TOURNAMENT': function ({commit}, tournament) {
+    return Tournament.update(tournament)
+  },
+  'GET_ALL_TOURNAMENTS': function ({commit}) {
     return new Promise((resolve, reject) => {
-      API.post("/user/" + userId + "/tournament", {tournament})
-        .then(function (response) {
-          console.log(response);
-          resolve(response);
-        }).catch(function (error) {
-        console.log(error);
+      Tournament.getAll().then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
         reject(error);
       })
     })
   },
-  'GET_USERS_TOURNAMENTS': ({commit}, userId) => {
-    return new Promise((resolve, reject) => {
-      API.get("/user/" + userId + "/ownedtournaments")
-        .then(function (response) {
-          console.log(response);
-          resolve(response);
-        }).catch(function (error) {
-        console.log(error);
-        reject(error);
-      })
-    })
+  'LOAD_ALL_TOURNAMENTS': function ({commit, dispatch}) {
+      dispatch('GET_ALL_TOURNAMENTS')
+        .then((tournaments) => {
+          commit('SET_ALL_TOURNAMENTS', tournaments);
+        })
   }
 }
 
-
-const mutations = {}
+const mutations = {
+  'SET_ALL_TOURNAMENTS': (state, tournaments) => {
+    state.allTournaments = tournaments;
+  }
+}
 
 export default {
   state,

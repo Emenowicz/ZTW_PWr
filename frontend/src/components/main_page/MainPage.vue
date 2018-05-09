@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import LastMinuteTournaments from './last_minute_tournaments/LastMinuteTournaments.vue'
-import RecentTournamentsWinners from './recent_tournaments/RecentTournamentsWinners.vue'
+  import LastMinuteTournaments from './last_minute_tournaments/LastMinuteTournaments.vue'
+  import RecentTournamentsWinners from './recent_tournaments/RecentTournamentsWinners.vue'
 
-export default {
-  name: 'MainPage',
-  components: {
-    'last_minute_tournaments': LastMinuteTournaments,
-    'recent_tournaments_winners': RecentTournamentsWinners
+  export default {
+    name: 'MainPage',
+    components: {
+      'last_minute_tournaments': LastMinuteTournaments,
+      'recent_tournaments_winners': RecentTournamentsWinners
+    }
   }
-}
 </script>
