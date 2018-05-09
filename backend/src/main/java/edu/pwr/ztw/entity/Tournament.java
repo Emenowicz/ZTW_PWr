@@ -3,8 +3,7 @@ package edu.pwr.ztw.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.pwr.ztw.entity.Enums.PlayMode;
 import edu.pwr.ztw.entity.Enums.TournamentType;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.*;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -23,6 +22,8 @@ public class Tournament implements Serializable {
     @Field
     @NotBlank
     private String name;
+    @Field
+    @DateBridge(resolution = Resolution.DAY)
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date startTime;

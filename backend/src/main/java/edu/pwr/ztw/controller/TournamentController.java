@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 
@@ -107,12 +108,12 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public ResponseEntity findMatch(@RequestParam("q") String q, @RequestParam("sd") String sd, @RequestParam("ed") String ed, Pageable pageable) {
+    public ResponseEntity findTournaments(@RequestParam(value = "q",defaultValue = "") String q, @RequestParam(value = "sd",defaultValue = "") String sd, @RequestParam(value = "ed",defaultValue = "") String ed, Pageable pageable) {
         Page<Tournament> resultPage;
         try {
-            resultPage = tournamentSearchService.findPaginated(q, pageable);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            resultPage = tournamentSearchService.findPaginated(q, sd,ed,pageable);
+        }  catch (Exception e) {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
         if (!resultPage.hasContent()) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
