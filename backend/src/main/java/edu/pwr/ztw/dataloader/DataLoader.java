@@ -23,10 +23,6 @@ public class DataLoader implements ApplicationRunner {
 
     @Resource
     UserDao userDao;
-    @Resource
-    TournamentDao tournamentDao;
-    @Resource
-    MatchDao matchDao;
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {

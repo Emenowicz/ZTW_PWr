@@ -7,6 +7,8 @@ import edu.pwr.ztw.service.TournamentSearchService;
 import edu.pwr.ztw.service.TournamentService;
 import edu.pwr.ztw.service.UserService;
 import javassist.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -105,8 +107,17 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public List<Tournament> findMatch(@RequestParam("q") String q) {
-        return tournamentSearchService.fuzzySearch(q);
+    public ResponseEntity findMatch(@RequestParam("q") String q, @RequestParam("sd") String sd, @RequestParam("ed") String ed, Pageable pageable) {
+        Page<Tournament> resultPage;
+        try {
+            resultPage = tournamentSearchService.findPaginated(q, pageable);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if (!resultPage.hasContent()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(resultPage, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{tId}/join", method = RequestMethod.POST)
