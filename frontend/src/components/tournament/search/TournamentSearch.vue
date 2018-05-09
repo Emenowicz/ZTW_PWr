@@ -1,33 +1,60 @@
+<style scoped>
 
+.fab-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+</style>
 
 <template>
 
 <v-container>
     <v-layout row wrap>
-        <v-flex xs12 sm12 offset-md2 md8 offset-lg2 lg8>
-            <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged" type="text" />
-        </v-flex>
-        <v-flex xs12 sm12 offset-md2 md4 offset-lg2 lg4>
-            <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after..'" @selectedDate="onStartDateSelected" :date="this.startDate" />
-        </v-flex>
-        <v-flex xs12 sm12 md4 lg4>
-            <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before..'" @selectedDate="onEndDateSelected" :date="this.endDate" />
-        </v-flex>
-        </v-flex>
         <v-flex v-for="tournament in this.tournaments" :key="tournament.id" xs12 sm12 offset-md2 md8 offset-lg2 lg8>
             <tournament :tournament="tournament" />
-        </v-flex>
-        <v-flex md12>
-            <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab fixed bottom right dark color="indigo">
-                <v-icon dark>add</v-icon>
-            </v-btn>
         </v-flex>
     </v-layout>
     <v-layout row wrap>
         <v-flex>
             <v-pagination :length="pagesNumber" v-model="page"></v-pagination>
         </v-flex>
-    </v-layout row wrap>
+    </v-layout>
+
+    <v-layout row class="fab-container">
+        <v-btn fab dark color="blue" @click="onFilterButtonClicked">
+            <v-icon dark>filter</v-icon>
+        </v-btn>
+        <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab dark color="indigo">
+            <v-icon dark>add</v-icon>
+        </v-btn>
+    </v-layout>
+
+        <v-card flat>
+            <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true">
+                <v-layout row wrap>
+                    <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
+                        <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged" type="text" />
+                    </v-flex>
+                </v-layout>
+
+                <v-layout row wrap>
+                    <v-flex xs12 sm12 offset-md2 md2 offset-lg2 lg2>
+                        <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after..'" @selectedDate="onStartDateSelected" :date="this.startDate" />
+                    </v-flex>
+                    <v-flex xs12 sm12 md2 lg2>
+                        <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before..'" @selectedDate="onEndDateSelected" :date="this.endDate" />
+                    </v-flex>
+                    <v-spacer></v-spacer>
+                    <v-flex xs12 sm12 md1 lg1>
+                        <v-select label="On page" v-model="itemsOnPageInput" @change="onQueryChanged" :items="itemsOnPageOptions"></v-select>
+                    </v-flex>
+                    <v-flex md2 lg2></v-flex>
+                </v-layout row wrap>
+            </v-bottom-sheet>
+        </v-card>
+
 </v-container>
 
 </template>
@@ -56,7 +83,12 @@ export default {
             endDate: '',
             page: 1,
             pagesNumber: 1,
-            refreshTimer: ''
+            refreshTimer: '',
+            itemsOnPageInput: 10,
+            itemsOnPageOptions: [
+                10, 15, 20
+            ],
+            showFilters: false
         }
     },
     mounted() {
@@ -69,29 +101,32 @@ export default {
                     startDate: this.startDate,
                     endDate: this.endDate,
                     page: this.page,
-                    size: this.size
+                    size: this.itemsOnPageInput
                 }).then((page) => {
-                  console.log('fetchTournamentsPage');
-                  this.tournaments = page.content;
-                  this.page = page.number;
-                  this.pagesNumber = page.totalPages;
+                    console.log('fetchTournamentsPage');
+                    this.tournaments = page.content;
+                    this.page = page.number;
+                    this.pagesNumber = page.totalPages;
                 });
             },
-        onQueryChanged() {
+            onQueryChanged() {
                 clearTimeout(this.refreshTimer);
                 this.refreshTimer = setTimeout(this.fetchTournamentsPage, 1000);
             },
-        ...mapActions([
+            ...mapActions([
                 'QUERY_TOURNAMENTS_PAGE'
             ]),
-        onStartDateSelected(date) {
-              this.startDate = date;
-              this.onQueryChanged();
+            onStartDateSelected(date) {
+                this.startDate = date;
+                this.onQueryChanged();
             },
-        onEndDateSelected(date) {
-              this.endDate = date;
-              this.onQueryChanged();
+            onEndDateSelected(date) {
+                this.endDate = date;
+                this.onQueryChanged();
             },
+            onFilterButtonClicked() {
+              this.showFilters = !this.showFilters;
+            }
     },
     components: {
         'tournament': TournamentExpansionPanel,
