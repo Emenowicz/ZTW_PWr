@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 public class User implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     @NotBlank
     private String name;
@@ -31,6 +32,10 @@ public class User implements Serializable {
 
     public User(){
 
+    }
+
+    public User(String name) {
+        this.name = name;
     }
 
     public User(String id, String name) {
