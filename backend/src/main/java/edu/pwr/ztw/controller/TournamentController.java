@@ -1,11 +1,14 @@
 package edu.pwr.ztw.controller;
 
-import com.google.api.client.http.HttpStatusCodes;
 import edu.pwr.ztw.entity.Match;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
+import edu.pwr.ztw.service.TournamentSearchService;
 import edu.pwr.ztw.service.TournamentService;
 import edu.pwr.ztw.service.UserService;
+import javassist.NotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 
@@ -23,18 +27,20 @@ public class TournamentController {
     private TournamentService tournamentService;
     @Resource
     private UserService userService;
+    @Resource
+    private TournamentSearchService tournamentSearchService;
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity createTournament(OAuth2Authentication principal, @RequestBody @Valid Tournament tournament) {
-        if(tournament==null){
+        if (tournament == null) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
         try {
             User currentUser = userService.getCurrentUser(principal);
 
-            tournamentService.createTournament(tournament,currentUser);
+            tournamentService.createTournament(tournament, currentUser);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(), HttpStatus.NOT_MODIFIED);
         }
@@ -70,7 +76,7 @@ public class TournamentController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         try {
             tournamentService.removeTournament(id);
-        } catch (Exception e) {
+        } catch (NotFoundException e) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(HttpStatus.OK);
@@ -80,7 +86,6 @@ public class TournamentController {
     public List<Tournament> getAllTournaments() {
         return tournamentService.getAllTournaments();
     }
-
 
 
     @RequestMapping(value = "/{id}/match", method = RequestMethod.POST)
@@ -103,17 +108,26 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public List<Tournament> findMatch(@RequestParam("name") String name){
-        return tournamentService.findTournamentsByName(name);
+    public ResponseEntity findTournaments(@RequestParam(value = "q",defaultValue = "") String q, @RequestParam(value = "sd",defaultValue = "") String sd, @RequestParam(value = "ed",defaultValue = "") String ed, Pageable pageable) {
+        Page<Tournament> resultPage;
+        try {
+            resultPage = tournamentSearchService.findPaginated(q, sd,ed,pageable);
+        }  catch (Exception e) {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+        if (!resultPage.hasContent()) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(resultPage, HttpStatus.OK);
     }
 
-    @RequestMapping(value ="/{tId}/join", method = RequestMethod.POST)
-    public ResponseEntity joinToTournament(@PathVariable("tId") long tId, OAuth2Authentication principal){
+    @RequestMapping(value = "/{tId}/join", method = RequestMethod.POST)
+    public ResponseEntity joinToTournament(@PathVariable("tId") long tId, OAuth2Authentication principal) {
         User currentUser = userService.getCurrentUser(principal);
         Tournament tournament = tournamentService.getTournamentById(tId);
-        try{
-            tournamentService.addUserToTournament(tournament,currentUser);
-        }catch (Exception e){
+        try {
+            tournamentService.addUserToTournament(tournament, currentUser);
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity(HttpStatus.OK);
