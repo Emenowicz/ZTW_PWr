@@ -1,7 +1,5 @@
 package edu.pwr.ztw.dataloader;
 
-import edu.pwr.ztw.dao.MatchDao;
-import edu.pwr.ztw.dao.TournamentDao;
 import edu.pwr.ztw.dao.UserDao;
 import edu.pwr.ztw.entity.Enums.PlayMode;
 import edu.pwr.ztw.entity.Enums.TournamentType;
@@ -13,10 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.*;
 
 @Component
 public class DataLoader implements ApplicationRunner {
@@ -26,33 +21,38 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
+        String[] tournamentNames = {"Wyborna rozgrywka Kielce", "Nowa nazwa turnieju", "Robimy turniej", "Soccer 11", "MiniSoccer18", "Fajna gra", "Turniej Polski", "Turniej Czeski", "Weekendowe granie", "Na śmierć i życie", "Teksańska masakra grillem piłkarzykowym", "Piłkarzyki 2011", "Firmowe granie", "PWr piłkarzyki", "Zagrajmy w grę"};
+
         SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
-        Date startDate = sf.parse("19-04-2018");
-        Date endDate = sf.parse("20-04-2018");
-        User user = new User("Tester Testowy");
-        Tournament tournament = new Tournament("Testowy turniej", startDate, endDate,
-                "Przykładowy opis", PlayMode.ONEVSONE,TournamentType.LOCAL,"Gdzieś tam",
-                2, 6);
-        user.addOwnedTournament(tournament);
-        userDao.save(user);
+        Date[] startDates = {sf.parse("19-04-2018"), sf.parse("19-05-2018"), sf.parse("10-05-2018"), sf.parse("21-05-2018"), sf.parse("19-06-2018"), sf.parse("30-06-2018"), sf.parse("27-06-2018")};
+        String[] usersNames = {"Marek Konieczny", "Jan Kowalski", "Marek Kark", "Paweł Zając", "Dominik Ząb"};
+        LinkedList<User> users = new LinkedList<>();
 
-        Date startDate2 = sf.parse("8-04-2018");
-        Date endDate2 = sf.parse("30-04-2018");
-        User user2 = new User("Tester Testowy2");
-        Tournament tournament2 = new Tournament("Testowy turniej2", startDate2, endDate2,
-                "Przykładowy opis",PlayMode.TWOVSTWO, TournamentType.VIRTUAL,
-                4, 16);
-        user2.addOwnedTournament(tournament2);
-        userDao.save(user2);
+        for (String userName : usersNames) {
+            users.add(new User(userName));
+        }
 
-        Date startDate3 = sf.parse("10-04-2018");
-        Date endDate3 = sf.parse("27-04-2018");
-        User user3 = new User( "Tester Testowy3");
-        Tournament tournament3 = new Tournament("Testestest3", startDate3, endDate3,
-                "",PlayMode.TWOVSTWO, TournamentType.VIRTUAL,
-                4, 16);
-        user3.addOwnedTournament(tournament3);
-        userDao.save(user3);
+        for(String tournamentName : tournamentNames){
+            Date startDate = startDates[randBetween(0, startDates.length - 1)];
+            Date endDate = addDays(startDate, randBetween(10, 30));
 
+            Tournament tournament = new Tournament(tournamentName, startDate, endDate,
+                    "Przykładowy opis " + randBetween(10, 100), PlayMode.ONEVSONE, TournamentType.LOCAL, "Gdzieś tam",
+                    2, 6);
+
+            users.get(randBetween(0, users.size() - 1)).addOwnedTournament(tournament);
+        }
+        users.forEach(u -> userDao.save(u));
+    }
+
+    public static int randBetween(int start, int end) {
+        return start + (int) Math.round(Math.random() * (end - start));
+    }
+
+    public static Date addDays(Date date, int days) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
     }
 }
