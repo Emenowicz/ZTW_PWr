@@ -3,11 +3,14 @@ import Auth from '@/api/modules/auth'
 import {API} from '@/api/api_config'
 
 const state = {
+  token_type: '',
   token: ''
 };
 
 const getters = {
   isAuthenticated: state => !!state.token,
+  getToken: state => state.token,
+  getTokenType: state => state.token_type
 };
 
 const actions = {
@@ -18,7 +21,7 @@ const actions = {
         const token = response.Zi.access_token;
         const token_type = response.Zi.token_type;
         commit('SET_USER_INFO', response.w3);
-        commit('SET_TOKEN', token);
+        commit('SET_TOKEN', {token, token_type});
         API.defaults.headers.common['Authorization'] = token_type + " " + token;
         resolve(response);
       }, (error) => {
@@ -40,8 +43,9 @@ const actions = {
 };
 
 const mutations = {
-  'SET_TOKEN': (state, token) => {
+  'SET_TOKEN': (state, {token, token_type}) => {
     state.token = token;
+    state.token_type = token_type;
   },
   'CLEAR_TOKEN': (state) => {
     state.token = ''

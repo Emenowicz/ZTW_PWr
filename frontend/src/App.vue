@@ -15,12 +15,24 @@
 <script>
   import Navbar from './components/navbar/Navbar.vue'
   import {API} from './api/api_config'
+  import {mapGetters} from 'vuex'
+
 
   export default {
     components: {
       'navbar': Navbar
     },
+    computed: {
+      ...mapGetters([
+        'getToken',
+        'getTokenType'
+      ])
+    },
     created: function () {
+
+      if (this.getToken) {
+        API.defaults.headers.common['Authorization'] = this.getTokenType + ' ' + this.getToken
+      }
 
       API.interceptors.response.use(undefined, function (err) {
         return new Promise(function (resolve, reject) {
