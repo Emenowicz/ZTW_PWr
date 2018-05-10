@@ -11,8 +11,6 @@
     methods: {
       signIn() {
         this.LOG_IN_GOOGLE().then((response) => {
-          this.LOAD_USERS_TOURNAMENTS(this.userId);
-          this.LOAD_ALL_TOURNAMENTS();
           this.$router.push('/')
         }, (error) => {
           console.log(error);
@@ -20,8 +18,6 @@
       },
       ...mapActions([
         'LOG_IN_GOOGLE',
-        'LOAD_USERS_TOURNAMENTS',
-        'LOAD_ALL_TOURNAMENTS'
       ])
     },
     computed: {

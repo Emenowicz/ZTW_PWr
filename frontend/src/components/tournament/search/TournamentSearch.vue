@@ -18,7 +18,7 @@
     </v-layout>
     <v-layout row wrap>
         <v-flex>
-            <v-pagination :length="pagesNumber" v-model="page"></v-pagination>
+            <v-pagination :length="pagesNumber" v-model="page" @input="onQueryChanged(0)"></v-pagination>
         </v-flex>
     </v-layout>
 
@@ -31,29 +31,27 @@
         </v-btn>
     </v-layout>
 
-        <v-card flat>
-            <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true">
-                <v-layout row wrap>
-                    <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
-                        <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged" type="text" />
-                    </v-flex>
-                </v-layout>
+    <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true">
+        <v-layout row wrap>
+            <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
+                <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged(1000)" type="text" />
+            </v-flex>
+        </v-layout>
 
-                <v-layout row wrap>
-                    <v-flex xs12 sm12 offset-md2 md2 offset-lg2 lg2>
-                        <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after..'" @selectedDate="onStartDateSelected" :date="this.startDate" />
-                    </v-flex>
-                    <v-flex xs12 sm12 md2 lg2>
-                        <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before..'" @selectedDate="onEndDateSelected" :date="this.endDate" />
-                    </v-flex>
-                    <v-spacer></v-spacer>
-                    <v-flex xs12 sm12 md1 lg1>
-                        <v-select label="On page" v-model="itemsOnPageInput" @change="onQueryChanged" :items="itemsOnPageOptions"></v-select>
-                    </v-flex>
-                    <v-flex md2 lg2></v-flex>
-                </v-layout row wrap>
-            </v-bottom-sheet>
-        </v-card>
+        <v-layout row wrap>
+            <v-flex xs12 sm12 offset-md2 md2 offset-lg2 lg2>
+                <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after..'" @selectedDate="onStartDateSelected" :date="this.startDate" />
+            </v-flex>
+            <v-flex xs12 sm12 md2 lg2>
+                <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before..'" @selectedDate="onEndDateSelected" :date="this.endDate" />
+            </v-flex>
+            <v-spacer></v-spacer>
+            <v-flex xs12 sm12 md1 lg1>
+                <v-select label="On page" v-model="itemsOnPageInput" @change="onQueryChanged(0)" :items="itemsOnPageOptions"></v-select>
+            </v-flex>
+            <v-flex md2 lg2></v-flex>
+        </v-layout row wrap>
+    </v-bottom-sheet>
 
 </v-container>
 
@@ -86,7 +84,7 @@ export default {
             refreshTimer: '',
             itemsOnPageInput: 10,
             itemsOnPageOptions: [
-                10, 15, 20
+                5, 10, 15, 20
             ],
             showFilters: false
         }
@@ -100,32 +98,31 @@ export default {
                     query: this.tournamentQuery,
                     startDate: this.startDate,
                     endDate: this.endDate,
-                    page: this.page,
+                    page: this.page - 1,
                     size: this.itemsOnPageInput
                 }).then((page) => {
-                    console.log('fetchTournamentsPage');
                     this.tournaments = page.content;
-                    this.page = page.number;
+                    this.page = page.number + 1;
                     this.pagesNumber = page.totalPages;
                 });
             },
-            onQueryChanged() {
+            onQueryChanged(timeout) {
                 clearTimeout(this.refreshTimer);
-                this.refreshTimer = setTimeout(this.fetchTournamentsPage, 1000);
+                this.refreshTimer = setTimeout(this.fetchTournamentsPage, timeout);
             },
             ...mapActions([
                 'QUERY_TOURNAMENTS_PAGE'
             ]),
             onStartDateSelected(date) {
                 this.startDate = date;
-                this.onQueryChanged();
+                this.onQueryChanged(0);
             },
             onEndDateSelected(date) {
                 this.endDate = date;
-                this.onQueryChanged();
+                this.onQueryChanged(0);
             },
             onFilterButtonClicked() {
-              this.showFilters = !this.showFilters;
+                this.showFilters = !this.showFilters;
             }
     },
     components: {

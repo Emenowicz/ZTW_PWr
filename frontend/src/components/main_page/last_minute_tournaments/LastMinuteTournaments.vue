@@ -23,13 +23,9 @@
     name: 'LastMinuteTournaments',
     computed: {
       tournaments() {
-        return this.allTournaments.filter(t => {
-          var difference = new Date(t.startTime) - Date.now();
-          return ((difference < (3 * 24 * 60 * 60 * 1000)) && (difference >= 0) && !(t.players.map((p) => p.id).includes(this.userId)))
-        })
+        return [];
       },
       ...mapGetters([
-        'allTournaments',
         'userId'
       ])
     },

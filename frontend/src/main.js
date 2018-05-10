@@ -17,8 +17,9 @@ Vue.use(Vuetify);
 Vue.config.productionTip = false;
 
 const token = store.token
+const token_type = store.token_type
 if (token) {
-  API.defaults.headers.common['Authorization'] = token
+  API.defaults.headers.common['Authorization'] = token_type + '' + token
 }
 
 Vue.prototype.$http = API;

@@ -29,21 +29,24 @@
 
   export default {
     name: 'Dashboard',
-    computed: {
-      ...mapGetters([
-        'usersTournaments'
-      ])
+    data() {
+      return {
+        usersTournaments: []
+      }
     },
     components: {
       'my-tournament': MyTournamentsElement
     },
     methods: {
     ...mapActions([
-      'LOAD_USERS_TOURNAMENTS'
+      'GET_USERS_TOURNAMENTS'
     ])
     },
     mounted() {
-      this.LOAD_USERS_TOURNAMENTS();
+      this.GET_USERS_TOURNAMENTS()
+      .then((response) => {
+        this.usersTournaments = response.data;
+      })
     }
   }
 </script>
