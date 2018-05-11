@@ -1,5 +1,5 @@
 <template>
-  <v-card color="blue-grey darken-2" class="white--text">
+  <v-card color="blue darken-3" class="white--text">
     <v-card-title primary-title>
       <div class="title">Recent Tournaments</div>
     </v-card-title>

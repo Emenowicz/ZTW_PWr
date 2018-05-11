@@ -1,93 +1,104 @@
-import {API, Path} from '@/api/api_config'
+import {
+  API,
+  Path
+} from '@/api/api_config'
 
-function create(tournament) {
+function create (tournament) {
   return new Promise((resolve, reject) => {
     API.post(Path.TOURNAMENTS, tournament)
-       .then(function (response) {
-           resolve(response);
-        })
-       .catch(function (error) {
-           reject(error);
-       })
+
+      .then(function (response) {
+        resolve(response)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+
   })
 }
 
-function update(tournament) {
+function update (tournament) {
   return new Promise((resolve, reject) => {
-     API.patch(Path.TOURNAMENT.format(tournament.id), tournament)
-        .then(function (response) {
-           resolve(response);
-        })
-        .catch(function (error) {
-           reject(error);
-        })
+    API.patch(Path.TOURNAMENT.format(tournament.id), tournament)
+      .then(function (response) {
+        resolve(response)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+
   })
 }
 
-function getAll() {
+function getAll () {
   return new Promise((resolve, reject) => {
     API.get(Path.TOURNAMENTS)
-       .then((response) => {
-         console.log(response);
-           resolve(response)
-       }).catch((error) => {
-            reject(error)
-       })
+      .then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
   })
 }
 
-function queryPage(query, startDate, endDate, page, size) {
+function queryPage (query, startDate, endDate, page, size) {
   return new Promise((resolve, reject) => {
-      const path = buildQueryPagePath(query, startDate, endDate, page, size);
-      API.get(path)
-         .then((response) => {
-             resolve(response)
-         }).catch((error) => {
-              reject(error)
-         })
+    const path = buildQueryPagePath(query, startDate, endDate, page, size)
+    API.get(path)
+      .then((response) => {
+        resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
   })
 }
 
-function buildQueryPagePath(query, startDate, endDate, page, size) {
+function buildQueryPagePath (query, startDate, endDate, page, size) {
   let path = Path.TOURNAMENT_QUERY_PAGE
-  let paramsNumber = 0;
-  if(query !== '') {
+  let paramsNumber = 0
+  if (query !== '') {
     if (paramsNumber !== 0) {
-      path += '&';
+      path += '&'
     }
-    path += "q=" + query;
-    paramsNumber++;
+    path += 'q=' + query
+    paramsNumber++
   }
   if (startDate !== '') {
     if (paramsNumber !== 0) {
-      path += '&';
+      path += '&'
     }
-    let date = new Date(startDate);
-    path += "sd=" + date.getDate() + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1))  + '-' + date.getFullYear();
-    paramsNumber++;
+    let date = new Date(startDate)
+    path += 'sd=' + date.getDate() + '-' + ((date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)) + '-' + date.getFullYear()
+    paramsNumber++
   }
   if (endDate !== '') {
     if (paramsNumber !== 0) {
-      path += '&';
+      path += '&'
     }
-    path += "ed=" + endDate;
-    paramsNumber++;
+    path += 'ed=' + endDate
+    paramsNumber++
   }
   if (page !== '') {
     if (paramsNumber !== 0) {
-      path += '&';
+      path += '&'
     }
-    path += "page=" + page;
-    paramsNumber++;
+    path += 'page=' + page
+    paramsNumber++
   }
   if (size !== '') {
     if (paramsNumber !== 0) {
-      path += '&';
+      path += '&'
     }
-    path += "size=" + size;
-    paramsNumber++;
+    path += 'size=' + size
+    paramsNumber++
   }
-  return path;
+  return path
 }
 
-export default {create, update, getAll, queryPage}
+export default {
+  create,
+  update,
+  getAll,
+  queryPage
+}
+

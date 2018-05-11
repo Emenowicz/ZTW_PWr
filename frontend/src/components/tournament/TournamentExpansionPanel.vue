@@ -88,7 +88,9 @@
         if (!this.alreadyRegistered) {
           this.JOIN_TOURNAMENT(this.tournament.id)
             .then((response) => {
-              this.showSnackMessage('You\'ve successfuly joined tournament')
+              this.tournament.players.push({id: this.userId});
+              this.showSnackMessage('You\'ve successfuly joined tournament!')
+
           }).catch((error) => {
             this.showSnackMessage('Something went wrong :(')
           })
