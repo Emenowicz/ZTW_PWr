@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row wrap>
       <v-flex xs12 sm12 md8 lg8>
-        <v-card dark color="blue-grey darken-2" class="white--text">
+        <v-card dark color="blue darken-3" class="white--text">
           <v-card-title primary-title>
             <div class="title">BASIC INFO</div>
           </v-card-title>
@@ -46,7 +46,7 @@
         </v-card>
       </v-flex>
       <v-flex xs12 sm12 md4 lg4>
-        <v-card dark color="blue-grey darken-2" class="white--text">
+        <v-card dark color="blue darken-3" class="white--text">
           <v-card-title primary-title>
             <div class="title">GAME SETTINGS</div>
           </v-card-title>
@@ -105,7 +105,7 @@
       </v-flex>
     </v-layout>
     <v-btn
-      fixed bottom
+      fixed bottom color="cyan accent-3"
       @click="onEditTournament"
       :disabled="!isValid">
       submit

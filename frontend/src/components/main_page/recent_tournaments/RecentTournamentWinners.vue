@@ -1,5 +1,5 @@
 <template>
-  <v-card color="blue-grey lighten-5" class="black--text">
+  <v-card color="blue lighten-5" class="black--text">
 
     <div class="heading pt-3"><b>{{tournament.name}}</b></div>
     <v-card-text>
