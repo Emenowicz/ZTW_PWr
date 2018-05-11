@@ -33,6 +33,7 @@ const actions = {
 
   'LOG_OUT_GOOGLE': ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
+      console.log("Log out google");
       commit('CLEAR_TOKEN');
       commit('CLEAR_USER_INFO');
       delete API.defaults.headers.common['Authorization']

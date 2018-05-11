@@ -123,6 +123,7 @@
       return {
         valid: false,
         errors: [],
+        tournamentID: '',
         tournamentName: '',
         description: '',
         tournamentLocation: '',
@@ -171,6 +172,7 @@
       onEditTournament() {
         if (this.$refs.formBasicInfo.validate() && this.$refs.formGameInfo.validate() && this.isValid) {
           var tournament = {
+                      id: this.tournamentID,
                       name: this.tournamentName,
                       startTime: this.startDate,
                       endTime: this.endDate,
@@ -197,6 +199,7 @@
       'date-picker': DatePicker
     },
     mounted() {
+      this.tournamentID = this.editedTournament.id;
       this.tournamentName = this.editedTournament.name;
       this.description = this.editedTournament.description;
       this.startDate = this.editedTournament.startTime;

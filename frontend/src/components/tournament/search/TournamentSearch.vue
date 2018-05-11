@@ -24,7 +24,7 @@
 
     <v-layout row class="fab-container">
         <v-btn fab dark color="blue" @click="onFilterButtonClicked">
-            <v-icon dark>filter</v-icon>
+            <v-icon dark>filter_list</v-icon>
         </v-btn>
         <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab dark color="indigo">
             <v-icon dark>add</v-icon>
@@ -40,10 +40,10 @@
 
         <v-layout row wrap>
             <v-flex xs12 sm12 offset-md2 md2 offset-lg2 lg2>
-                <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after..'" @selectedDate="onStartDateSelected" :date="this.startDate" />
+                <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after...'" @selectedDate="onStartDateSelected" :date="this.startDate" />
             </v-flex>
             <v-flex xs12 sm12 md2 lg2>
-                <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before..'" @selectedDate="onEndDateSelected" :date="this.endDate" />
+                <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before...'" @selectedDate="onEndDateSelected" :date="this.endDate" />
             </v-flex>
             <v-spacer></v-spacer>
             <v-flex xs12 sm12 md1 lg1>
@@ -104,6 +104,8 @@ export default {
                     this.tournaments = page.content;
                     this.page = page.number + 1;
                     this.pagesNumber = page.totalPages;
+                }).catch((error) => {
+                  console.log("Problem with fetching tournaments page occured.\n" + error);
                 });
             },
             onQueryChanged(timeout) {

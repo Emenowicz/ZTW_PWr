@@ -2,7 +2,7 @@ import {API, Path} from '@/api/api_config'
 
 function create(tournament) {
   return new Promise((resolve, reject) => {
-    API.post(Path.TOURNAMENT, tournament)
+    API.post(Path.TOURNAMENTS, tournament)
        .then(function (response) {
            resolve(response);
         })
@@ -14,7 +14,7 @@ function create(tournament) {
 
 function update(tournament) {
   return new Promise((resolve, reject) => {
-     API.patch(Path.TOURNAMENT, tournament)
+     API.patch(Path.TOURNAMENT.format(tournament.id), tournament)
         .then(function (response) {
            resolve(response);
         })
@@ -26,7 +26,7 @@ function update(tournament) {
 
 function getAll() {
   return new Promise((resolve, reject) => {
-    API.get(Path.TOURNAMENT)
+    API.get(Path.TOURNAMENTS)
        .then((response) => {
          console.log(response);
            resolve(response)
