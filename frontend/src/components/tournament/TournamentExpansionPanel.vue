@@ -32,7 +32,7 @@
           </v-layout>
           <v-layout row wrap>
             <v-spacer/>
-            <v-flex right>
+            <v-flex md3 lg3 right>
               <v-btn v-if="!alreadyRegistered" block outline color="indigo" @click="onSignUpClicked()">Sign up</v-btn>
               <div v-else><v-icon large color="green darken-2">done</v-icon> Already registered</div>
             </v-flex>
