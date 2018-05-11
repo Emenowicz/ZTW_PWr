@@ -13,11 +13,13 @@ const getters = {
   getTokenType: state => state.token_type
 }
 
+
 const actions = {
   'LOG_IN_GOOGLE': ({commit, dispatch}) => {
     return new Promise((resolve, reject) => {
       Vue.googleAuth().directAccess()
       Vue.googleAuth().signIn((response) => {
+
         const token = response.Zi.access_token
         const token_type = response.Zi.token_type
         commit('SET_USER_INFO', response.w3)

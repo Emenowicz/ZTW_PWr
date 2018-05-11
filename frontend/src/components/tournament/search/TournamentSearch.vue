@@ -32,6 +32,7 @@
     </v-layout>
 
     <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true" style="background-color:white;">
+
         <v-layout row wrap>
             <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
                 <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged(1000)" type="text" />

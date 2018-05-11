@@ -90,6 +90,7 @@
             .then((response) => {
               this.tournament.players.push({id: this.userId});
               this.showSnackMessage('You\'ve successfuly joined tournament!')
+
           }).catch((error) => {
             this.showSnackMessage('Something went wrong :(')
           })

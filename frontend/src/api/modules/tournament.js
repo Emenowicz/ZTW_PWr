@@ -6,12 +6,14 @@ import {
 function create (tournament) {
   return new Promise((resolve, reject) => {
     API.post(Path.TOURNAMENTS, tournament)
+
       .then(function (response) {
         resolve(response)
       })
       .catch(function (error) {
         reject(error)
       })
+
   })
 }
 
@@ -24,6 +26,7 @@ function update (tournament) {
       .catch(function (error) {
         reject(error)
       })
+
   })
 }
 
@@ -98,3 +101,4 @@ export default {
   getAll,
   queryPage
 }
+
