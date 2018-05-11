@@ -16,17 +16,15 @@ const actions = {
     return Tournament.update(tournament)
   },
   'QUERY_TOURNAMENTS_PAGE': function ({commit}, {query, startDate, endDate, page, size}) {
-      return new Promise((resolve, reject) => {
-        Tournament.queryPage(query, startDate, endDate, page, size)
+    return new Promise((resolve, reject) => {
+      Tournament.queryPage(query, startDate, endDate, page, size)
         .then((response) => {
-          console.log("response: ");
-          console.log(response);
           resolve(response.data)
         }).catch((error) => {
-          reject(error);
+          reject(error)
         })
-      })
-    }
+    })
+  }
 }
 
 const mutations = {

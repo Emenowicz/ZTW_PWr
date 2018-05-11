@@ -18,7 +18,7 @@
     </v-layout>
     <v-layout row wrap>
         <v-flex>
-            <v-pagination :length="pagesNumber" v-model="page" @input="onQueryChanged(0)"></v-pagination>
+            <v-pagination v-if="this.tournaments.length !== 0" :length="pagesNumber" v-model="page" @input="onQueryChanged(0)"></v-pagination>
         </v-flex>
     </v-layout>
 

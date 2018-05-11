@@ -107,89 +107,102 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from 'vuex';
-  import DatePicker from '@/components/tools/DatePicker'
+import { mapActions, mapGetters } from "vuex";
+import DatePicker from "@/components/tools/DatePicker";
 
-  export default {
-    name: 'CreateTournament',
-    data: function () {
-      return {
-        valid: false,
-        errors: [],
-        tournamentName: '',
-        description: '',
-        tournamentLocation: '',
-        tournamentType: '',
-        tournamentTypes: [
-          'Local',
-          'Virtual'
-        ],
-        startDate: '',
-        endDate: '',
-        minTeams: '',
-        maxTeams: '',
-        rules: {
-          required: v => !!v || 'Tournament name is required',
-          tournamentNameRules: v => (v && v.length <= 50) || 'Name must be less than 50 characters'
-        }
+export default {
+  name: "CreateTournament",
+  data: function() {
+    return {
+      valid: false,
+      errors: [],
+      tournamentName: "",
+      description: "",
+      tournamentLocation: "",
+      tournamentType: "",
+      tournamentTypes: ["Local", "Virtual"],
+      startDate: "",
+      endDate: "",
+      minTeams: "",
+      maxTeams: "",
+      rules: {
+        required: v => !!v || "Tournament name is required",
+        tournamentNameRules: v =>
+          (v && v.length <= 50) || "Name must be less than 50 characters"
+      }
+    };
+  },
+  computed: {
+    isValid: function() {
+      return this.valid && this.isStartEndDateValid;
+    },
+    isMinMaxTeamsValid: function() {
+      return (
+        this.maxTeams === "" ||
+        this.minTeams === "" ||
+        this.minTeams <= this.maxTeams ||
+        "Wrong value.."
+      );
+    },
+    isStartEndDateValid: function() {
+      return (
+        this.startDate === "" ||
+        this.endDate === "" ||
+        new Date(this.startDate) - new Date(this.endDate) < 0 ||
+        "Wrong date."
+      );
+    },
+    ...mapGetters(["userId"])
+  },
+  methods: {
+    onStartDateSelected(date) {
+      this.startDate = date;
+    },
+    onEndDateSelected(date) {
+      this.endDate = date;
+    },
+    onCreateNewTournament() {
+      if (
+        this.$refs.formBasicInfo.validate() &&
+        this.$refs.formGameInfo.validate() &&
+        this.isValid
+      ) {
+        var tournament = {
+          name: this.tournamentName,
+          startTime: this.startDate,
+          endTime: this.endDate,
+          description: this.description,
+          playMode: "ONEVSONE",
+          tournamentType: this.tournamentType === "Local" ? "LOCAL" : "VIRTUAL",
+          location: this.tournamentLocation,
+          minTeams: this.minTeams,
+          maxTeams: this.maxTeams
+        };
+
+        this.CREATE_TOURNAMENT(tournament).then(
+          response => {
+            this.LOAD_ALL_TOURNAMENTS();
+            this.LOAD_USERS_TOURNAMENTS();
+            this.$router.push("/tournaments");
+          },
+          error => {
+            console.log("Problem with creating tournament occured\n" + error);
+          }
+        );
       }
     },
-    computed: {
-      isValid: function () {
-        return this.valid && this.isStartEndDateValid;
-      },
-      isMinMaxTeamsValid: function () {
-        return this.maxTeams === '' || this.minTeams === '' || this.minTeams <= this.maxTeams || "Wrong value..";
-      },
-      isStartEndDateValid: function () {
-        return this.startDate === '' || this.endDate === '' || new Date(this.startDate) - new Date(this.endDate) < 0 || "Wrong date."
-      },
-      ...mapGetters(['userId'])
-    },
-    methods: {
-      onStartDateSelected(date) {
-        this.startDate = date;
-      },
-      onEndDateSelected(date) {
-        this.endDate = date;
-      },
-      onCreateNewTournament() {
-        if (this.$refs.formBasicInfo.validate() && this.$refs.formGameInfo.validate() && this.isValid) {
-          var tournament = {
-            name: this.tournamentName,
-            startTime: this.startDate,
-            endTime: this.endDate,
-            description: this.description,
-            playMode: 'ONEVSONE',
-            tournamentType: (this.tournamentType === 'Local') ? 'LOCAL' : 'VIRTUAL',
-            location: this.tournamentLocation,
-            minTeams: this.minTeams,
-            maxTeams: this.maxTeams
-          };
-
-          this.CREATE_TOURNAMENT(tournament)
-          .then((response) => {
-            this.LOAD_ALL_TOURNAMENTS()
-            this.LOAD_USERS_TOURNAMENTS()
-            this.$router.push('/tournaments')
-          }, (error) => {
-            console.log(error);
-          })
-        }
-      },
-      ...mapActions([
-        'CREATE_TOURNAMENT',
-        'LOAD_ALL_TOURNAMENTS',
-        'LOAD_USERS_TOURNAMENTS'
-      ])
-    },
-    components: {
-      'date-picker': DatePicker
-    }
+    ...mapActions([
+      "CREATE_TOURNAMENT",
+      "LOAD_ALL_TOURNAMENTS",
+      "LOAD_USERS_TOURNAMENTS"
+    ])
+  },
+  components: {
+    "date-picker": DatePicker
   }
+};
 </script>
 
 <style scoped>
-
 
 </style>

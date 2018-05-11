@@ -13,7 +13,7 @@
         this.LOG_IN_GOOGLE().then((response) => {
           this.$router.push('/')
         }, (error) => {
-          console.log(error);
+          console.log("Problem with login.\n" + error);
         })
       },
       ...mapActions([
