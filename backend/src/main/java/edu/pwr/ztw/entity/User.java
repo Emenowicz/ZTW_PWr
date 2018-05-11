@@ -12,7 +12,6 @@ import java.util.Set;
 @Entity
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     @NotBlank
     private String name;
