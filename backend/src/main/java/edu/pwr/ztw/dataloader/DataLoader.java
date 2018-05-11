@@ -25,14 +25,17 @@ public class DataLoader implements ApplicationRunner {
 
         SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
         Date[] startDates = {sf.parse("19-04-2018"), sf.parse("19-05-2018"), sf.parse("10-05-2018"), sf.parse("21-05-2018"), sf.parse("19-06-2018"), sf.parse("30-06-2018"), sf.parse("27-06-2018")};
-        String[] usersNames = {"Marek Konieczny", "Jan Kowalski", "Marek Kark", "Paweł Zając", "Dominik Ząb"};
+        String[] usersNames = {"Marek Konieczny", "Jan Kowalski", "Marek Kark", "Paweł Zając"};
+        String[] usersIds = {"213123", "2342342", "21553345", "5556456"};
         LinkedList<User> users = new LinkedList<>();
 
-        for (String userName : usersNames) {
-            users.add(new User(userName));
+        for (int i = 0; i < usersNames.length; i++) {
+            users.add(new User(usersIds[i], usersNames[i]));
         }
 
-        for(String tournamentName : tournamentNames){
+        int i = 0;
+        User konrad = new User("116248526006631545152", "Konrad Drozd");
+        for (String tournamentName : tournamentNames) {
             Date startDate = startDates[randBetween(0, startDates.length - 1)];
             Date endDate = addDays(startDate, randBetween(10, 30));
 
@@ -40,8 +43,13 @@ public class DataLoader implements ApplicationRunner {
                     "Przykładowy opis " + randBetween(10, 100), PlayMode.ONEVSONE, TournamentType.LOCAL, "Gdzieś tam",
                     2, 6);
 
-            users.get(randBetween(0, users.size() - 1)).addOwnedTournament(tournament);
+            if (i++ % 3 == 0) {
+                konrad.addOwnedTournament(tournament);
+            } else {
+                users.get(randBetween(0, users.size() - 1)).addOwnedTournament(tournament);
+            }
         }
+        users.add(konrad);
         users.forEach(u -> userDao.save(u));
     }
 
