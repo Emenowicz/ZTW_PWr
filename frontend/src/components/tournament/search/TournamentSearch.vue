@@ -23,7 +23,7 @@
     </v-layout>
 
     <v-layout row class="fab-container">
-        <v-btn fab dark color="blue" @click="onFilterButtonClicked">
+        <v-btn fab dark color="blue" @click.native.stop="onFilterButtonClicked">
             <v-icon dark>filter_list</v-icon>
         </v-btn>
         <v-btn v-if="isAuthenticated" :to="'/tournaments/new'" fab dark color="indigo">
@@ -31,7 +31,7 @@
         </v-btn>
     </v-layout>
 
-    <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true">
+    <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true" style="background-color:white;">
         <v-layout row wrap>
             <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
                 <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged(1000)" type="text" />
