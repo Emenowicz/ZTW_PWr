@@ -2,7 +2,7 @@
   <v-dialog flat v-model="visible" persistent max-width="500px">
     <v-card>
       <v-card-title>
-        <v-container grid-list-md>
+        <v-container text-xs-center>
           <v-layout wrap>
             <v-flex xs12 md12 lg12>
               <span class="headline">Log in to Soccer.io</span>
@@ -11,7 +11,7 @@
         </v-container>
       </v-card-title>
       <v-card-text>
-        <v-container grid-list-md>
+        <v-container text-xs-center>
           <v-layout>
             <v-flex mb-2 xs12 md12 lg12>
               <google-login/>

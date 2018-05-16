@@ -6,11 +6,14 @@
     right: 0;
 }
 
+.filter {
+    background-color: white;
+}
 </style>
 
 <template>
 
-<v-container>
+<v-container text-xs-center>
     <v-layout row wrap>
         <v-flex v-for="tournament in this.tournaments" :key="tournament.id" xs12 sm12 offset-md2 md8 offset-lg2 lg8>
             <tournament :tournament="tournament" />
@@ -31,27 +34,28 @@
         </v-btn>
     </v-layout>
 
-    <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true" style="background-color:white;">
+    <v-bottom-sheet inset :hide-overlay='true' :value='this.showFilters' :persistent="true">
+        <div class="filter">
+            <v-layout row wrap>
+                <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
+                    <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged(1000)" type="text" />
+                </v-flex>
+            </v-layout>
 
-        <v-layout row wrap>
-            <v-flex xs12 sm12 offset-md1 md10 offset-lg1 lg10>
-                <v-text-field label="Keywords.. (i.e. 'XX Championship Virtual', or 'Warsaw money prize award')" v-model="tournamentQuery" @keyup="onQueryChanged(1000)" type="text" />
-            </v-flex>
-        </v-layout>
-
-        <v-layout row wrap>
-            <v-flex xs12 sm12 offset-md2 md2 offset-lg2 lg2>
-                <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after...'" @selectedDate="onStartDateSelected" :date="this.startDate" />
-            </v-flex>
-            <v-flex xs12 sm12 md2 lg2>
-                <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before...'" @selectedDate="onEndDateSelected" :date="this.endDate" />
-            </v-flex>
-            <v-spacer></v-spacer>
-            <v-flex xs12 sm12 md1 lg1>
-                <v-select label="On page" v-model="itemsOnPageInput" @change="onQueryChanged(0)" :items="itemsOnPageOptions"></v-select>
-            </v-flex>
-            <v-flex md2 lg2></v-flex>
-        </v-layout row wrap>
+            <v-layout row wrap>
+                <v-flex xs12 sm12 offset-md2 md2 offset-lg2 lg2>
+                    <date-picker :valid='true' :startDate="''" :endDate="(endDate === '') ? '' : endDate" :label="'Starts after...'" @selectedDate="onStartDateSelected" :date="this.startDate" />
+                </v-flex>
+                <v-flex xs12 sm12 md2 lg2>
+                    <date-picker :valid='true' :startDate="(startDate === '') ? '' : startDate" :endDate="''" :label="'Starts before...'" @selectedDate="onEndDateSelected" :date="this.endDate" />
+                </v-flex>
+                <v-spacer></v-spacer>
+                <v-flex xs12 sm12 md1 lg1>
+                    <v-select label="On page" v-model="itemsOnPageInput" @change="onQueryChanged(0)" :items="itemsOnPageOptions"></v-select>
+                </v-flex>
+                <v-flex md2 lg2></v-flex>
+            </v-layout row wrap>
+        </div>
     </v-bottom-sheet>
 
 </v-container>

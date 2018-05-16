@@ -6,7 +6,7 @@
       </v-flex>
 
       <v-flex xs4 sm4 md4 lg4>
-        <v-btn outline color="indigo" @click="onEditClick">Edit</v-btn>
+        <v-btn outline color="indigo" @click="onDetailsClick">Details</v-btn>
       </v-flex>
     </v-layout>
   </v-card>
@@ -26,8 +26,13 @@
         this.SET_EDITED_TOURNAMENT(this.tournament);
         this.$router.push('/tournaments/edit')
       },
+      onDetailsClick: function () {
+        this.SET_DETAILS_TOURNAMENT(this.tournament);
+        this.$router.push('/tournaments/details')
+      },
       ...mapMutations([
-        'SET_EDITED_TOURNAMENT'
+        'SET_EDITED_TOURNAMENT',
+        'SET_DETAILS_TOURNAMENT'
       ])
     }
   }
