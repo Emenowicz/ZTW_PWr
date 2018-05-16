@@ -14,10 +14,12 @@ const state = {
 }
 
 const actions = {
-  'GET_USERS_TOURNAMENTS': ({state}, userId) => {
-    return User.getTournaments(state.userInfo.id)
+  'GET_USERS_PLAYING_TOURNAMENTS': ({state}, userId) => {
+    return User.getPlayingTournaments(state.userInfo.id)
   },
-
+  'GET_USERS_OWNED_TOURNAMENTS': ({state}, userId) => {
+    return User.getOwnedTournaments(state.userInfo.id)
+  },
   'JOIN_TOURNAMENT': ({commit}, tournamentId) => {
     return User.joinTournament(tournamentId)
   }

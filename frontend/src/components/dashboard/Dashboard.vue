@@ -8,7 +8,7 @@
             </v-card-title>
             <v-container grid-list-md text-xs-center>
               <v-layout row wrap>
-                <v-flex class="my-tournament" v-for="tournament in usersTournaments" :key="tournament.id" offset-xs1 xs10 sm10 md10 lg10>
+                <v-flex class="my-tournament" v-for="tournament in ownedTournaments" :key="tournament.id" offset-xs1 xs10 sm10 md10 lg10>
                   <my-tournament :tournament="tournament"/>
                 </v-flex>
               </v-layout>
@@ -22,7 +22,7 @@
           </v-card-title>
           <v-container grid-list-md text-xs-center>
             <v-layout row wrap>
-              <v-flex class="my-tournament" v-for="tournament in usersTournaments" :key="tournament.id" offset-xs1 xs10 sm10 md10 lg10>
+              <v-flex class="my-tournament" v-for="tournament in playingTournaments" :key="tournament.id" offset-xs1 xs10 sm10 md10 lg10>
                 <my-tournament :tournament="tournament"/>
               </v-flex>
             </v-layout>
@@ -42,7 +42,8 @@
     name: 'Dashboard',
     data() {
       return {
-        usersTournaments: []
+        playingTournaments: [],
+        ownedTournaments: []
       }
     },
     components: {
@@ -50,13 +51,19 @@
     },
     methods: {
     ...mapActions([
-      'GET_USERS_TOURNAMENTS'
+      'GET_USERS_PLAYING_TOURNAMENTS',
+      'GET_USERS_OWNED_TOURNAMENTS'
     ])
     },
     mounted() {
-      this.GET_USERS_TOURNAMENTS()
+      this.GET_USERS_PLAYING_TOURNAMENTS()
       .then((response) => {
-        this.usersTournaments = response.data;
+        this.playingTournaments = response;
+      })
+
+      this.GET_USERS_OWNED_TOURNAMENTS()
+      .then((response) => {
+        this.ownedTournaments = response;
       })
     }
   }
