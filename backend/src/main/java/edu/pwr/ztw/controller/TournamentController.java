@@ -155,4 +155,15 @@ public class TournamentController {
         return started ? new ResponseEntity(tournament, HttpStatus.OK) : new ResponseEntity("Starting a tournament wasn't possible", HttpStatus.FORBIDDEN);
 
     }
+
+    @RequestMapping(value = "/{owner}", method = RequestMethod.GET)
+    public List<Tournament> getOwnedTournaments(@PathVariable("owner") String id) {
+        return tournamentService.getAllTournamentsForUser(userService.getUserById(id));
+    }
+
+    @RequestMapping(value = "/{player}", method = RequestMethod.GET)
+    public List<Tournament> getJoinedTournaments(@PathVariable("player") String id) {
+        return tournamentService.getAllJoinedTournamentsForUser(userService.getUserById(id));
+    }
+
 }
