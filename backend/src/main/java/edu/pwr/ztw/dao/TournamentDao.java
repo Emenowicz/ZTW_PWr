@@ -13,5 +13,7 @@ import java.util.List;
 public interface TournamentDao extends JpaRepository<Tournament,Long> {
     List<Tournament> findTournamentsByOwner(User user);
 
+    List<Tournament> findTournamentByPlayersContaining(User user);
+
     List<Tournament> findByNameContainingIgnoreCase(String name);
 }
