@@ -1,5 +1,6 @@
 package edu.pwr.ztw.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import edu.pwr.ztw.entity.Enums.MatchRank;
 import edu.pwr.ztw.entity.Enums.PlaysToWin;
 
@@ -7,6 +8,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -14,15 +17,16 @@ public class Match implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"matches"})
     private Team teamBlue;
-    @OneToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"matches"})
     private Team teamRed;
     @Enumerated
-    private PlaysToWin playsToWin;
-    @Enumerated
     private MatchRank matchRank;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"match"})
     private Set<Round> rounds;
     @ManyToOne
     private Tournament tournament;
@@ -44,6 +48,7 @@ public class Match implements Serializable {
 
     public void setTeamBlue(Team teamBlue) {
         this.teamBlue = teamBlue;
+//        teamBlue.getMatches().add(this);
     }
 
     public Team getTeamRed() {
@@ -51,15 +56,8 @@ public class Match implements Serializable {
     }
 
     public void setTeamRed(Team teamRed) {
+//        teamRed.getMatches().add(this);
         this.teamRed = teamRed;
-    }
-
-    public PlaysToWin getPlaysToWin() {
-        return playsToWin;
-    }
-
-    public void setPlaysToWin(PlaysToWin playsToWin) {
-        this.playsToWin = playsToWin;
     }
 
     public MatchRank getMatchRank() {
@@ -75,6 +73,7 @@ public class Match implements Serializable {
     }
 
     public void setRounds(Set<Round> rounds) {
+        rounds.forEach(round -> round.setMatch(this));
         this.rounds = rounds;
     }
 

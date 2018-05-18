@@ -1,6 +1,7 @@
 package edu.pwr.ztw.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonManagedReference;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -23,7 +24,8 @@ public class User implements Serializable {
     @JsonIgnoreProperties({"owner","teams","matches","players"})
     private Set<Tournament> ownedTournaments = new HashSet<>();
     @OneToMany
-    private Set<Team> teams;
+    @JsonIgnoreProperties({"matches"})
+    private Set<Team> teams = new HashSet<>();
 
     @ManyToMany
     @JsonIgnoreProperties("players")
