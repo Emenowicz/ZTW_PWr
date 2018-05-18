@@ -105,6 +105,7 @@ public class TournamentService {
             }
         }
         tournament.setMatches(new HashSet<>(matches));
+        tournament.setStarted(true);
         tournamentDao.save(tournament);
     }
 }
