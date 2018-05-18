@@ -41,7 +41,7 @@ public class TournamentService {
     }
 
     public List<Tournament> getAllJoinedTournamentsForUser(User user) {
-        return tournamentDao.findTournamentsByOwner(user);
+        return tournamentDao.findTournamentByPlayersContaining(user);
     }
 
     public Tournament getTournamentById(long id) {
