@@ -22,6 +22,7 @@ public class Tournament implements Serializable {
     @Field
     @NotBlank
     private String name;
+    private boolean started = false;
     @Field
     @DateBridge(resolution = Resolution.DAY)
     @Temporal(TemporalType.DATE)
@@ -209,5 +210,13 @@ public class Tournament implements Serializable {
     public void setMatches(Set<Match> matches){
         matches.forEach(match -> match.setTournament(this));
         this.matches=matches;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
 }
