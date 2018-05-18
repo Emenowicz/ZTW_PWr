@@ -6,6 +6,7 @@ import Dashboard from '@/components/dashboard/Dashboard'
 import TournamentSearch from '@/components/tournament/search/TournamentSearch'
 import CreateTournament from '@/components/tournament/CreateTournament'
 import EditTournament from '@/components/tournament/EditTournament'
+import TournamentDetails from '@/components/tournament/details/TournamentDetails'
 import store from '@/store/store'
 
 Vue.use(Router)
@@ -15,7 +16,7 @@ const ifNotAuthenticated = (to, from, next) => {
     next()
     return
   }
-  next(false);
+  next(false)
 }
 
 const ifAuthenticated = (to, from, next) => {
@@ -24,7 +25,7 @@ const ifAuthenticated = (to, from, next) => {
     return
   }
   next(false)
-};
+}
 
 export default new Router({
   routes: [
@@ -36,12 +37,12 @@ export default new Router({
     {
       path: '/tournaments',
       name: 'TournamentSearch',
-      component: TournamentSearch,
+      component: TournamentSearch
     },
     {
       path: '/stats',
       name: 'Statistics',
-      component: Statistics,
+      component: Statistics
     },
     {
       path: '/dashboard',
@@ -60,6 +61,11 @@ export default new Router({
       name: 'Edit tournament',
       component: EditTournament,
       beforeEnter: ifAuthenticated
+    },
+    {
+      path: '/tournaments/details',
+      name: 'Tournament details',
+      component: TournamentDetails
     }
   ]
 })
