@@ -34,17 +34,6 @@ public class Match implements Serializable {
     @Column(insertable = false,updatable = false)
     private Date createdDate;
 
-    public Match(long id, Team teamBlue, Team teamRed, PlaysToWin playsToWin, MatchRank matchRank, Set<Round> rounds, Tournament tournament, Date createdDate) {
-        this.id = id;
-        this.teamBlue = teamBlue;
-        this.teamRed = teamRed;
-        this.playsToWin = playsToWin;
-        this.matchRank = matchRank;
-        this.rounds = rounds;
-        this.tournament = tournament;
-        this.createdDate = createdDate;
-    }
-
     public long getId() {
         return id;
     }

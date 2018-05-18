@@ -74,7 +74,7 @@
         return ((new Date(this.tournament.startTime) - Date.now()) / (1000 * 60 * 60));
       },
       freeSlots() {
-        return this.tournament.maxTeams - this.tournament.teams.length
+        return this.tournament.maxTeams - this.tournament.players.length
       },
       alreadyRegistered() {
         return this.tournament.players.map((p) => p.id).includes(this.userId);
