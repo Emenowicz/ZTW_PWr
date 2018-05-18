@@ -13,7 +13,6 @@ function create (tournament) {
       .catch(function (error) {
         reject(error)
       })
-
   })
 }
 
@@ -26,7 +25,6 @@ function update (tournament) {
       .catch(function (error) {
         reject(error)
       })
-
   })
 }
 
@@ -35,6 +33,17 @@ function getAll () {
     API.get(Path.TOURNAMENTS)
       .then((response) => {
         resolve(response)
+      }).catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function getMatches (id) {
+  return new Promise((resolve, reject) => {
+    API.get(Path.TOURNAMENTS_MATCHES.format(id))
+      .then((response) => {
+        resolve(response.data)
       }).catch((error) => {
         reject(error)
       })
@@ -99,6 +108,6 @@ export default {
   create,
   update,
   getAll,
-  queryPage
+  queryPage,
+  getMatches
 }
-

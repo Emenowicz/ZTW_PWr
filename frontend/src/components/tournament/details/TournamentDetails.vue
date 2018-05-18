@@ -7,7 +7,7 @@
         </v-layout>
         <v-layout row wrap>
             <v-flex xs12 sm12 md8 lg8>
-                <matches :tournament="detailsTournament"></matches>
+                <matches :tournamentId="detailsTournament.id"></matches>
             </v-flex>
             <v-flex xs12 sm12 md4 lg4>
                 <members :tournament="detailsTournament"></members>

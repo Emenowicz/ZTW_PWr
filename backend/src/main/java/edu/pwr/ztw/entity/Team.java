@@ -27,6 +27,17 @@ public class Team {
     @Column(insertable = false,updatable = false)
     private Date createdDate;
 
+    public Team(long id, byte[] avatar, String name, User playerOne, User playerTwo, Set<Match> matches, Set<Tournament> tournaments, Date createdDate) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        this.matches = matches;
+        this.tournaments = tournaments;
+        this.createdDate = createdDate;
+    }
+
     public long getId() {
         return id;
     }

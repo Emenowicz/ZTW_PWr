@@ -24,6 +24,9 @@ const actions = {
           reject(error)
         })
     })
+  },
+  'GET_TOURNAMENTS_MATCHES': function ({commit}, tournamentId) {
+    return Tournament.getMatches(tournamentId)
   }
 }
 

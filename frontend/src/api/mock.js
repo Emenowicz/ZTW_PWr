@@ -11,8 +11,8 @@ export var TOURNAMENTS = [
     'minTeams': 2,
     'maxTeams': 6,
     'owner': {
-      'id': '213123',
-      'name': 'Marek Konieczny',
+      'id': '116248526006631545152',
+      'name': 'Konrad Drozd',
       'avatar': null
     },
     'teams': [],
@@ -101,8 +101,8 @@ export var TOURNAMENTS = [
     'minTeams': 2,
     'maxTeams': 6,
     'owner': {
-      'id': '213123',
-      'name': 'Marek Konieczny',
+      'id': '116248526006631545152',
+      'name': 'Konrad Drozd',
       'avatar': null
     },
     'teams': [],
@@ -121,8 +121,8 @@ export var TOURNAMENTS = [
     'minTeams': 2,
     'maxTeams': 6,
     'owner': {
-      'id': '2342342',
-      'name': 'Jan Kowalski',
+      'id': '116248526006631545152',
+      'name': 'Konrad Drozd',
       'avatar': null
     },
     'teams': [],
