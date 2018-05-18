@@ -156,13 +156,13 @@ public class TournamentController {
 
     }
 
-    @RequestMapping(value = "/{owner}", method = RequestMethod.GET)
-    public List<Tournament> getOwnedTournaments(@PathVariable("owner") String id) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Tournament> getOwnedTournaments(@RequestParam("owner") String id) {
         return tournamentService.getAllTournamentsForUser(userService.getUserById(id));
     }
 
-    @RequestMapping(value = "/{player}", method = RequestMethod.GET)
-    public List<Tournament> getJoinedTournaments(@PathVariable("player") String id) {
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Tournament> getJoinedTournaments(@RequestParam("player") String id) {
         return tournamentService.getAllJoinedTournamentsForUser(userService.getUserById(id));
     }
 
