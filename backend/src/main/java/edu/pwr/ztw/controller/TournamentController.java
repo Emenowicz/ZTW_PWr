@@ -82,12 +82,6 @@ public class TournamentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Tournament> getAllTournaments() {
-        return tournamentService.getAllTournaments();
-    }
-
-
     @RequestMapping(value = "/{id}/match", method = RequestMethod.POST)
     public ResponseEntity addMatch(@PathVariable long id, @RequestBody @Valid Match match, OAuth2Authentication principal) {
         Tournament tournament = tournamentService.getTournamentById(id);
@@ -157,13 +151,16 @@ public class TournamentController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Tournament> getOwnedTournaments(@RequestParam("owner") String id) {
-        return tournamentService.getAllTournamentsForUser(userService.getUserById(id));
-    }
-
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Tournament> getJoinedTournaments(@RequestParam("player") String id) {
-        return tournamentService.getAllJoinedTournamentsForUser(userService.getUserById(id));
+    public ResponseEntity getTournamentsForUser(@RequestParam(value = "owner", defaultValue = "") String oid, @RequestParam(value = "player", defaultValue = "") String pid) {
+        if (oid.isEmpty() && pid.isEmpty()) {
+            return new ResponseEntity(tournamentService.getAllTournaments(),HttpStatus.OK);
+        } else if (!oid.isEmpty()&&pid.isEmpty()) {
+            return new ResponseEntity(tournamentService.getAllTournamentsForUser(userService.getUserById(oid)),HttpStatus.OK);
+        } else if (oid.isEmpty()&&!pid.isEmpty()){
+            return new ResponseEntity(tournamentService.getAllJoinedTournamentsForUser(userService.getUserById(pid)),HttpStatus.OK);
+        }else{
+            return new ResponseEntity("Wrong request parameters",HttpStatus.FORBIDDEN);
+        }
     }
 
 }
