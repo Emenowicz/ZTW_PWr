@@ -1,6 +1,6 @@
 package edu.pwr.ztw.dataloader;
 
-import com.google.common.collect.Sets;
+import edu.pwr.ztw.dao.TournamentDao;
 import edu.pwr.ztw.dao.UserDao;
 import edu.pwr.ztw.entity.Enums.MatchRank;
 import edu.pwr.ztw.entity.Enums.PlayMode;
@@ -10,6 +10,7 @@ import edu.pwr.ztw.entity.Match;
 import edu.pwr.ztw.entity.Team;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
+import edu.pwr.ztw.service.TournamentService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ public class DataLoader implements ApplicationRunner {
     @Resource
     UserDao userDao;
 
+    @Resource
+    TournamentDao tournamentDao;
+
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         String[] tournamentNames = {"Wyborna rozgrywka Kielce", "Nowa nazwa turnieju", "Robimy turniej", "Soccer 11", "MiniSoccer18", "Fajna gra", "Turniej Polski", "Turniej Czeski", "Weekendowe granie", "Na śmierć i życie", "Teksańska masakra grillem piłkarzykowym", "Piłkarzyki 2011", "Firmowe granie", "PWr piłkarzyki", "Zagrajmy w grę"};
@@ -33,6 +37,7 @@ public class DataLoader implements ApplicationRunner {
         String[] usersNames = {"Marek Konieczny", "Jan Kowalski", "Marek Kark", "Paweł Zając"};
         String[] usersIds = {"213123", "2342342", "21553345", "5556456"};
         LinkedList<User> users = new LinkedList<>();
+        List<Tournament> tournaments = new ArrayList<>();
 
         for (int i = 0; i < usersNames.length; i++) {
             users.add(new User(usersIds[i], usersNames[i]));
@@ -40,6 +45,7 @@ public class DataLoader implements ApplicationRunner {
 
         int i = 0;
         User konrad = new User("116248526006631545152", "Konrad Drozd");
+        User dawid = new User("100030871455120568883", "Dawid Michalowicz");
         for (String tournamentName : tournamentNames) {
             Date startDate = startDates[randBetween(0, startDates.length - 1)];
             Date endDate = addDays(startDate, randBetween(10, 30));
@@ -48,6 +54,7 @@ public class DataLoader implements ApplicationRunner {
                     "Przykładowy opis " + randBetween(10, 100), PlayMode.ONEVSONE, TournamentType.LOCAL, "Gdzieś tam",
                     2, 6);
 
+            tournaments.add(tournament);
             if (i++ % 3 == 0) {
                 konrad.addOwnedTournament(tournament);
             } else {
@@ -55,7 +62,20 @@ public class DataLoader implements ApplicationRunner {
             }
         }
         users.add(konrad);
-        users.forEach(u -> userDao.save(u));
+        users.add(dawid);
+        userDao.save(users);
+
+        Tournament tournamentToStart =tournaments.get(0);
+        tournamentToStart.setOwner(konrad);
+        tournamentToStart.setPlayMode(PlayMode.ONEVSONE);
+        users.forEach(tournamentToStart::addPlayer);
+        tournamentDao.save(tournamentToStart);
+
+        tournamentToStart =tournaments.get(1);
+        tournamentToStart.setOwner(dawid);
+        tournamentToStart.setPlayMode(PlayMode.ONEVSONE);
+        users.forEach(tournamentToStart::addPlayer);
+        tournamentDao.save(tournamentToStart);
     }
 
     public static int randBetween(int start, int end) {

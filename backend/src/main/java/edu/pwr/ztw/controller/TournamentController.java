@@ -1,5 +1,6 @@
 package edu.pwr.ztw.controller;
 
+import edu.pwr.ztw.entity.Enums.PlayMode;
 import edu.pwr.ztw.entity.Match;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Set;
 
@@ -108,11 +108,11 @@ public class TournamentController {
     }
 
     @RequestMapping(value = "/find", method = RequestMethod.GET)
-    public ResponseEntity findTournaments(@RequestParam(value = "q",defaultValue = "") String q, @RequestParam(value = "sd",defaultValue = "") String sd, @RequestParam(value = "ed",defaultValue = "") String ed, Pageable pageable) {
+    public ResponseEntity findTournaments(@RequestParam(value = "q", defaultValue = "") String q, @RequestParam(value = "sd", defaultValue = "") String sd, @RequestParam(value = "ed", defaultValue = "") String ed, Pageable pageable) {
         Page<Tournament> resultPage;
         try {
-            resultPage = tournamentSearchService.findPaginated(q, sd,ed,pageable);
-        }  catch (Exception e) {
+            resultPage = tournamentSearchService.findPaginated(q, sd, ed, pageable);
+        } catch (Exception e) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
         if (!resultPage.hasContent()) {
@@ -131,5 +131,28 @@ public class TournamentController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{tId}/start", method = RequestMethod.POST)
+    public ResponseEntity startTournament(@PathVariable("tId") long tId, OAuth2Authentication principal) {
+        User currentUser = userService.getCurrentUser(principal);
+        Tournament tournament = tournamentService.getTournamentById(tId);
+        boolean started = false;
+        if (tournament.getOwner().equals(currentUser)) {
+            switch (tournament.getPlayMode()) {
+                case ONEVSONE:
+                    if (tournament.getPlayers().size() >= 2) {
+                        started = tournamentService.startTournament(tournament, PlayMode.ONEVSONE);
+                    }
+                    break;
+                case TWOVSTWO:
+                    if (tournament.getPlayers().size() >= 4 && tournament.getPlayers().size() % 2 != 1) {
+                        started = tournamentService.startTournament(tournament, PlayMode.TWOVSTWO);
+                    }
+                    break;
+            }
+        }
+        return started ? new ResponseEntity(tournament, HttpStatus.OK) : new ResponseEntity("Starting a tournament wasn't possible", HttpStatus.FORBIDDEN);
+
     }
 }

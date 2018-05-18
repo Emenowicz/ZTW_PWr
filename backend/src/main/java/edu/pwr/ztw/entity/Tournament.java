@@ -44,12 +44,11 @@ public class Tournament implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties({"ownedTournaments", "joinedTournaments", "teams", "admin"})
     private User owner;
-    @ManyToMany
-    private Set<Team> teams;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"tournament"})
     private Set<Match> matches;
     @ManyToMany
-    @JsonIgnoreProperties("joinedTournaments")
+    @JsonIgnoreProperties({"joinedTournaments","ownedTournaments","teams"})
     private Set<User> players = new HashSet<>();
 
     public Tournament() {
@@ -153,20 +152,8 @@ public class Tournament implements Serializable {
         this.owner = owner;
     }
 
-    public Set<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(Set<Team> teams) {
-        this.teams = teams;
-    }
-
     public Set<Match> getMatches() {
         return matches;
-    }
-
-    public void setMatches(Set<Match> matches) {
-        this.matches = matches;
     }
 
     public String getDescription() {
@@ -217,5 +204,10 @@ public class Tournament implements Serializable {
     public void addPlayer(User player) {
         players.add(player);
         player.getJoinedTournaments().add(this);
+    }
+
+    public void setMatches(Set<Match> matches){
+        matches.forEach(match -> match.setTournament(this));
+        this.matches=matches;
     }
 }
