@@ -23,10 +23,12 @@
     },
     methods: {
       onEditClick: function () {
+        console.log(this.tournament)
         this.SET_EDITED_TOURNAMENT(this.tournament);
         this.$router.push('/tournaments/edit')
       },
       onDetailsClick: function () {
+        console.log(this.tournament)
         this.SET_DETAILS_TOURNAMENT(this.tournament);
         this.$router.push('/tournaments/details')
       },

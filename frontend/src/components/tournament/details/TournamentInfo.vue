@@ -9,6 +9,9 @@
                     <v-flex v-if="isOwner" xs4 sm2 md2 lg2>
                         <v-btn outline color="white" @click="onEditClick">Edit</v-btn>
                     </v-flex>
+                    <v-flex v-if="(isOwner && !isStarted)" xs4 sm2 md2 lg2>
+                        <v-btn outline color="white" @click="onStartClick">Start</v-btn>
+                    </v-flex>
                 </v-layout>
             </v-card-title>
             
@@ -54,19 +57,33 @@
         this.SET_EDITED_TOURNAMENT(this.tournament);
         this.$router.push('/tournaments/edit')
       },
+      onStartClick: function() {
+          console.log(this.tournament.id)
+          this.START_TOURNAMENT(this.tournament.id).then((response) => {
+              console.log(response)
+              this.SET_DETAILS_TOURNAMENT(response)
+          });
+      },
       ...mapMutations([
         'SET_EDITED_TOURNAMENT',
+        'SET_DETAILS_TOURNAMENT'
+      ]),
+      ...mapActions([
+          "START_TOURNAMENT"
       ])
       },
       computed: {
           isOwner: function() {
               return this.tournament.owner.id === this.userId
           },
+          isStarted: function() {
+              return this.tournament.started
+          },
           ...mapGetters([
               'userId'
           ]),
           teamsNumber: function() {
-              return this.tournament.teams.length
+              return this.tournament.players.length
           }
       }
       

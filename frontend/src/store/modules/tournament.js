@@ -27,6 +27,9 @@ const actions = {
   },
   'GET_TOURNAMENTS_MATCHES': function ({commit}, tournamentId) {
     return Tournament.getMatches(tournamentId)
+  },
+  'START_TOURNAMENT': function ({commit}, tournamentId) {
+    return Tournament.start(tournamentId)
   }
 }
 

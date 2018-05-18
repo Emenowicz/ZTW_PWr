@@ -62,6 +62,17 @@ function queryPage (query, startDate, endDate, page, size) {
   })
 }
 
+function start (id) {
+  return new Promise((resolve, reject) => {
+    API.post(Path.TOURNAMENT_START.format(id))
+      .then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function buildQueryPagePath (query, startDate, endDate, page, size) {
   let path = Path.TOURNAMENT_QUERY_PAGE
   let paramsNumber = 0
@@ -109,5 +120,6 @@ export default {
   update,
   getAll,
   queryPage,
-  getMatches
+  getMatches,
+  start
 }

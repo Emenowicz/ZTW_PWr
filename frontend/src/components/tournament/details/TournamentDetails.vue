@@ -14,6 +14,7 @@
             </v-flex>
         </v-layout>
     </v-container>
+    
 </template>
 
 <script>
@@ -21,13 +22,15 @@
  import TournamentInfo from './TournamentInfo.vue'
  import TournamentMatches from './TournamentMatches.vue'
  import TournamentMembers from './TournamentMembers.vue'
+ import MatchDetails from './MatchDetails.vue'
 
  export default {
     name: 'TournamentDetails',
     components: {
         'info' : TournamentInfo,
         'members': TournamentMembers,
-        'matches': TournamentMatches
+        'matches': TournamentMatches,
+        "match": MatchDetails
     },
     computed: {
         ...mapGetters([

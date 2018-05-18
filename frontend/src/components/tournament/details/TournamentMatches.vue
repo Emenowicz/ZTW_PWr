@@ -1,10 +1,10 @@
 <template>
     <v-card dark color="blue darken-3" class="white--text">
-            <v-container>
+            <v-container grid-list-md>
                 <v-layout row wrap>
                     <div class="headline">Matches</div>  
                     <v-flex v-for="match in matches" :key="match.id" xs12 sm12 md12 lg12>
-                        {{match.name}}
+                        <match-element :match="match"></match-element>
                     </v-flex>     
                 </v-layout>
             </v-container>
@@ -13,6 +13,7 @@
 
 <script>
  import {mapActions} from 'vuex';
+ import MatchElement from './MatchElement.vue'
 
  export default {
     name: 'TournamentMatches',
@@ -33,6 +34,9 @@
         ...mapActions([
             'GET_TOURNAMENTS_MATCHES'
         ])
+    },
+    components: {
+        MatchElement
     }
  }
 

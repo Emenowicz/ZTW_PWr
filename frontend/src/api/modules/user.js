@@ -3,27 +3,27 @@ import {TOURNAMENTS} from '@/api/mock'
 
 function getPlayingTournaments (userId) {
   return new Promise((resolve, reject) => {
-    // API.get(Path.USER_PLAYING_TOURNAMENTS.format(userId))
-    //   .then(function (response) {
-    //     resolve(response.data)
-    //   })
-    //   .catch(function (error) {
-    //     reject(error)
-    //   })
-    resolve(TOURNAMENTS)
+    API.get(Path.USER_PLAYING_TOURNAMENTS.format(userId))
+      .then(function (response) {
+        resolve(response.data)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+    // resolve(TOURNAMENTS)
   })
 }
 
 function getOwnedTournaments (userId) {
   return new Promise((resolve, reject) => {
-    // API.get(Path.USER_OWNED_TOURNAMENTS.format(userId))
-    //   .then(function (response) {
-    //     resolve(response.data)
-    //   })
-    //   .catch(function (error) {
-    //     reject(error)
-    //   })
-    resolve(TOURNAMENTS)
+    API.get(Path.USER_OWNED_TOURNAMENTS.format(userId))
+      .then(function (response) {
+        resolve(response.data)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+    // resolve(TOURNAMENTS)
   })
 }
 
