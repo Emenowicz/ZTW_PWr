@@ -24,6 +24,9 @@ public class DataLoader implements ApplicationRunner {
     @Resource
     TournamentDao tournamentDao;
 
+    @Resource
+    TournamentService tournamentService;
+
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         String[] tournamentNames = {"Wyborna rozgrywka Kielce", "Nowa nazwa turnieju", "Robimy turniej", "Soccer 11", "MiniSoccer18", "Fajna gra", "Turniej Polski", "Turniej Czeski", "Weekendowe granie", "Na śmierć i życie", "Teksańska masakra grillem piłkarzykowym", "Piłkarzyki 2011", "Firmowe granie", "PWr piłkarzyki", "Zagrajmy w grę"};
@@ -66,12 +69,15 @@ public class DataLoader implements ApplicationRunner {
         tournamentToStart.setPlayMode(PlayMode.ONEVSONE);
         users.forEach(tournamentToStart::addPlayer);
         tournamentDao.save(tournamentToStart);
+        tournamentService.startTournament(tournamentToStart,tournamentToStart.getPlayMode());
 
         tournamentToStart =tournaments.get(1);
         tournamentToStart.setOwner(dawid);
         tournamentToStart.setPlayMode(PlayMode.ONEVSONE);
         users.forEach(tournamentToStart::addPlayer);
         tournamentDao.save(tournamentToStart);
+        tournamentService.startTournament(tournamentToStart,tournamentToStart.getPlayMode());
+
     }
 
     public static int randBetween(int start, int end) {
