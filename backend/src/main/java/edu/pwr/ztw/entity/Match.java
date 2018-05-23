@@ -5,6 +5,8 @@ import edu.pwr.ztw.entity.Enums.MatchRank;
 import edu.pwr.ztw.entity.Enums.PlaysToWin;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -25,14 +27,27 @@ public class Match implements Serializable {
     private Team teamRed;
     @Enumerated
     private MatchRank matchRank;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"match"})
-    private Set<Round> rounds;
     @ManyToOne
+    @JsonIgnoreProperties({"matches"})
     private Tournament tournament;
     @Temporal(TemporalType.TIMESTAMP)
     @Column(insertable = false,updatable = false)
     private Date createdDate;
+    @Min(0)
+    @Max(3)
+    private int scoreBlue;
+    @Min(0)
+    @Max(3)
+    private int scoreRed;
+
+    @ManyToOne
+    @JsonIgnoreProperties({"teams","ownedTournaments","joinedTournaments"})
+    private User scoreUpdatedBy;
+
+    private boolean acceptedBlue;
+    private boolean acceptedRed;
+
+
 
     public long getId() {
         return id;
@@ -68,15 +83,6 @@ public class Match implements Serializable {
         this.matchRank = matchRank;
     }
 
-    public Set<Round> getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(Set<Round> rounds) {
-        rounds.forEach(round -> round.setMatch(this));
-        this.rounds = rounds;
-    }
-
     public Tournament getTournament() {
         return tournament;
     }
@@ -91,6 +97,50 @@ public class Match implements Serializable {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+    }
+
+    public int getScoreBlue() {
+        return scoreBlue;
+    }
+
+    public void setScoreBlue(int scoreBlue) {
+        this.scoreBlue = scoreBlue;
+    }
+
+    public int getScoreRed() {
+        return scoreRed;
+    }
+
+    public void setScoreRed(int scoreRed) {
+        this.scoreRed = scoreRed;
+    }
+
+    public boolean isAcceptedBlue() {
+        return acceptedBlue;
+    }
+
+    public void setAcceptedBlue(boolean acceptedBlue) {
+        this.acceptedBlue = acceptedBlue;
+    }
+
+    public boolean isAcceptedRed() {
+        return acceptedRed;
+    }
+
+    public void setAcceptedRed(boolean acceptedRed) {
+        this.acceptedRed = acceptedRed;
+    }
+
+    public boolean hasScore(){
+        return scoreBlue!=0 && scoreRed!=0;
+    }
+
+    public User getScoreUpdatedBy() {
+        return scoreUpdatedBy;
+    }
+
+    public void setScoreUpdatedBy(User scoreUpdatedBy) {
+        this.scoreUpdatedBy = scoreUpdatedBy;
     }
 
     @PrePersist

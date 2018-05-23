@@ -7,10 +7,7 @@ import edu.pwr.ztw.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class TeamService {
@@ -28,5 +25,12 @@ public class TeamService {
             teams.add(team);
         }
         return teams;
+    }
+
+    public Set<User> getPlayers(Team team){
+        Set<User> players = new HashSet<>();
+        players.add(team.getPlayerOne());
+        players.add(team.getPlayerTwo());
+        return players;
     }
 }
