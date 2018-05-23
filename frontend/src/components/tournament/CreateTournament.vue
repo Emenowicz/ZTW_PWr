@@ -1,5 +1,5 @@
 <template xmlns="">
-  <v-container>
+  <v-container text-xs-center>
     <v-layout row wrap>
       <v-flex xs12 sm12 md8 lg8>
         <v-card dark color="blue darken-3" class="white--text">

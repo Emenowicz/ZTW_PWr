@@ -9,14 +9,17 @@ const state = {
     picture_url: ''
   },
   editedTournament: '',
+  detailsTournament: '',
   usersTournaments: []
 }
 
 const actions = {
-  'GET_USERS_TOURNAMENTS': ({state}, userId) => {
-    return User.getTournaments(state.userInfo.id)
+  'GET_USERS_PLAYING_TOURNAMENTS': ({state}, userId) => {
+    return User.getPlayingTournaments(state.userInfo.id)
   },
-
+  'GET_USERS_OWNED_TOURNAMENTS': ({state}, userId) => {
+    return User.getOwnedTournaments(state.userInfo.id)
+  },
   'JOIN_TOURNAMENT': ({commit}, tournamentId) => {
     return User.joinTournament(tournamentId)
   }
@@ -42,6 +45,12 @@ const mutations = {
   },
   'CLEAR_EDITED_TOURNAMENT': (state) => {
     state.editedTournament = ''
+  },
+  'SET_DETAILS_TOURNAMENT': (state, tournament) => {
+    state.detailsTournament = tournament
+  },
+  'CLEAR_DETAILS_TOURNAMENT': (state) => {
+    state.detailsTournament = ''
   }
 }
 
@@ -49,7 +58,8 @@ const getters = {
   userId: state => state.userInfo.id,
   userInfo: state => state.userInfo,
   editedTournament: state => state.editedTournament,
-  usersTournaments: state => state.usersTournaments
+  usersTournaments: state => state.usersTournaments,
+  detailsTournament: state => state.detailsTournament
 }
 
 export default {

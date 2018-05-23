@@ -1,12 +1,14 @@
 <template>
-  <v-layout row wrap>
-    <v-flex md4>
-      <recent_tournaments_winners/>
-    </v-flex>
-    <v-flex md8>
-      <last_minute_tournaments/>
-    </v-flex>
-  </v-layout>
+  <v-container text-xs-center>
+      <v-layout row wrap>
+        <v-flex md4>
+          <recent_tournaments_winners/>
+        </v-flex>
+        <v-flex md8>
+          <last_minute_tournaments/>
+        </v-flex>
+      </v-layout>
+   </v-container>
 </template>
 
 <script>
