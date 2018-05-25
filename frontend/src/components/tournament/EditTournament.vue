@@ -186,10 +186,12 @@
           this.UPDATE_TOURNAMENT(tournament)
           .then((response) => {
             console.log("Tournament updated\n" + response);
+            this.$router.push("/dashboard")
           }, (error) => {
             console.log("Problem with updating tournament\n" + error);
           })
         }
+        
       },
       ...mapActions([
         'UPDATE_TOURNAMENT'

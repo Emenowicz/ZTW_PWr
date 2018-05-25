@@ -4,7 +4,7 @@
                 <v-layout row wrap>
                     <div class="headline">Matches</div>  
                     <v-flex v-for="match in matches" :key="match.id" xs12 sm12 md12 lg12>
-                        <match-element :match="match"></match-element>
+                        <match-element :matchProp="match"></match-element>
                     </v-flex>     
                 </v-layout>
             </v-container>

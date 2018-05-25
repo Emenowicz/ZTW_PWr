@@ -9,7 +9,7 @@
                     <v-flex v-if="isOwner" xs4 sm2 md2 lg2>
                         <v-btn outline color="white" @click="onEditClick">Edit</v-btn>
                     </v-flex>
-                    <v-flex v-if="(isOwner && !isStarted)" xs4 sm2 md2 lg2>
+                    <v-flex v-if="(isOwner && !isStarted && canStart)" xs4 sm2 md2 lg2>
                         <v-btn outline color="white" @click="onStartClick">Start</v-btn>
                     </v-flex>
                 </v-layout>
@@ -78,6 +78,9 @@
           },
           isStarted: function() {
               return this.tournament.started
+          },
+          canStart: function() {
+              return this.tournament.players.length >=2
           },
           ...mapGetters([
               'userId'
