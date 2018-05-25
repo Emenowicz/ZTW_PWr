@@ -9,10 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import java.io.Serializable;
 
 @Controller
 @RequestMapping("/matches")
@@ -24,29 +26,50 @@ public class MatchController {
     UserService userService;
 
     @RequestMapping(value = "{mId}/score", method = RequestMethod.POST)
-    public ResponseEntity setScore(@PathVariable(name = "mId") long id, OAuth2Authentication principal, int scoreBlue, int scoreRed) {
+    public ResponseEntity setScore(@PathVariable(name = "mId") long id, OAuth2Authentication principal, @RequestBody MatchScore score) {
         User currentUser = userService.getCurrentUser(principal);
         Match match = matchService.getMatchById(id);
         if (matchService.getPlayers(match).contains(currentUser)) {
-            matchService.setScoreByPlayer(match,scoreBlue,scoreRed,currentUser);
-        } else if(match.getTournament().getOwner().equals(currentUser)) {
-            matchService.setScoreByTournamentOwner(match,scoreBlue,scoreRed, currentUser);
+            matchService.setScoreByPlayer(match, score.getBlue(), score.getRed(), currentUser);
+        } else if (match.getTournament().getOwner().equals(currentUser)) {
+            matchService.setScoreByTournamentOwner(match, score.getBlue(), score.getRed(), currentUser);
+        } else {
+            return new ResponseEntity("You can not add score to this match", HttpStatus.FORBIDDEN);
         }
-        else{
-            return new ResponseEntity("You can not add score to this match",HttpStatus.FORBIDDEN);
-        }
-        return new ResponseEntity(match,HttpStatus.OK);
+        return new ResponseEntity(match, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "{mId}/acceptScore",method = RequestMethod.POST)
-    public ResponseEntity acceptScore(@PathVariable(name = "mId") long id, OAuth2Authentication principal){
-        User currentUser = userService.getCurrentUser(principal);
+    @RequestMapping(value = "{mId}", method = RequestMethod.GET)
+    public ResponseEntity getMatch(@PathVariable(name = "mId") long id, OAuth2Authentication principal) {
         Match match = matchService.getMatchById(id);
-        if(matchService.getPlayers(match).contains(currentUser)){
-            matchService.acceptScore(match,currentUser);
-        }else{
-            return new ResponseEntity("You are not part of team and can not accept score", HttpStatus.FORBIDDEN);
+        if (match != null) {
+            return new ResponseEntity(match, HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Match not found", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(match,HttpStatus.OK);
+    }
+
+    private static class MatchScore implements Serializable {
+        int red;
+        int blue;
+
+        public MatchScore() {
+        }
+
+        public int getRed() {
+            return red;
+        }
+
+        public void setRed(int scoreRed) {
+            this.red = scoreRed;
+        }
+
+        public int getBlue() {
+            return blue;
+        }
+
+        public void setBlue(int blue) {
+            this.blue = blue;
+        }
     }
 }
