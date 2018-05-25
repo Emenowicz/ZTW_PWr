@@ -73,6 +73,28 @@ function start (id) {
   })
 }
 
+function setMatchScore (id, scores) {
+  return new Promise((resolve, reject) => {
+    API.post(Path.MATCH_SET_SCORE.format(id), scores)
+      .then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+function getMatch (id) {
+  return new Promise((resolve, reject) => {
+    API.get(Path.MATCH.format(id))
+      .then((response) => {
+        resolve(response.data)
+      }).catch((error) => {
+        reject(error)
+      })
+  })
+}
+
 function buildQueryPagePath (query, startDate, endDate, page, size) {
   let path = Path.TOURNAMENT_QUERY_PAGE
   let paramsNumber = 0
@@ -121,5 +143,7 @@ export default {
   getAll,
   queryPage,
   getMatches,
-  start
+  start,
+  setMatchScore,
+  getMatch
 }

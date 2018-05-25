@@ -30,7 +30,14 @@ const actions = {
   },
   'START_TOURNAMENT': function ({commit}, tournamentId) {
     return Tournament.start(tournamentId)
+  },
+  'SET_MATCH_SCORE': function ({commit}, {matchId, scores}) {
+    return Tournament.setMatchScore(matchId, scores)
+  },
+  'GET_MATCH': function ({commit}, matchId) {
+    return Tournament.getMatch(matchId)
   }
+
 }
 
 const mutations = {
