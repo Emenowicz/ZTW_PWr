@@ -85,11 +85,21 @@
                       Score is accepted by both players.
                   </v-flex>
               </v-layout>
-                  <v-layout>
-                  <v-flex>
-                      {{playerBlue}} : {{playerRed}}
-                  </v-flex>
-              </v-layout>
+                 
+                      <v-layout>
+                          <v-flex xs12 md6 lg6>
+                              <v-text-field
+                              :rules="[rules.score]"
+                                :label="match.teamBlue.playerOne.name"
+                                v-model="playerBlue"/>
+                          </v-flex>
+                          <v-flex xs12 md6 lg6>
+                            <v-text-field
+                            :rules="[rules.score]"
+                                :label="match.teamRed.playerOne.name"
+                                v-model="playerRed"/>
+                          </v-flex>
+                      </v-layout>
           </v-container>
 
       </v-card-text>
@@ -117,7 +127,6 @@ export default {
   methods: {
     setScore: function() {
       if (
-        !(this.match.acceptedBlue && this.match.acceptedRed) &&
         this.rules.score(this.playerBlue) &&
         this.rules.score(this.playerRed)
       ) {
