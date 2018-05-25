@@ -56,7 +56,28 @@ public class MatchService {
     }
 
     public void setScoreByPlayer(Match match, int scoreBlue, int scoreRed, User currentUser) {
-        if (!match.isAcceptedRed() && teamService.getPlayers(match.getTeamRed()).contains(currentUser)) {
+        if (match.getScoreBlue() == scoreBlue
+                && match.getScoreRed() == scoreRed
+                && ((match.isAcceptedBlue() && !match.isAcceptedRed()) || (!match.isAcceptedBlue() && match.isAcceptedRed()))
+                && teamService.getPlayers(match.getTeamRed()).contains(currentUser)) {
+            match.setAcceptedBlue(true);
+            match.setAcceptedRed(true);
+            match.setScoreUpdatedBy(currentUser);
+        } else if (!match.isAcceptedRed() && !match.isAcceptedBlue()){
+            if(teamService.getPlayers(match.getTeamRed()).contains(currentUser)) {
+                match.setAcceptedRed(true);
+                match.setAcceptedBlue(false);
+                match.setScoreBlue(scoreBlue);
+                match.setScoreRed(scoreRed);
+                match.setScoreUpdatedBy(currentUser);
+            } else if (teamService.getPlayers(match.getTeamBlue()).contains(currentUser)) {
+                match.setAcceptedRed(false);
+                match.setAcceptedBlue(true);
+                match.setScoreBlue(scoreBlue);
+                match.setScoreRed(scoreRed);
+                match.setScoreUpdatedBy(currentUser);
+            }
+        } else if (!match.isAcceptedRed() && teamService.getPlayers(match.getTeamRed()).contains(currentUser)) {
             match.setScoreBlue(scoreBlue);
             match.setScoreRed(scoreRed);
             match.setAcceptedBlue(false);
@@ -85,4 +106,6 @@ public class MatchService {
     public Match getMatchById(long id) {
         return matchDao.findOne(id);
     }
+
+
 }
