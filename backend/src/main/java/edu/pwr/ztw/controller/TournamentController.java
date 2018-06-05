@@ -50,7 +50,7 @@ public class TournamentController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity updateTournament(@PathVariable("id") long id, @RequestBody @Valid Tournament tournament, OAuth2Authentication principal) {
-        if (userService.getCurrentUser(principal) != tournament.getOwner())
+        if (!tournamentService.getTournamentById(id).getOwner().getId().equals(userService.getCurrentUser(principal).getId()))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         try {
             tournament.setId(id);
