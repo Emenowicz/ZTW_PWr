@@ -4,6 +4,9 @@ package edu.pwr.ztw;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
@@ -22,6 +25,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @SpringBootApplication
 @EnableResourceServer
+@EnableCaching
 @EnableTransactionManagement
 public class ZtwApplication extends ResourceServerConfigurerAdapter {
 
@@ -56,5 +60,9 @@ public class ZtwApplication extends ResourceServerConfigurerAdapter {
 		return source;
 	}
 
+//	@Bean
+//    public CacheManager cacheManager(){
+//	    return new EhCacheCacheManager()
+//    }
 
 }

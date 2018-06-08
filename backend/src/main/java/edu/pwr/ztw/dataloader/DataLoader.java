@@ -43,7 +43,7 @@ public class DataLoader implements ApplicationRunner {
         }
 
         int i = 0;
-        User konrad = new User("116248526006631545152", "Konrad Drozd");
+        User konrad = new User("105114597428007141533", "Konrad Drozd");
         User dawid = new User("100030871455120568883", "Dawid Michalowicz");
         for (String tournamentName : tournamentNames) {
             Date startDate = startDates[randBetween(0, startDates.length - 1)];
