@@ -54,7 +54,7 @@
                     <v-select label="On page" v-model="itemsOnPageInput" @change="onQueryChanged(0)" :items="itemsOnPageOptions"></v-select>
                 </v-flex>
                 <v-flex md2 lg2></v-flex>
-            </v-layout row wrap>
+            </v-layout>
         </div>
     </v-bottom-sheet>
 

@@ -9,7 +9,7 @@
     </router-link>
     <v-spacer/>
     <v-toolbar-items>
-      <v-btn flat v-if="!route.authentication || isAuthenticated" v-for="route in routes" :key="route.id"
+      <v-btn flat v-if="(!route.authentication || isAuthenticated) && (!route.admin || isAdmin)" v-for="route in routes" :key="route.id"
              :to="`${route.path}`">{{route.name}}
       </v-btn>
       <v-btn v-if="!isAuthenticated" flat @click="loginDialog=true">Log in</v-btn>
@@ -37,19 +37,21 @@
             id: 0,
             name: 'Tournaments',
             path: '/tournaments',
-            authentication: false
+            authentication: false,
+            admin: false
           },
           {
             id: 1,
-            name: 'Statistics',
-            path: '/stats',
-            authentication: false
-          },
-          {
-            id: 2,
             name: 'Dashboard',
             path: '/dashboard',
-            authentication: true
+            authentication: true,
+            admin: false
+          },{
+            id: 2,
+            name: 'Admin Panel',
+            path: '/admin',
+            authentication: true,
+            admin: true
           }
         ]
       }
@@ -71,7 +73,8 @@
     computed: {
       ...mapGetters([
         'isAuthenticated',
-        'userInfo'
+        'userInfo',
+        'isAdmin'
       ])
     }
   }

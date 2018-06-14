@@ -6,7 +6,8 @@ const state = {
     firstname: '',
     lastname: '',
     email: '',
-    picture_url: ''
+    picture_url: '',
+    admin: true
   },
   editedTournament: '',
   detailsTournament: '',
@@ -22,8 +23,10 @@ const actions = {
   },
   'JOIN_TOURNAMENT': ({commit}, tournamentId) => {
     return User.joinTournament(tournamentId)
+  },
+  'GET_USERS': ({state}) => {
+    return User.getAll()
   }
-
 }
 
 const mutations = {
@@ -33,6 +36,7 @@ const mutations = {
     state.userInfo.lastname = userInfo.wea
     state.userInfo.email = userInfo.U3
     state.userInfo.picture_url = userInfo.Paa
+    state.userInfo.admin = true
   },
   'CLEAR_USER_INFO': (state) => {
     Object.keys(state.userInfo).forEach(k => state.userInfo[k] = '')
@@ -59,7 +63,8 @@ const getters = {
   userInfo: state => state.userInfo,
   editedTournament: state => state.editedTournament,
   usersTournaments: state => state.usersTournaments,
-  detailsTournament: state => state.detailsTournament
+  detailsTournament: state => state.detailsTournament,
+  isAdmin: state => state.userInfo.admin
 }
 
 export default {

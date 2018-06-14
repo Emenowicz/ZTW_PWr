@@ -7,6 +7,7 @@ import TournamentSearch from '@/components/tournament/search/TournamentSearch'
 import CreateTournament from '@/components/tournament/CreateTournament'
 import EditTournament from '@/components/tournament/EditTournament'
 import TournamentDetails from '@/components/tournament/details/TournamentDetails'
+import AdminPanel from '@/components/admin/AdminPanel'
 import store from '@/store/store'
 
 Vue.use(Router)
@@ -27,6 +28,14 @@ const ifAuthenticated = (to, from, next) => {
   next(false)
 }
 
+const isAdmin = (to, from, next) => {
+  if (store.getters.isAdmin) {
+    next()
+    return
+  }
+  next(false)
+}
+
 export default new Router({
   routes: [
     {
@@ -40,9 +49,10 @@ export default new Router({
       component: TournamentSearch
     },
     {
-      path: '/stats',
-      name: 'Statistics',
-      component: Statistics
+      path: '/admin',
+      name: 'Admin Panel',
+      component: AdminPanel,
+      beforeEnter: isAdmin
     },
     {
       path: '/dashboard',

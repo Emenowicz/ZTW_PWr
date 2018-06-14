@@ -39,4 +39,16 @@ function joinTournament (tournamentId) {
   })
 }
 
-export default {getPlayingTournaments, joinTournament, getOwnedTournaments}
+function getAll () {
+  return new Promise((resolve, reject) => {
+    API.get(Path.USERS)
+      .then(function (response) {
+        resolve(response.data)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+  })
+}
+
+export default {getPlayingTournaments, joinTournament, getOwnedTournaments, getAll}
