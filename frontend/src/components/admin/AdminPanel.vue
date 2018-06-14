@@ -2,19 +2,16 @@
    <v-card flat>
     <div class="headline text-xs-center pa-5">
         <manage-users v-if="this.visiblePanel === 'users'"></manage-users>
+        <manage-tournaments v-else-if="this.visiblePanel === 'tournaments'"></manage-tournaments>
     </div>
     <v-bottom-nav :value="true" :active.sync="visiblePanel" absolute color="transparent">
       <v-btn flat color="teal" value="users">
         <span>Users</span>
         <v-icon>face</v-icon>
       </v-btn>
-      <v-btn flat color="teal" value="favorites">
+      <v-btn flat color="teal" value="tournaments">
         <span>Tournaments</span>
         <v-icon>brightness_1</v-icon>
-      </v-btn>
-      <v-btn flat color="teal" value="nearby">
-        <span>Nearby</span>
-        <v-icon>place</v-icon>
       </v-btn>
     </v-bottom-nav>
   </v-card>
@@ -22,6 +19,7 @@
 
 <script>
 import ManageUsers from './parts/ManageUsers.vue'
+import ManageTournaments from './parts/ManageTournaments.vue'
 
   export default {
     name: 'AdminPanel',
@@ -31,7 +29,8 @@ import ManageUsers from './parts/ManageUsers.vue'
       }
     },
     components: {
-        'manageUsers' : ManageUsers
+        'manageUsers' : ManageUsers,
+        'manageTournaments' : ManageTournaments
     }
   }
 </script>
