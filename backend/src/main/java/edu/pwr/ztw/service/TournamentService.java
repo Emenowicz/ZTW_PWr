@@ -9,6 +9,7 @@ import edu.pwr.ztw.entity.Team;
 import edu.pwr.ztw.entity.Tournament;
 import edu.pwr.ztw.entity.User;
 import javassist.NotFoundException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -32,8 +33,20 @@ public class TournamentService {
         tournamentDao.save(tournament);
     }
 
+    @Cacheable("allTournaments")
     public List<Tournament> getAllTournaments() {
+//      method slowed for presentation purpose
+        simulateSlowService();
         return tournamentDao.findAll();
+    }
+
+    private void simulateSlowService() {
+        try {
+            long time = 30000L;
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     public List<Tournament> getAllTournamentsForUser(User user) {
