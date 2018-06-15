@@ -1,6 +1,6 @@
 <template>
    <v-card flat>
-    <div class="headline text-xs-center pa-5">
+    <div class="text-xs-center pa-5">
         <manage-users v-if="this.visiblePanel === 'users'"></manage-users>
         <manage-tournaments v-else-if="this.visiblePanel === 'tournaments'"></manage-tournaments>
     </div>

@@ -51,4 +51,16 @@ function getAll () {
   })
 }
 
-export default {getPlayingTournaments, joinTournament, getOwnedTournaments, getAll}
+function remove (userId) {
+  return new Promise((resolve, reject) => {
+    API.delete(Path.USERID.format(userId))
+      .then(function (response) {
+        resolve(response.data)
+      })
+      .catch(function (error) {
+        reject(error)
+      })
+  })
+}
+
+export default {getPlayingTournaments, joinTournament, getOwnedTournaments, getAll, remove}

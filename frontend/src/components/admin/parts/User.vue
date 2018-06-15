@@ -8,6 +8,9 @@
           <v-layout row wrap>
             <v-spacer/>
             <v-flex md3 lg3 right>
+              <v-btn block outline color="indigo" @click="onBanUser()">Ban</v-btn>
+            </v-flex>
+            <v-flex md3 lg3 right>
               <v-btn block outline color="indigo" @click="onRemoveUser()">Remove</v-btn>
             </v-flex>
           </v-layout>
@@ -30,6 +33,17 @@
     data() {
       return {
       }
+    },
+    method: {
+      onRemoveUser() {
+        this.REMOVE_USER(user.id)
+      },
+      onBanUser() {
+        console.log("Not implemented")
+      },
+      ...mapActions([
+        "REMOVE_USER"
+      ])
     }
 }
 

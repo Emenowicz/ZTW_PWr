@@ -36,7 +36,7 @@ public class TournamentService {
     @Cacheable("allTournaments")
     public List<Tournament> getAllTournaments() {
 //      method slowed for presentation purpose
-        simulateSlowService();
+//        simulateSlowService();
         return tournamentDao.findAll();
     }
 

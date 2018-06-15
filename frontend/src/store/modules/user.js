@@ -26,6 +26,9 @@ const actions = {
   },
   'GET_USERS': ({state}) => {
     return User.getAll()
+  },
+  'REMOVE_USER': ({state}, userId) => {
+    return User.remove(userId)
   }
 }
 

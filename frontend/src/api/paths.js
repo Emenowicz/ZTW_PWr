@@ -14,6 +14,7 @@ export const MATCH = '/matches/{0}'
 
 // USER
 export const USER = '/users'
+export const USERID = '/users/{0}' // {0} - userId
 export const USERS = '/users'
 export const USER_OWNED_TOURNAMENTS = '/tournaments?owner={0}' // {0} - userId
 export const USER_PLAYING_TOURNAMENTS = '/tournaments?player={0}' // {0} - userId
